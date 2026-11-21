@@ -26,6 +26,7 @@ import os
 from typing import Optional
 
 __all__ = (
+    'FDH_DEXPI',
     'FDH_ENZYMEML',
     'FDH_PROPERTIES',
     'create_fdh_chemicals',
@@ -35,6 +36,13 @@ __all__ = (
 #: Path of the EnzymeML document of the FDH reaction model.
 FDH_ENZYMEML = os.path.join(
     os.path.dirname(__file__), 'data', 'fdh_nadh_regeneration.json'
+)
+
+#: Path of a DEXPI process model of the FDH flowsheet as a flowsheeting
+#: tool other than BioSTEAM could write it: a feed pump and a reactor,
+#: without reactions, residence time or any BioSTEAM annotation.
+FDH_DEXPI = os.path.join(
+    os.path.dirname(__file__), 'data', 'fdh_flowsheet.xml'
 )
 
 #: Properties of the species that chemical databases do not provide: the

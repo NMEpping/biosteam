@@ -58,6 +58,7 @@ Tutorial
           Uncertainty_and_sensitivity
           Comparative analyses <Comparative_techno-economic_analysis>
           Operational_flexibility
+          Lab data to simulation <Lab_data_to_simulation>
           DEXPI & EnzymeML exchange <DEXPI_and_EnzymeML_interoperability>
 
     .. grid-item::

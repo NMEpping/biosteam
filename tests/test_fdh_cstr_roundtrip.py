@@ -229,6 +229,39 @@ def test_fdh_export_conforms_to_pydexpi(fdh_system):
     assert type(components['fdh']).__name__ == 'CustomMaterialComponent'
 
 
+def test_fdh_from_third_party_flowsheet_and_lab_kinetics():
+    """A flowsheet without BioSTEAM annotations plus EnzymeML kinetics."""
+    bst.main_flowsheet.set_flowsheet('fdh_lab_to_simulation')
+    document = enzymeml.read(examples.FDH_ENZYMEML)
+    bst.settings.set_thermo(examples.create_fdh_chemicals(document))
+    with pytest.warns(dexpi.DexpiWarning, match="reactor 'R1'"):
+        system = bst.System.from_dexpi(examples.FDH_DEXPI)
+    pump, reactor = system.units
+    assert type(pump) is bst.Pump and pump.P == pytest.approx(2e5)
+    assert type(reactor) is bst.SinglePhaseReactor
+    assert reactor.T == pytest.approx(303.15)
+    assert reactor.thermo is bst.settings.get_thermo()
+    feed = system.flowsheet.stream.feed
+    assert feed.T == pytest.approx(298.15)
+    assert_allclose(feed.imol['formate', 'nad', 'fdh'],
+                    [0.1008, 5.04e-3, 1.98e-7], rtol=1e-12)
+    document.parameterize(reactor)
+    reactor.tau = 2.
+    system.simulate()
+    product = system.flowsheet.stream.product
+    assert 1 - product.imol['nad'] / feed.imol['nad'] == pytest.approx(
+        0.904, abs=1e-3)
+
+
+def test_example_flowsheet_conforms_to_pydexpi():
+    pydexpi = pytest.importorskip('pydexpi')
+    with warnings.catch_warnings():
+        warnings.simplefilter('ignore')
+        loaded = pydexpi.load_xml_file(examples.FDH_DEXPI, strict=True)
+    names = [type(i).__name__ for i in loaded.conceptualModel.processSteps]
+    assert names == ['Source', 'Pumping', 'ReactingChemicals', 'Sink']
+
+
 _EXPORT = '''
 import json, sys, warnings
 warnings.simplefilter('ignore')
