@@ -1,0 +1,14 @@
+interop
+=======
+
+.. automodule:: biosteam.interop
+
+.. toctree::
+   :maxdepth: 1
+
+   dexpi
+   enzymeml
+   chemicals
+   reactions
+   examples
+   Design notes <ARCHITECTURE>

@@ -4495,6 +4495,50 @@ class System:
             return series
 
     # Report summary
+    def to_dexpi(self, file: Optional[str]=None, **kwargs) -> Optional[str]:
+        """
+        Export the system as a DEXPI 2.0 process model (XML).
+
+        Parameters
+        ----------
+        file : 
+            Path of the XML file to write. If not given, the XML text is 
+            returned instead.
+        **kwargs :
+            Additional arguments passed to :func:`biosteam.interop.dexpi.to_dexpi`.
+
+        See Also
+        --------
+        :func:`biosteam.interop.dexpi.to_dexpi`
+
+        """
+        from .interop import dexpi
+        return dexpi.to_dexpi(self, file, **kwargs)
+
+    @classmethod
+    def from_dexpi(cls, source, ID: Optional[str]=None, **kwargs) -> System:
+        """
+        Create a system from a DEXPI 2.0 process model.
+
+        Parameters
+        ----------
+        source : 
+            Path of a DEXPI XML file, or the XML text itself.
+        ID : 
+            Name of system. Defaults to the name stored in the document.
+        **kwargs :
+            Additional arguments passed to :func:`biosteam.interop.dexpi.from_dexpi`,
+            e.g. `chemicals` to set the thermodynamic property package and 
+            `flowsheet` to choose where units and streams are registered.
+
+        See Also
+        --------
+        :func:`biosteam.interop.dexpi.from_dexpi`
+
+        """
+        from .interop import dexpi
+        return dexpi.from_dexpi(source, ID, **kwargs)
+
     def save_report(
             self, 
             file: Optional[str]='report.xlsx', 

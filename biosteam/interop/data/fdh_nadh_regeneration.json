@@ -1,0 +1,326 @@
+{
+  "name": "NADH regeneration by formate dehydrogenase (reference case)",
+  "version": "2",
+  "description": "Reaction model of the oxidation of formate to carbon dioxide by NAD+-dependent formate dehydrogenase (FDH, EC 1.17.1.9), used to regenerate NADH. The rate law is the initial-rate form of an ordered bi-bi mechanism in which NAD+ binds first. Formate is represented by formic acid, so that the reaction is balanced in atoms. The kinetic parameters are representative, rounded values of the order of magnitude reported for the enzyme of Candida boidinii near 30 degC and pH 7.5; they illustrate the workflow and are not a curated measurement.",
+  "creators": [],
+  "vessels": [
+    {
+      "id": "v0",
+      "name": "Stirred tank reactor",
+      "volume": 1.0,
+      "unit": {
+        "id": "l",
+        "name": "l",
+        "base_units": [
+          {
+            "kind": "litre",
+            "exponent": 1,
+            "multiplier": 1.0,
+            "scale": 0.0
+          }
+        ]
+      },
+      "constant": true
+    }
+  ],
+  "proteins": [
+    {
+      "id": "fdh",
+      "name": "Formate dehydrogenase",
+      "constant": true,
+      "vessel_id": "v0",
+      "ecnumber": "1.17.1.9",
+      "organism": "Candida boidinii",
+      "references": []
+    }
+  ],
+  "complexes": [],
+  "small_molecules": [
+    {
+      "id": "formate",
+      "name": "Formic acid",
+      "constant": false,
+      "vessel_id": "v0",
+      "canonical_smiles": "C(=O)O",
+      "inchikey": "BDAGIHXWWSANSR-UHFFFAOYSA-N",
+      "synonymous_names": [],
+      "references": [
+        "https://www.ebi.ac.uk/chebi/searchId.do?chebiId=CHEBI:30751"
+      ]
+    },
+    {
+      "id": "nad",
+      "name": "NAD+",
+      "constant": false,
+      "vessel_id": "v0",
+      "inchikey": "BAWFJGJZGIEFAR-NNYOXOHSSA-N",
+      "synonymous_names": [],
+      "references": [
+        "https://www.ebi.ac.uk/chebi/searchId.do?chebiId=CHEBI:15846"
+      ]
+    },
+    {
+      "id": "co2",
+      "name": "Carbon dioxide",
+      "constant": false,
+      "vessel_id": "v0",
+      "canonical_smiles": "C(=O)=O",
+      "inchikey": "CURLTUGMZLYLDI-UHFFFAOYSA-N",
+      "synonymous_names": [],
+      "references": [
+        "https://www.ebi.ac.uk/chebi/searchId.do?chebiId=CHEBI:16526"
+      ]
+    },
+    {
+      "id": "nadh",
+      "name": "NADH",
+      "constant": false,
+      "vessel_id": "v0",
+      "synonymous_names": [],
+      "references": [
+        "https://www.ebi.ac.uk/chebi/searchId.do?chebiId=CHEBI:16908"
+      ]
+    }
+  ],
+  "reactions": [
+    {
+      "id": "r_fdh",
+      "name": "Formate oxidation with NADH regeneration",
+      "reversible": false,
+      "kinetic_law": {
+        "species_id": "v_r_fdh",
+        "equation": "kcat * fdh * nad * formate / (K_i_nad * K_m_formate + K_m_formate * nad + K_m_nad * formate + nad * formate)",
+        "equation_type": "rateLaw",
+        "variables": []
+      },
+      "reactants": [
+        {
+          "species_id": "formate",
+          "stoichiometry": 1.0
+        },
+        {
+          "species_id": "nad",
+          "stoichiometry": 1.0
+        }
+      ],
+      "products": [
+        {
+          "species_id": "co2",
+          "stoichiometry": 1.0
+        },
+        {
+          "species_id": "nadh",
+          "stoichiometry": 1.0
+        }
+      ],
+      "modifiers": [
+        {
+          "species_id": "fdh",
+          "role": "biocatalyst"
+        }
+      ]
+    }
+  ],
+  "measurements": [
+    {
+      "id": "m0",
+      "name": "Reference conditions",
+      "ph": 7.5,
+      "temperature": 303.15,
+      "temperature_unit": {
+        "id": "K",
+        "name": "K",
+        "base_units": [
+          {
+            "kind": "kelvin",
+            "exponent": 1,
+            "multiplier": 1.0,
+            "scale": 0.0
+          }
+        ]
+      },
+      "species_data": [
+        {
+          "species_id": "formate",
+          "initial": 100.0,
+          "data_unit": {
+            "id": "mmol / l",
+            "name": "mmol / l",
+            "base_units": [
+              {
+                "kind": "mole",
+                "exponent": 1,
+                "multiplier": 1.0,
+                "scale": -3.0
+              },
+              {
+                "kind": "litre",
+                "exponent": -1,
+                "multiplier": 1.0,
+                "scale": 0.0
+              }
+            ]
+          },
+          "data": [],
+          "time": [],
+          "data_type": "concentration",
+          "is_simulated": false
+        },
+        {
+          "species_id": "nad",
+          "initial": 5.0,
+          "data_unit": {
+            "id": "mmol / l",
+            "name": "mmol / l",
+            "base_units": [
+              {
+                "kind": "mole",
+                "exponent": 1,
+                "multiplier": 1.0,
+                "scale": -3.0
+              },
+              {
+                "kind": "litre",
+                "exponent": -1,
+                "multiplier": 1.0,
+                "scale": 0.0
+              }
+            ]
+          },
+          "data": [],
+          "time": [],
+          "data_type": "concentration",
+          "is_simulated": false
+        },
+        {
+          "species_id": "fdh",
+          "initial": 0.0002,
+          "data_unit": {
+            "id": "mmol / l",
+            "name": "mmol / l",
+            "base_units": [
+              {
+                "kind": "mole",
+                "exponent": 1,
+                "multiplier": 1.0,
+                "scale": -3.0
+              },
+              {
+                "kind": "litre",
+                "exponent": -1,
+                "multiplier": 1.0,
+                "scale": 0.0
+              }
+            ]
+          },
+          "data": [],
+          "time": [],
+          "data_type": "concentration",
+          "is_simulated": false
+        }
+      ]
+    }
+  ],
+  "equations": [],
+  "parameters": [
+    {
+      "id": "kcat",
+      "name": "Turnover number",
+      "symbol": "kcat",
+      "value": 3.7,
+      "unit": {
+        "id": "1 / s",
+        "name": "1 / s",
+        "base_units": [
+          {
+            "kind": "second",
+            "exponent": -1,
+            "multiplier": 1.0,
+            "scale": 0.0
+          }
+        ]
+      },
+      "fit": false,
+      "constant": true
+    },
+    {
+      "id": "K_m_formate",
+      "name": "Michaelis constant of formate",
+      "symbol": "K_m_formate",
+      "value": 5.6,
+      "unit": {
+        "id": "mmol / l",
+        "name": "mmol / l",
+        "base_units": [
+          {
+            "kind": "mole",
+            "exponent": 1,
+            "multiplier": 1.0,
+            "scale": -3.0
+          },
+          {
+            "kind": "litre",
+            "exponent": -1,
+            "multiplier": 1.0,
+            "scale": 0.0
+          }
+        ]
+      },
+      "fit": false,
+      "constant": true
+    },
+    {
+      "id": "K_m_nad",
+      "name": "Michaelis constant of NAD+",
+      "symbol": "K_m_nad",
+      "value": 0.045,
+      "unit": {
+        "id": "mmol / l",
+        "name": "mmol / l",
+        "base_units": [
+          {
+            "kind": "mole",
+            "exponent": 1,
+            "multiplier": 1.0,
+            "scale": -3.0
+          },
+          {
+            "kind": "litre",
+            "exponent": -1,
+            "multiplier": 1.0,
+            "scale": 0.0
+          }
+        ]
+      },
+      "fit": false,
+      "constant": true
+    },
+    {
+      "id": "K_i_nad",
+      "name": "Dissociation constant of NAD+",
+      "symbol": "K_i_nad",
+      "value": 0.04,
+      "unit": {
+        "id": "mmol / l",
+        "name": "mmol / l",
+        "base_units": [
+          {
+            "kind": "mole",
+            "exponent": 1,
+            "multiplier": 1.0,
+            "scale": -3.0
+          },
+          {
+            "kind": "litre",
+            "exponent": -1,
+            "multiplier": 1.0,
+            "scale": 0.0
+          }
+        ]
+      },
+      "fit": false,
+      "constant": true
+    }
+  ],
+  "references": []
+}

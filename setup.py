@@ -33,7 +33,12 @@ setup(
             'pytest-cov',
             'coveralls',
             'SALib',
-        ]
+        ],
+        # Reading EnzymeML OMEX archives; EnzymeML JSON and DEXPI XML
+        # need no additional packages.
+        'enzymeml': [
+            'pyenzyme>=2.0',
+        ],
     }, 
     package_data= {
         'biosteam': ['report/*',
@@ -49,7 +54,11 @@ setup(
                      'facilities/*',
                      'wastewater/*',
                      'wastewater/high_rate/*',
-                     'units/decorators/*']
+                     'units/decorators/*',
+                     'interop/*',
+                     'interop/data/*',
+                     'interop/dexpi/*',
+                     'interop/enzymeml/*']
     },
     exclude_package_data={
         'biosteam': ['graphviz_color_settings.txt',

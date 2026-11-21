@@ -1,0 +1,155 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!-- A process model as another tool could write it: without BioSTEAM
+     notes, in non-SI units, and with a class (Sieving) that BioSTEAM has
+     no unit operation for. Used by tests/test_dexpi.py. -->
+<Model name="plant" uri="urn:plant">
+  <Import prefix="Core" source="https://data.dexpi.org/models/2.0.1/Core.xml"/>
+  <Import prefix="Process" source="https://data.dexpi.org/models/2.0.1/Process.xml"/>
+  <Object id="em" type="Core/EngineeringModel">
+    <Components property="ConceptualModel">
+      <Object id="pm" type="Process/ProcessModel">
+        <Components property="MaterialComponents">
+          <Object id="c1" type="Process/Process.PureMaterialComponent">
+            <Data property="Identifier"><String>7732-18-5</String></Data>
+            <Data property="Label"><String>Water</String></Data>
+          </Object>
+          <Object id="c2" type="Process/Process.PureMaterialComponent">
+            <Data property="Identifier"><String>EtOH</String></Data>
+            <Data property="Label"><String>ethanol</String></Data>
+          </Object>
+        </Components>
+        <Components property="ListsOfMaterialComponents">
+          <Object id="l1" type="Process/Process.ListOfMaterialComponents">
+            <References property="Component" objects="#c1 #c2"/>
+          </Object>
+        </Components>
+        <Components property="MaterialTemplates">
+          <Object id="t1" type="Process/Process.MaterialTemplate">
+            <References property="ListOfComponents" objects="#l1"/>
+            <Data property="Identifier"><String>T</String></Data>
+          </Object>
+        </Components>
+        <Components property="MaterialStates">
+          <Object id="ms1" type="Process/Process.MaterialState">
+            <Components property="State">
+              <Object id="st1" type="Process/Process.MaterialStateType">
+                <Components property="Composition">
+                  <Object id="co1" type="Process/Process.Composition">
+                    <Components property="MoleFlow">
+                      <Object id="q1" type="Core/QualifiedValue"><Data property="Value">
+                        <AggregatedDataValue type="Core/PhysicalQuantities.PhysicalQuantity">
+                          <Data property="Unit"><DataReference data="Core/PhysicalQuantities.MoleFlowRateUnit.KilomolePerSecond"/></Data>
+                          <Data property="Value"><Double>0.01</Double></Data>
+                        </AggregatedDataValue></Data></Object>
+                      <Object id="q2" type="Core/QualifiedValue"><Data property="Value">
+                        <AggregatedDataValue type="Core/PhysicalQuantities.PhysicalQuantity">
+                          <Data property="Unit"><DataReference data="Core/PhysicalQuantities.MoleFlowRateUnit.KilomolePerSecond"/></Data>
+                          <Data property="Value"><Double>0.002</Double></Data>
+                        </AggregatedDataValue></Data></Object>
+                    </Components>
+                  </Object>
+                </Components>
+              </Object>
+            </Components>
+          </Object>
+        </Components>
+        <Components property="ProcessConnections">
+          <Object id="s1" type="Process/Process.Stream">
+            <Components property="Temperature">
+              <Object id="q3" type="Core/QualifiedValue"><Data property="Value">
+                <AggregatedDataValue type="Core/PhysicalQuantities.PhysicalQuantity">
+                  <Data property="Unit"><DataReference data="Core/PhysicalQuantities.TemperatureUnit.DegreeCelsius"/></Data>
+                  <Data property="Value"><Double>40.0</Double></Data>
+                </AggregatedDataValue></Data></Object>
+            </Components>
+            <Components property="Pressure">
+              <Object id="q4" type="Core/QualifiedValue"><Data property="Value">
+                <AggregatedDataValue type="Core/PhysicalQuantities.PhysicalQuantity">
+                  <Data property="Unit"><DataReference data="Core/PhysicalQuantities.PressureAbsoluteUnit.Bar"/></Data>
+                  <Data property="Value"><Double>1.5</Double></Data>
+                </AggregatedDataValue></Data></Object>
+            </Components>
+            <References property="Source" objects="#po0"/>
+            <References property="Target" objects="#pi1"/>
+            <References property="MaterialStateReference" objects="#ms1"/>
+            <References property="MaterialTemplateReference" objects="#t1"/>
+            <Data property="Identifier"><String>raw</String></Data>
+          </Object>
+          <Object id="s2" type="Process/Process.Stream">
+            <References property="Source" objects="#po1"/>
+            <References property="Target" objects="#pi2"/>
+            <References property="MaterialTemplateReference" objects="#t1"/>
+            <Data property="Identifier"><String>pumped</String></Data>
+          </Object>
+          <Object id="s3" type="Process/Process.Stream">
+            <References property="Source" objects="#po2"/>
+            <References property="Target" objects="#pi3"/>
+            <References property="MaterialTemplateReference" objects="#t1"/>
+            <Data property="Identifier"><String>sieved</String></Data>
+          </Object>
+        </Components>
+        <Components property="ProcessSteps">
+          <Object id="src" type="Process/Process.Source">
+            <Components property="Ports">
+              <Object id="po0" type="Process/Process.MaterialPort">
+                <References property="ConnectorReference" objects="#s1"/>
+                <Data property="Identifier"><String>O</String></Data>
+                <Data property="NominalDirection"><DataReference data="Process/Enumerations.PortDirection.Outlet"/></Data>
+              </Object>
+            </Components>
+            <Data property="Identifier"><String>battery limit</String></Data>
+          </Object>
+          <Object id="u1" type="Process/Process.Pumping">
+            <Components property="Ports">
+              <Object id="pi1" type="Process/Process.MaterialPort">
+                <References property="ConnectorReference" objects="#s1"/>
+                <Data property="Identifier"><String>suction</String></Data>
+                <Data property="NominalDirection"><DataReference data="Process/Enumerations.PortDirection.Inlet"/></Data>
+              </Object>
+              <Object id="po1" type="Process/Process.MaterialPort">
+                <References property="ConnectorReference" objects="#s2"/>
+                <Data property="Identifier"><String>discharge</String></Data>
+                <Data property="NominalDirection"><DataReference data="Process/Enumerations.PortDirection.Outlet"/></Data>
+              </Object>
+            </Components>
+            <Components property="Pressure">
+              <Object id="q5" type="Core/QualifiedValue"><Data property="Value">
+                <AggregatedDataValue type="Core/PhysicalQuantities.PhysicalQuantity">
+                  <Data property="Unit"><DataReference data="Core/PhysicalQuantities.PressureAbsoluteUnit.Bar"/></Data>
+                  <Data property="Value"><Double>4.0</Double></Data>
+                </AggregatedDataValue></Data></Object>
+            </Components>
+            <Data property="Identifier"><String>P-101</String></Data>
+            <Data property="Method"><DataReference data="Process/Enumerations.PumpingMethod.CentrifugalMotion"/></Data>
+          </Object>
+          <Object id="u2" type="Process/Process.Sieving">
+            <Components property="Ports">
+              <Object id="pi2" type="Process/Process.MaterialPort">
+                <References property="ConnectorReference" objects="#s2"/>
+                <Data property="Identifier"><String>in</String></Data>
+                <Data property="NominalDirection"><DataReference data="Process/Enumerations.PortDirection.Inlet"/></Data>
+              </Object>
+              <Object id="po2" type="Process/Process.MaterialPort">
+                <References property="ConnectorReference" objects="#s3"/>
+                <Data property="Identifier"><String>out</String></Data>
+                <Data property="NominalDirection"><DataReference data="Process/Enumerations.PortDirection.Outlet"/></Data>
+              </Object>
+            </Components>
+            <Data property="Identifier"><String>S-102</String></Data>
+            <Data property="Label"><String>Screen</String></Data>
+          </Object>
+          <Object id="snk" type="Process/Process.Sink">
+            <Components property="Ports">
+              <Object id="pi3" type="Process/Process.MaterialPort">
+                <References property="ConnectorReference" objects="#s3"/>
+                <Data property="Identifier"><String>I</String></Data>
+                <Data property="NominalDirection"><DataReference data="Process/Enumerations.PortDirection.Inlet"/></Data>
+              </Object>
+            </Components>
+            <Data property="Identifier"><String>storage</String></Data>
+          </Object>
+        </Components>
+      </Object>
+    </Components>
+  </Object>
+</Model>

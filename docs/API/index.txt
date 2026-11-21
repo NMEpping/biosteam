@@ -52,6 +52,7 @@ BioSTEAM's main components can be categorized by 5 functionality levels:
    TEA
    Flowsheet
    process_tools/index
+   interop/index
    
 .. toctree::
    :maxdepth: 2

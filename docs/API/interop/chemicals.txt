@@ -1,0 +1,5 @@
+chemicals
+=========
+
+.. automodule:: biosteam.interop.chemicals
+   :members:
