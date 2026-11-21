@@ -37,10 +37,13 @@ def test_identity_search_keys_and_dictionary_round_trip():
         'ethanol', 'EtOH',
     )
     assert ChemicalIdentity.from_dict(identity.to_dict()) == identity
-    assert ChemicalIdentity.from_dict({'ID': 'X', 'unknown': 1}) == ChemicalIdentity('X')
+    assert ChemicalIdentity.from_dict(
+        {'ID': 'X', 'unknown': 1}) == ChemicalIdentity('X')
     # An identifier that is not a CAS number is not searched as one
     assert ChemicalIdentity('X', CAS='not-a-cas').search_keys() == ('X',)
-    assert ChemicalIdentity('X', InChI='InChI=1S/C2H6O/c1-2-3/h3H,2H2,1H3').known_formula() == 'C2H6O'
+    assert ChemicalIdentity(
+        'X', InChI='InChI=1S/C2H6O/c1-2-3/h3H,2H2,1H3'
+    ).known_formula() == 'C2H6O'
     assert identity.merged(name='other', formula='C2H6O') == ChemicalIdentity(
         'EtOH', name='ethanol', CAS='64-17-5', formula='C2H6O',
         InChIKey='LFQSCWFLJHTTHZ-UHFFFAOYSA-N', PubChem='702',
@@ -60,7 +63,8 @@ def test_identity_from_chemical():
 
 @pytest.mark.parametrize('identity, CAS', [
     (ChemicalIdentity('A', CAS='64-17-5'), '64-17-5'),
-    (ChemicalIdentity('A', InChIKey='XLYOFNOQVPJJNP-UHFFFAOYSA-N'), '7732-18-5'),
+    (ChemicalIdentity('A', InChIKey='XLYOFNOQVPJJNP-UHFFFAOYSA-N'),
+     '7732-18-5'),
     (ChemicalIdentity('A', name='acetic acid'), '64-19-7'),
     (ChemicalIdentity('Glucose'), '50-99-7'),
     # The most specific identifier wins over a misleading name
@@ -80,11 +84,13 @@ def test_thermosteam_resolver_skips_unknown_and_custom_components():
 def test_incomplete_database_chemicals_are_completed():
     # NAD+ is in the databases, but without models for most properties
     with pytest.warns(PlaceholderWarning, match="'nad'"):
-        chemical = ThermosteamResolver().resolve(ChemicalIdentity('nad', CAS='53-84-9'))
+        chemical = ThermosteamResolver().resolve(
+            ChemicalIdentity('nad', CAS='53-84-9'))
     assert chemical.locked_state == 'l'
     assert chemical.formula == 'C21H27N7O14P2'
-    stream = tmo.Stream(None, thermo=tmo.Thermo([tmo.Chemical('Water'), chemical]),
-                        Water=1., nad=1e-3)
+    stream = tmo.Stream(
+        None, thermo=tmo.Thermo([tmo.Chemical('Water'), chemical]),
+        Water=1., nad=1e-3)
     assert stream.F_vol > 0. and stream.H == pytest.approx(0.)
     stream.T = 310.
     assert stream.H > 0.
@@ -97,7 +103,8 @@ def test_user_chemicals_take_precedence():
     assert resolver.resolve(ChemicalIdentity('Water')) is mine
     copy = resolver.resolve(ChemicalIdentity('EtOH', CAS='64-17-5'))
     assert copy.ID == 'EtOH' and copy.CAS == '64-17-5'
-    assert UserChemicalsResolver([mine]).resolve(ChemicalIdentity('Other')) is None
+    assert UserChemicalsResolver([mine]).resolve(
+        ChemicalIdentity('Other')) is None
 
 
 def test_property_database_and_macromolecules():
@@ -111,9 +118,11 @@ def test_property_database_and_macromolecules():
     assert resolver.resolve(ChemicalIdentity('other')) is None
     # Macromolecules must remain usable in energy balances
     enzyme = resolver.resolve(ChemicalIdentity('enzyme', pure=False))
-    stream = tmo.Stream(None, thermo=tmo.Thermo([tmo.Chemical('Water'), enzyme]),
-                        Water=50., enzyme=1e-6, T=320.)
-    assert stream.H > 0. and stream.F_mass == pytest.approx(50 * 18.01528 + 0.0404)
+    stream = tmo.Stream(
+        None, thermo=tmo.Thermo([tmo.Chemical('Water'), enzyme]),
+        Water=50., enzyme=1e-6, T=320.)
+    assert stream.H > 0. and stream.F_mass == pytest.approx(
+        50 * 18.01528 + 0.0404)
 
 
 def test_placeholders_and_strict_resolution():
@@ -121,7 +130,8 @@ def test_placeholders_and_strict_resolution():
     with pytest.warns(PlaceholderWarning, match="'Mystery' was not found"):
         chemical = default_resolver().resolve(identity)
     assert chemical.MW == 250. and chemical.locked_state == 's'
-    with pytest.raises(ChemicalResolutionError, match="'Mystery' could not be resolved"):
+    with pytest.raises(ChemicalResolutionError,
+                       match="'Mystery' could not be resolved"):
         default_resolver(placeholders=False).resolve(identity)
     with warnings.catch_warnings():
         warnings.simplefilter('ignore')
@@ -159,17 +169,22 @@ def test_pubchem_resolver_with_stubbed_service():
         return json.dumps(record)
 
     resolver = PubChemResolver(fetch=fetch)
-    identity = ChemicalIdentity('NADH', InChIKey='UNKNOWNKEY', ChEBI='CHEBI:16908')
+    identity = ChemicalIdentity(
+        'NADH', InChIKey='UNKNOWNKEY', ChEBI='CHEBI:16908')
     found = resolver.lookup(identity)
     # Identifiers are tried in order of specificity; the ChEBI id matches
-    assert [i.split('/compound/')[1].split('/')[0] for i in requests] == ['inchikey', 'name']
+    assert [
+        i.split('/compound/')[1].split('/')[0] for i in requests
+    ] == ['inchikey', 'name']
     assert found.formula == 'C21H29N7O14P2' and found.PubChem == '439153'
     assert found.InChIKey == 'UNKNOWNKEY'  # Given identifiers are kept
     with pytest.warns(PlaceholderWarning):
         chemical = resolver.resolve(identity)
-    assert chemical.ID == 'NADH' and chemical.MW == pytest.approx(665.44, abs=0.01)
+    assert chemical.ID == 'NADH' and chemical.MW == pytest.approx(
+        665.44, abs=0.01)
     # Failures of the service fall through to the next resolver
-    assert PubChemResolver(fetch=lambda url: 'not json').resolve(identity) is None
+    assert PubChemResolver(
+        fetch=lambda url: 'not json').resolve(identity) is None
     assert resolver.resolve(ChemicalIdentity('enzyme', pure=False)) is None
 
 

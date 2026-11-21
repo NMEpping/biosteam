@@ -17,12 +17,15 @@ import pytest
 import biosteam as bst
 from numpy.testing import assert_allclose
 from biosteam.interop import enzymeml, examples
-from biosteam.interop.enzymeml import RateLaw, RateLawError, SteadyStateCSTRRate
+from biosteam.interop.enzymeml import (
+    RateLaw, RateLawError, SteadyStateCSTRRate,
+)
 
 
 def unit(*base_units):
     return {'base_units': [
-        {'kind': kind, 'exponent': exponent, 'multiplier': multiplier, 'scale': scale}
+        {'kind': kind, 'exponent': exponent, 'multiplier': multiplier,
+         'scale': scale}
         for kind, exponent, multiplier, scale in base_units
     ]}
 
@@ -37,8 +40,10 @@ def michaelis_menten_document(**reaction):
         'name': 'Michaelis-Menten',
         'small_molecules': [
             {'id': 's0', 'name': 'ethanol',
-             'references': ['https://commonchemistry.cas.org/detail?cas_rn=64-17-5']},
-            {'id': 's1', 'name': 'acetaldehyde', 'inchikey': 'IKHGUXGNUITLKF-UHFFFAOYSA-N'},
+             'references': [
+                 'https://commonchemistry.cas.org/detail?cas_rn=64-17-5']},
+            {'id': 's1', 'name': 'acetaldehyde',
+             'inchikey': 'IKHGUXGNUITLKF-UHFFFAOYSA-N'},
         ],
         'proteins': [{'id': 'p0', 'name': 'enzyme', 'sequence': 'GAG'}],
         'reactions': [{
@@ -51,7 +56,8 @@ def michaelis_menten_document(**reaction):
             **reaction,
         }],
         'parameters': [
-            {'id': 'k_cat', 'symbol': 'k_cat', 'value': 10., 'unit': per_second},
+            {'id': 'k_cat', 'symbol': 'k_cat', 'value': 10.,
+             'unit': per_second},
             {'id': 'K_M', 'symbol': 'K_M', 'value': 2., 'unit': mM},
         ],
         'measurements': [{'id': 'm0', 'ph': 7., 'temperature': 25.,
@@ -67,7 +73,8 @@ def test_read_reference_document():
     assert document.species['fdh'].kind == 'protein'
     assert document.species['fdh'].ecnumber == '1.17.1.9'
     reaction = document.get_reaction()
-    assert reaction.stoichiometry == {'formate': -1., 'nad': -1., 'co2': 1., 'nadh': 1.}
+    assert reaction.stoichiometry == {
+        'formate': -1., 'nad': -1., 'co2': 1., 'nadh': 1.}
     assert reaction.modifiers == {'fdh': 'biocatalyst'}
     assert document.temperature == 303.15 and document.pH == 7.5
     # Parameters are converted to kmol, m3 and hr
@@ -84,7 +91,9 @@ def test_read_accepts_dictionaries_paths_and_pydantic_like_objects(tmp_path):
         def model_dump(self, mode=None):
             return data
 
-    documents = [enzymeml.read(i) for i in (data, path, str(path), PydanticLike())]
+    documents = [
+        enzymeml.read(i) for i in (data, path, str(path), PydanticLike())
+    ]
     assert all(i == documents[0] for i in documents)
     assert enzymeml.read(documents[0]) is documents[0]
     assert documents[0].temperature == pytest.approx(298.15)
@@ -114,7 +123,8 @@ def test_invalid_documents_are_rejected(change, message):
 def test_invalid_json_is_rejected(tmp_path):
     path = tmp_path / 'broken.json'
     path.write_text('{not json')
-    with pytest.raises(enzymeml.EnzymeMLError, match='not an EnzymeML JSON document'):
+    with pytest.raises(enzymeml.EnzymeMLError,
+                       match='not an EnzymeML JSON document'):
         enzymeml.read(path)
     with pytest.raises(enzymeml.EnzymeMLError, match='JSON object'):
         enzymeml.EnzymeMLDocument.from_dict([1, 2])
@@ -140,8 +150,10 @@ def test_reference_document_is_valid_enzymeml():
         document = pyenzyme.read_enzymeml(examples.FDH_ENZYMEML)
     assert len(document.reactions) == 1
     # A pyenzyme document is accepted directly and reads the same
-    assert enzymeml.read(document).reactions == enzymeml.read(examples.FDH_ENZYMEML).reactions
-    assert enzymeml.read(document).parameters == enzymeml.read(examples.FDH_ENZYMEML).parameters
+    assert (enzymeml.read(document).reactions
+            == enzymeml.read(examples.FDH_ENZYMEML).reactions)
+    assert (enzymeml.read(document).parameters
+            == enzymeml.read(examples.FDH_ENZYMEML).parameters)
 
 
 # %% Units
@@ -151,11 +163,16 @@ def test_unit_conversion():
     assert factor(None) == 1.
     assert_allclose(factor(mM), 1e-3)  # mmol/L = mol/m3 = 1e-3 kmol/m3
     assert_allclose(factor(per_second), 3600.)
-    assert_allclose(factor(unit(('mole', 1, 1., -6), ('litre', -1, 1., -3))), 1e-3)  # umol/mL
+    assert_allclose(
+        factor(unit(('mole', 1, 1., -6), ('litre', -1, 1., -3))),
+        1e-3)  # umol/mL
     assert_allclose(factor(unit(('second', -1, 60., 0))), 60.)  # 1/min
     # Minutes as encoded by pyenzyme (multiplier 60 with scale 1)
     assert_allclose(factor(unit(('second', -1, 60., 1))), 60.)
-    assert_allclose(factor(unit(('mole', 1, 1., -3), ('litre', -1, 1., 0), ('second', -1, 1., 0))), 3.6)
+    assert_allclose(
+        factor(unit(('mole', 1, 1., -3), ('litre', -1, 1., 0),
+                    ('second', -1, 1., 0))),
+        3.6)
     with pytest.raises(enzymeml.UnitError, match="'volt'"):
         factor(unit(('volt', 1, 1., 0)))
 
@@ -166,7 +183,8 @@ def test_rate_law_evaluation():
     law = RateLaw('vmax * S^2 / (K**2 + S^2) + exp(-E / 2) - min(1, 2)')
     assert law.symbols == {'vmax', 'S', 'K', 'E'}
     expected = 3. * 4. / (1. + 4.) + math.exp(-1.) - 1.
-    assert law({'vmax': 3., 'S': 2., 'K': 1., 'E': 2.}) == pytest.approx(expected)
+    assert law({'vmax': 3., 'S': 2., 'K': 1., 'E': 2.}) == pytest.approx(
+        expected)
 
 
 @pytest.mark.parametrize('equation', [
@@ -208,7 +226,8 @@ def test_species_identities():
     assert acetaldehyde.InChIKey == 'IKHGUXGNUITLKF-UHFFFAOYSA-N'
     assert not enzyme.pure and enzyme.phase == 'l'
     assert enzyme.MW == pytest.approx(203.2, abs=0.01)  # From the sequence
-    fdh = enzymeml.read(examples.FDH_ENZYMEML).species['nadh'].to_identity('NADH')
+    fdh = enzymeml.read(
+        examples.FDH_ENZYMEML).species['nadh'].to_identity('NADH')
     assert fdh.ID == 'NADH' and fdh.ChEBI == 'CHEBI:16908'
 
 
@@ -245,7 +264,8 @@ def test_cstr_conversion_matches_analytical_solution(michaelis_menten):
     feed = bst.Stream('feed', Water=1000., units='kg/hr')
     feed.imol['Ethanol'] = 0.01
     feed.imol['Enzyme'] = 1e-7
-    reactor = bst.SinglePhaseReactor('R1', ins=feed, tau=tau, T=298.15, P=101325)
+    reactor = bst.SinglePhaseReactor(
+        'R1', ins=feed, tau=tau, T=298.15, P=101325)
     reaction = document.parameterize(reactor)
     assert reactor.reactions is reaction
     reactor.run()
@@ -260,7 +280,8 @@ def test_cstr_conversion_matches_analytical_solution(michaelis_menten):
     S = (-b + math.sqrt(b * b + 4. * K_M * S0)) / 2.
     effluent = reactor.outs[0]
     assert_allclose(effluent.imol['Ethanol'] / flow, S, rtol=1e-10)
-    assert_allclose(effluent.imol['Acetaldehyde'], 0.01 - effluent.imol['Ethanol'], rtol=1e-10)
+    assert_allclose(effluent.imol['Acetaldehyde'],
+                    0.01 - effluent.imol['Ethanol'], rtol=1e-10)
     assert effluent.imol['Enzyme'] == 1e-7  # The catalyst is conserved
 
     # The kinetics follow the residence time of the reactor they are bound to
@@ -296,7 +317,8 @@ def test_reversible_rate_law_reaches_equilibrium():
         reactant='Ethanol', residence_time=1.,
     )
     forward = bst.Stream(None, Water=100., Ethanol=4.)
-    assert rate(forward) == pytest.approx(3., rel=1e-5)  # B / A = 3 at equilibrium
+    # B / A = 3 at equilibrium
+    assert rate(forward) == pytest.approx(3., rel=1e-5)
     reverse = bst.Stream(None, Water=100., Propanol=4.)
     assert rate(reverse) == pytest.approx(-1., rel=1e-5)
 
@@ -313,12 +335,15 @@ def test_stoichiometric_numbers_scale_the_rate():
     stream = bst.Stream(None, Water=100., Ethanol=1.)
     # A0 - A = 2 k tau A  =>  A = A0 / 2
     assert rate(stream) == pytest.approx(0.5)
-    reaction = bst.Reaction({'Ethanol': -2., 'Propanol': 1.}, 'Ethanol', rate=rate)
+    reaction = bst.Reaction(
+        {'Ethanol': -2., 'Propanol': 1.}, 'Ethanol', rate=rate)
     reaction(stream)
-    assert_allclose([stream.imol['Ethanol'], stream.imol['Propanol']], [0.5, 0.25])
+    assert_allclose([stream.imol['Ethanol'], stream.imol['Propanol']],
+                    [0.5, 0.25])
     with pytest.raises(ValueError, match='not a reactant'):
-        SteadyStateCSTRRate('k', {'k': 1.}, {}, {'Ethanol': -1., 'Propanol': 1.},
-                            reactant='Propanol')
+        SteadyStateCSTRRate(
+            'k', {'k': 1.}, {}, {'Ethanol': -1., 'Propanol': 1.},
+            reactant='Propanol')
 
 
 def test_reaction_requires_kinetic_information(michaelis_menten):
@@ -345,12 +370,14 @@ def test_rate_serialization_round_trip(michaelis_menten):
     assert json.loads(json.dumps(data)) == data  # Plain JSON
     rate = data['rate']
     assert rate['type'] == 'SteadyStateCSTRRate'
-    assert rate['parameters'] == {'K_M': pytest.approx(2e-3), 'k_cat': pytest.approx(36000.)}
+    assert rate['parameters'] == {
+        'K_M': pytest.approx(2e-3), 'k_cat': pytest.approx(36000.)}
     assert rate['species'] == {'p0': 'Enzyme', 's0': 'Ethanol'}
     assert rate['residence_time'] == 0.5
     assert rate['source']['reaction'] == 'r0'
     assert rate['source']['enzymes'] == [{'id': 'p0', 'name': 'enzyme'}]
-    copy = bst.interop.reactions.reaction_from_dict(data, bst.settings.chemicals)
+    copy = bst.interop.reactions.reaction_from_dict(
+        data, bst.settings.chemicals)
     stream = bst.Stream(None, Water=1000., units='kg/hr')
     stream.imol['Ethanol'] = 0.01
     stream.imol['Enzyme'] = 1e-7

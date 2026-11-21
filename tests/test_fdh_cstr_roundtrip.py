@@ -44,7 +44,8 @@ def results(system):
                    'mol': [float(j) for j in i.imol[IDs]]}
             for i in system.streams
         },
-        'reactor volume': system.flowsheet.unit.R1.design_results['Reactor volume'],
+        'reactor volume': (
+            system.flowsheet.unit.R1.design_results['Reactor volume']),
         'duty': system.flowsheet.unit.R1.net_duty,
         'installed cost': system.installed_equipment_cost,
     }
@@ -56,7 +57,8 @@ def assert_same_results(actual, expected, rtol=1e-9):
         other = actual['streams'][ID]
         assert other['phase'] == stream['phase']
         assert_allclose(other['mol'], stream['mol'], rtol=rtol, atol=1e-15)
-        assert_allclose([other['T'], other['P']], [stream['T'], stream['P']], rtol=rtol)
+        assert_allclose([other['T'], other['P']], [stream['T'], stream['P']],
+                        rtol=rtol)
     for name in ('reactor volume', 'duty', 'installed cost'):
         assert_allclose(actual[name], expected[name], rtol=rtol)
 
@@ -72,10 +74,12 @@ def test_chemicals_are_resolved_from_enzymeml_identifiers():
     assert 'CHEBI:16908' in resolved.nadh.aliases
     # Without property records, unknown species are placeholders
     document = enzymeml.read(examples.FDH_ENZYMEML)
-    with pytest.warns(chemicals.PlaceholderWarning, match="'nadh' was not found"):
+    with pytest.warns(chemicals.PlaceholderWarning,
+                      match="'nadh' was not found"):
         document.create_chemicals()
     with pytest.raises(chemicals.ChemicalResolutionError, match="'nadh'"):
-        document.create_chemicals(chemicals.default_resolver(placeholders=False))
+        document.create_chemicals(
+            chemicals.default_resolver(placeholders=False))
 
 
 def test_fdh_cstr_simulation(fdh_system):
@@ -86,20 +90,25 @@ def test_fdh_cstr_simulation(fdh_system):
     assert 0.85 < converted / feed.imol['nad'] < 0.95
 
     # Stoichiometry: formate + NAD+ -> CO2 + NADH, enzyme conserved
-    assert_allclose(feed.imol['formate'] - product.imol['formate'], converted, rtol=1e-9)
+    assert_allclose(feed.imol['formate'] - product.imol['formate'], converted,
+                    rtol=1e-9)
     assert_allclose(product.imol['nadh'], converted, rtol=1e-9)
     assert_allclose(product.imol['co2'], converted, rtol=1e-9)
     assert product.imol['fdh'] == feed.imol['fdh']
-    assert_allclose(product.F_mass, feed.F_mass, rtol=1e-9)  # Balanced in atoms
+    # Balanced in atoms
+    assert_allclose(product.F_mass, feed.F_mass, rtol=1e-9)
     assert product.T == pytest.approx(303.15) and reactor.T == 303.15
 
     # The outlet satisfies the CSTR design equation with the rate law and
     # parameters of the EnzymeML document (ordered bi-bi, units of mM and s).
     flow = reactor.ins[0].F_vol  # m3/hr
-    nad, formate, fdh = (product.imol[i] / flow * 1e3 for i in ('nad', 'formate', 'fdh'))
+    nad, formate, fdh = (
+        product.imol[i] / flow * 1e3 for i in ('nad', 'formate', 'fdh')
+    )
     kcat, K_m_formate, K_m_nad, K_i_nad = 3.7, 5.6, 0.045, 0.04
     rate = kcat * fdh * nad * formate / (
-        K_i_nad * K_m_formate + K_m_formate * nad + K_m_nad * formate + nad * formate
+        K_i_nad * K_m_formate + K_m_formate * nad + K_m_nad * formate
+        + nad * formate
     )  # mM/s = mol/m3/s
     volume = reactor.tau * flow  # m3
     assert_allclose(rate * 3.6 * volume, converted, rtol=1e-9)  # kmol/hr
@@ -117,12 +126,15 @@ def test_fdh_dexpi_export(fdh_system):
     assert steps['R1'].class_name == 'ReactingChemicals'
     assert steps['P1'].class_name == 'Pumping'
     assert steps['H1'].class_name == 'ExchangingThermalEnergy'
-    components = {i.get('Identifier'): i for i in process.children('MaterialComponents')}
+    components = {
+        i.get('Identifier'): i for i in process.children('MaterialComponents')
+    }
     assert components['formate'].class_name == 'PureMaterialComponent'
     assert components['formate'].get('ChEBI_Identifier') == 'CHEBI:30751'
     assert components['fdh'].class_name == 'CustomMaterialComponent'
     # The kinetics and their provenance are part of the reactor annotation
-    rate = notes.read_note(steps['R1'])['parameters']['reactions']['value']['rate']
+    rate = notes.read_note(
+        steps['R1'])['parameters']['reactions']['value']['rate']
     assert rate['type'] == 'SteadyStateCSTRRate'
     assert rate['parameters']['kcat'] == pytest.approx(3.7 * 3600)
     assert rate['source']['format'] == 'EnzymeML'
@@ -139,7 +151,8 @@ def test_fdh_round_trip_with_independent_property_package(fdh_system):
     resolver = chemicals.default_resolver(properties=examples.FDH_PROPERTIES)
     with warnings.catch_warnings():
         warnings.simplefilter('ignore', chemicals.PlaceholderWarning)
-        copy = bst.System.from_dexpi(xml, flowsheet='fdh_copy', resolver=resolver)
+        copy = bst.System.from_dexpi(
+            xml, flowsheet='fdh_copy', resolver=resolver)
     assert copy.flowsheet is not fdh_system.flowsheet
     thermo = copy.units[0].thermo
     assert thermo is not bst.settings.get_thermo()
@@ -162,24 +175,29 @@ def test_fdh_round_trip_with_independent_property_package(fdh_system):
     reactor.tau = 0.5
     copy.simulate()
     stream = copy.flowsheet.stream
-    assert stream.product.imol['nad'] > expected['streams']['product']['mol'][2]
+    assert (
+        stream.product.imol['nad'] > expected['streams']['product']['mol'][2]
+    )
 
 
 def test_fdh_round_trip_without_any_property_data(fdh_system):
     # Formula, molecular weight and phase travel with the document, so the
     # mass balance is reproduced even if nothing else is known.
     expected = results(fdh_system)
-    with pytest.warns(chemicals.PlaceholderWarning, match="'fdh' was not found"):
+    with pytest.warns(chemicals.PlaceholderWarning,
+                      match="'fdh' was not found"):
         copy = dexpi.from_dexpi(fdh_system.to_dexpi(), flowsheet='fdh_bare',
                                 resolver=chemicals.default_resolver())
     copy.simulate()
     actual = results(copy)
     for ID, stream in expected['streams'].items():
-        assert_allclose(actual['streams'][ID]['mol'], stream['mol'], rtol=1e-9, atol=1e-15)
+        assert_allclose(actual['streams'][ID]['mol'], stream['mol'],
+                        rtol=1e-9, atol=1e-15)
 
 
 def test_fdh_kinetics_can_be_replaced_from_enzymeml_after_import(fdh_system):
-    copy = dexpi.from_dexpi(fdh_system.to_dexpi(), flowsheet='fdh_reparameterized')
+    copy = dexpi.from_dexpi(fdh_system.to_dexpi(),
+                            flowsheet='fdh_reparameterized')
     data = json.loads(open(examples.FDH_ENZYMEML, encoding='utf-8').read())
     for parameter in data['parameters']:
         if parameter['id'] == 'kcat':
@@ -190,7 +208,8 @@ def test_fdh_kinetics_can_be_replaced_from_enzymeml_after_import(fdh_system):
     stream = copy.flowsheet.stream
     slower = 1 - stream.product.imol['nad'] / stream.feed.imol['nad']
     original = fdh_system.flowsheet.stream
-    assert slower < 1 - original.product.imol['nad'] / original.feed.imol['nad']
+    assert slower < (
+        1 - original.product.imol['nad'] / original.feed.imol['nad'])
 
 
 def test_fdh_export_conforms_to_pydexpi(fdh_system):
@@ -203,7 +222,9 @@ def test_fdh_export_conforms_to_pydexpi(fdh_system):
     assert type(reactor).__name__ == 'ReactingChemicals'
     assert reactor.method.value == 'Tank'
     assert reactor.temperature[0].value.value == pytest.approx(303.15)
-    components = {i.identifier: i for i in loaded.conceptualModel.materialComponents}
+    components = {
+        i.identifier: i for i in loaded.conceptualModel.materialComponents
+    }
     assert components['nad'].chEBI_identifier == 'CHEBI:15846'
     assert type(components['fdh']).__name__ == 'CustomMaterialComponent'
 

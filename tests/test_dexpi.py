@@ -88,9 +88,11 @@ def test_xml_round_trip_preserves_all_value_kinds():
         'Enumeration': model.process_enumeration('PortDirection', 'Inlet'),
         'Quantity': model.physical_quantity(300., 'TemperatureUnit', 'Kelvin'),
     })
-    child = root.add('Children', model.DexpiObject(model.process_type('Stream')))
+    child = root.add(
+        'Children', model.DexpiObject(model.process_type('Stream')))
     root.refer('Favorite', child)
-    copy = xmlio.loads(xmlio.dumps(model.DexpiDocument(root, name='test'))).root
+    copy = xmlio.loads(
+        xmlio.dumps(model.DexpiDocument(root, name='test'))).root
     assert copy.data['Text'] == 'a < b & "c"'
     assert copy.data['Integer'] == 3 and isinstance(copy.data['Integer'], int)
     assert copy.data['Double'] == 0.1 + 0.2  # Exact, not approximate
@@ -121,8 +123,10 @@ def test_malformed_documents_are_rejected(text, message):
 def test_import_prefixes_are_normalized():
     document = xmlio.loads(
         '<Model name="x" uri="urn:x">'
-        '<Import prefix="c" source="https://data.dexpi.org/models/2.0.0/Core.xml"/>'
-        '<Import prefix="p" source="https://data.dexpi.org/models/2.0.0/Process.xml"/>'
+        '<Import prefix="c" '
+        'source="https://data.dexpi.org/models/2.0.0/Core.xml"/>'
+        '<Import prefix="p" '
+        'source="https://data.dexpi.org/models/2.0.0/Process.xml"/>'
         '<Object id="a" type="c/EngineeringModel">'
         '<Components property="ConceptualModel">'
         '<Object id="b" type="p/ProcessModel"/></Components></Object></Model>'
@@ -135,17 +139,21 @@ def test_import_prefixes_are_normalized():
 
 def test_validation_reports_dangling_streams_and_ports():
     root = model.DexpiObject(model.ENGINEERING_MODEL)
-    process = root.add('ConceptualModel', model.DexpiObject(model.PROCESS_MODEL))
+    process = root.add(
+        'ConceptualModel', model.DexpiObject(model.PROCESS_MODEL))
     step = process.add('ProcessSteps', model.DexpiObject(
         model.process_type('Pumping'), data={'Identifier': 'P1'}))
     port = step.add('Ports', model.DexpiObject(
         model.process_type('MaterialPort'),
         data={'Identifier': 'in0',
-              'NominalDirection': model.process_enumeration('PortDirection', 'Inlet')}))
+              'NominalDirection': model.process_enumeration(
+                  'PortDirection', 'Inlet')}))
     stream = process.add('ProcessConnections', model.DexpiObject(
         model.process_type('Stream'), data={'Identifier': 's1'}))
     stream.refer('Source', port)  # An inlet port cannot be a source
-    messages = [i.message for i in validation.find_issues(model.DexpiDocument(root))]
+    messages = [
+        i.message for i in validation.find_issues(model.DexpiDocument(root))
+    ]
     assert any('is not connected' in i for i in messages)
     assert any('expected an Outlet port' in i for i in messages)
     assert any('has no Target port' in i for i in messages)
@@ -175,16 +183,19 @@ def test_export_structure(system):
         'R1': 'ReactingChemicals', 'M1': 'MixingSimple',
         'F1': 'SeparatingByFlash', 'S1': 'SplittingMaterial',
         'T1': 'StoringInTank',
-        'feed.feed': 'Source', 'product.vapor': 'Sink', 'product.stored': 'Sink',
+        'feed.feed': 'Source', 'product.vapor': 'Sink',
+        'product.stored': 'Sink',
     }
     # Every stream is connected on both ends
     streams = process.children('ProcessConnections')
-    assert {i.get('Identifier') for i in streams} == {i.ID for i in system.streams}
+    assert {i.get('Identifier') for i in streams} == {
+        i.ID for i in system.streams}
     assert all(i.target('Source') and i.target('Target') for i in streams)
     # Standard DEXPI attributes
     reactor = steps['R1']
     assert reactor.get('Method').literal == 'Tank'
-    assert dexpi.quantities.first(reactor, 'Temperature', 'temperature') == 320.
+    assert dexpi.quantities.first(
+        reactor, 'Temperature', 'temperature') == 320.
     assert dexpi.quantities.first(reactor, 'Volume', 'volume') > 0.
     # Components carry database identifiers
     components = process.children('MaterialComponents')
@@ -198,8 +209,12 @@ def test_export_structure(system):
     # BioSTEAM parameters travel as notes
     note = notes.read_note(steps['S1'])
     assert note['class'] == 'Splitter'
-    assert note['parameters']['split']['value'] == {'Water': 0.2, 'Ethanol': 0.3}
-    assert notes.read_note(reactor)['parameters']['reactions']['value']['X'] == 0.9
+    assert note['parameters']['split']['value'] == {
+        'Water': 0.2, 'Ethanol': 0.3}
+    assert (
+        notes.read_note(reactor)['parameters']['reactions']['value']['X']
+        == 0.9
+    )
 
 
 def test_stream_data_uses_dexpi_units(system):
@@ -207,8 +222,9 @@ def test_stream_data_uses_dexpi_units(system):
     streams = {i.get('Identifier'): i
                for i in document.process_model.children('ProcessConnections')}
     feed = streams['feed']
-    assert dexpi.quantities.first(feed, 'MassFlow', 'mass flow') == pytest.approx(
-        system.flowsheet.stream.feed.F_mass)
+    assert dexpi.quantities.first(
+        feed, 'MassFlow', 'mass flow'
+    ) == pytest.approx(system.flowsheet.stream.feed.F_mass)
     state = feed.target('MaterialStateReference').child('State')
     flows = state.child('Composition').children('MoleFlow')
     unit = flows[0].get('Value').data['Unit']
@@ -238,7 +254,8 @@ def test_round_trip_simulation_parity(system):
     # ...and the copy reproduces them when simulated.
     simulate_from_scratch(copy)
     assert_equivalent(system, copy)
-    assert_allclose(copy.installed_equipment_cost, system.installed_equipment_cost)
+    assert_allclose(copy.installed_equipment_cost,
+                    system.installed_equipment_cost)
     assert copy.flowsheet.stream.feed.price == 0.1
     assert copy.flowsheet.unit.S1.isplit['Ethanol'] == 0.3
 
@@ -277,7 +294,8 @@ def test_second_round_trip_is_stable(system):
 def test_user_chemicals_are_used_as_is(system):
     thermo = bst.settings.get_thermo()
     copy = dexpi.from_dexpi(system.to_dexpi(), flowsheet='dexpi_same_thermo')
-    assert copy.units[0].thermo is thermo  # Active package matches the document
+    # Active package matches the document
+    assert copy.units[0].thermo is thermo
     other = bst.Thermo(bst.Chemicals(CHEMICALS, cache=True))
     copy = dexpi.from_dexpi(system.to_dexpi(), flowsheet='dexpi_given_thermo',
                             chemicals=other)
@@ -292,7 +310,8 @@ def test_multiphase_streams_round_trip():
     M1 = bst.Mixer('M1', ins=feed, outs='mixed')
     system = bst.System.from_units('multiphase_sys', [M1])
     system.simulate()
-    copy = dexpi.from_dexpi(system.to_dexpi(), flowsheet='dexpi_multiphase_copy')
+    copy = dexpi.from_dexpi(system.to_dexpi(),
+                            flowsheet='dexpi_multiphase_copy')
     feed_copy = copy.flowsheet.stream.feed
     assert set(feed_copy.phases) == {'l', 'g'}
     assert_allclose(feed_copy.imol['g', 'Ethanol'], 25.)
@@ -303,11 +322,14 @@ def test_multiphase_streams_round_trip():
 
 def test_registry_lookup_follows_inheritance():
     registry = dexpi.default_registry
+
     class SpecialPump(bst.Pump):
         pass
 
     assert registry.lookup_unit_class(SpecialPump).dexpi_class == 'Pumping'
-    assert registry.lookup_unit_class(bst.MixTank).dexpi_class == 'StoringInTank'
+    assert (
+        registry.lookup_unit_class(bst.MixTank).dexpi_class == 'StoringInTank'
+    )
     assert registry.lookup_unit_class(bst.Unit).dexpi_class == 'ProcessStep'
     assert registry.lookup_dexpi_class('RotaryMixing').unit_class is bst.Mixer
     assert registry.lookup_dexpi_class('Cooling').unit_class is bst.HXutility
@@ -322,9 +344,12 @@ def test_custom_registration_does_not_change_default_registry():
         pass
 
     registry = dexpi.default_registry.copy()
-    registry.register(Centrifuge, 'SeparatingByCentrifugalForce', import_default=True)
-    assert registry.lookup_dexpi_class('SeparatingByCentrifugalForce').unit_class is Centrifuge
-    assert dexpi.default_registry.lookup_dexpi_class('SeparatingByCentrifugalForce') is None
+    registry.register(Centrifuge, 'SeparatingByCentrifugalForce',
+                      import_default=True)
+    assert registry.lookup_dexpi_class(
+        'SeparatingByCentrifugalForce').unit_class is Centrifuge
+    assert dexpi.default_registry.lookup_dexpi_class(
+        'SeparatingByCentrifugalForce') is None
     with pytest.raises(TypeError):
         registry.register(object, 'ProcessStep')
 
@@ -346,7 +371,8 @@ def test_unmapped_unit_class_round_trips_through_generic_step(monkeypatch):
     bst.settings.set_thermo(['Water', 'Ethanol'], cache=True)
     feed = bst.Stream('feed', Water=10, Ethanol=1)
     B1 = Booster('B1', ins=feed, outs='boosted', factor=3.)
-    M1 = bst.Mixer('M1', ins=(B1-0, bst.Stream('makeup', Water=1)), outs='mixed')
+    M1 = bst.Mixer('M1', ins=(B1-0, bst.Stream('makeup', Water=1)),
+                   outs='mixed')
     system = bst.System.from_units('unmapped_sys', [B1, M1])
     system.simulate()
     xml = system.to_dexpi()
@@ -368,7 +394,8 @@ def test_unmapped_unit_class_round_trips_through_generic_step(monkeypatch):
     assert isinstance(B1_copy, dexpi.GenericProcessStep)
     assert B1_copy.outs[0].sink is M1_copy
     copy.simulate()
-    assert_allclose(copy.flowsheet.stream.mixed.mol, system.flowsheet.stream.mixed.mol)
+    assert_allclose(copy.flowsheet.stream.mixed.mol,
+                    system.flowsheet.stream.mixed.mol)
 
     # A registry can provide the class explicitly
     registry = dexpi.default_registry.copy()
@@ -388,8 +415,9 @@ def third_party_document():
 
 def test_import_of_third_party_document():
     bst.main_flowsheet.set_flowsheet('dexpi_third_party_main')
-    system = dexpi.from_dexpi(third_party_document(), flowsheet='dexpi_third_party',
-                              resolver=bst.interop.chemicals.default_resolver())
+    system = dexpi.from_dexpi(
+        third_party_document(), flowsheet='dexpi_third_party',
+        resolver=bst.interop.chemicals.default_resolver())
     pump, screen = system.units
     assert system.ID == 'plant'
     # Mapped by DEXPI class, parameterized from standard attributes
@@ -411,8 +439,10 @@ def test_import_of_third_party_document():
     assert screen.outs[0].P == pytest.approx(4e5)
 
     # Exporting again restores the original class and attributes
-    steps = {i.get('Identifier'): i for i in
-             xmlio.loads(system.to_dexpi()).process_model.children('ProcessSteps')}
+    steps = {
+        i.get('Identifier'): i for i in
+        xmlio.loads(system.to_dexpi()).process_model.children('ProcessSteps')
+    }
     assert steps['S-102'].class_name == 'Sieving'
     assert steps['P-101'].class_name == 'Pumping'
 
@@ -423,8 +453,9 @@ def test_step_that_cannot_be_modeled_falls_back_to_generic_step():
         'Process/Process.Pumping', 'Process/Process.Cooling')
     bst.main_flowsheet.set_flowsheet('dexpi_fallback_main')
     with pytest.warns(dexpi.DexpiWarning, match='generic process step'):
-        system = dexpi.from_dexpi(text, flowsheet='dexpi_fallback',
-                                  resolver=bst.interop.chemicals.default_resolver())
+        system = dexpi.from_dexpi(
+            text, flowsheet='dexpi_fallback',
+            resolver=bst.interop.chemicals.default_resolver())
     assert [type(i) for i in system.units] == [dexpi.GenericProcessStep] * 2
     assert system.units[0].dexpi_class == 'Cooling'
 
@@ -451,10 +482,12 @@ def test_biosteam_import_does_not_load_interop_or_optional_packages():
         "('pydexpi', 'pyenzyme') or i.startswith('biosteam.interop')]\n"
         "assert not loaded, loaded\n"
         "from biosteam.interop import dexpi, enzymeml\n"
-        "loaded = [i for i in sys.modules if i.split('.')[0] in ('pydexpi', 'pyenzyme')]\n"
+        "loaded = [i for i in sys.modules "
+        "if i.split('.')[0] in ('pydexpi', 'pyenzyme')]\n"
         "assert not loaded, loaded\n"
     )
-    result = subprocess.run([sys.executable, '-c', code], capture_output=True, text=True)
+    result = subprocess.run([sys.executable, '-c', code],
+                            capture_output=True, text=True)
     assert result.returncode == 0, result.stderr
 
 
@@ -471,7 +504,8 @@ def test_export_loads_in_pydexpi_strict_mode(system):
     assert type(steps['R1']).__name__ == 'ReactingChemicals'
     assert type(steps['P1']).__name__ == 'Pumping'
     assert len(process.processConnections) == len(system.streams)
-    feed = next(i for i in process.processConnections if i.identifier == 'feed')
+    feed = next(
+        i for i in process.processConnections if i.identifier == 'feed')
     assert feed.temperature[0].value.value == pytest.approx(298.15)
     assert len(feed.materialTemplateReference.listOfComponents.component) == 4
 
@@ -482,7 +516,8 @@ def test_document_written_by_pydexpi_is_imported(tmp_path):
     from pydexpi.pydexpi_classes import pydexpi_classes as d
 
     def quantity(value, unit):
-        return [d.QualifiedValue(value=d.PhysicalQuantity(value=value, unit=unit))]
+        return [d.QualifiedValue(
+            value=d.PhysicalQuantity(value=value, unit=unit))]
 
     water = d.PureMaterialComponent(identifier='Water', label='water')
     components = d.ListOfMaterialComponents(component=[water])
@@ -500,7 +535,8 @@ def test_document_written_by_pydexpi_is_imported(tmp_path):
 
     def stream(identifier, **kwargs):
         return d.Stream.model_construct(
-            identifier=identifier, materialTemplateReference=template, **kwargs)
+            identifier=identifier, materialTemplateReference=template,
+            **kwargs)
 
     def port(identifier, direction, connection):
         port = d.MaterialPort.model_construct(
@@ -518,7 +554,8 @@ def test_document_written_by_pydexpi_is_imported(tmp_path):
     IN, OUT = d.PortDirection.INLET, d.PortDirection.OUTLET
     steps = [
         d.Source(identifier='source', ports=[port('out0', OUT, inlet)]),
-        d.Pumping(identifier='P1', ports=[port('in0', IN, inlet), port('out0', OUT, outlet)],
+        d.Pumping(identifier='P1',
+                  ports=[port('in0', IN, inlet), port('out0', OUT, outlet)],
                   pressure=quantity(3., d.PressureAbsoluteUnit.BAR)),
         d.Sink(identifier='sink', ports=[port('in0', IN, outlet)]),
     ]
@@ -530,9 +567,10 @@ def test_document_written_by_pydexpi_is_imported(tmp_path):
                               tmp_path, 'pydexpi_model')
 
     bst.main_flowsheet.set_flowsheet('dexpi_from_pydexpi_main')
-    system = dexpi.from_dexpi(tmp_path / 'pydexpi_model.xml',
-                              flowsheet='dexpi_from_pydexpi',
-                              resolver=bst.interop.chemicals.default_resolver())
+    system = dexpi.from_dexpi(
+        tmp_path / 'pydexpi_model.xml',
+        flowsheet='dexpi_from_pydexpi',
+        resolver=bst.interop.chemicals.default_resolver())
     pump, = system.units
     assert type(pump) is bst.Pump and pump.P == pytest.approx(3e5)
     assert pump.ins[0].imol['Water'] == pytest.approx(1800.)
