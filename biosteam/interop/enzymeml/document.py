@@ -374,7 +374,8 @@ class EnzymeMLDocument:
     def to_reaction(self, reaction_id: Optional[str] = None, *,
                     residence_time: Optional[float] = None,
                     reactant: Optional[str] = None,
-                    chemicals=None):
+                    chemicals=None,
+                    flow_pattern: str = 'mixed'):
         """
         Return a reaction of the document as a kinetic
         :class:`thermosteam.Reaction` for continuous stirred tank reactors.
@@ -392,16 +393,21 @@ class EnzymeMLDocument:
         chemicals : Chemicals, optional
             Chemicals of the reaction. Defaults to the active property
             package.
+        flow_pattern :
+            Flow pattern of the reactor: 'mixed' for an ideal stirred tank
+            or 'plug' for an ideal tubular reactor.
 
         """
         from .kinetics import create_reaction
         return create_reaction(
             self, reaction_id, residence_time=residence_time,
             reactant=reactant, chemicals=chemicals,
+            flow_pattern=flow_pattern,
         )
 
     def parameterize(self, reactor, reaction_id: Optional[str] = None, *,
-                     reactant: Optional[str] = None):
+                     reactant: Optional[str] = None,
+                     flow_pattern: Optional[str] = None):
         """
         Set the reaction of a stirred tank reactor from this document.
 
@@ -417,6 +423,11 @@ class EnzymeMLDocument:
             Id of the reaction. May be omitted if there is only one.
         reactant :
             Species id of the reactant that conversion refers to.
+        flow_pattern :
+            'mixed' (ideal stirred tank) or 'plug' (ideal tubular
+            reactor). Defaults to the `flow_pattern` attribute of the
+            reactor, which is set when a reactor is imported from DEXPI,
+            and otherwise to 'mixed'.
 
         Returns
         -------
@@ -424,8 +435,11 @@ class EnzymeMLDocument:
             The reaction assigned to the reactor.
 
         """
+        if flow_pattern is None:
+            flow_pattern = getattr(reactor, 'flow_pattern', None) or 'mixed'
         reaction = self.to_reaction(
             reaction_id, reactant=reactant, chemicals=reactor.chemicals,
+            flow_pattern=flow_pattern,
         )
         reaction.rate.bind(reactor)
         reactor.reactions = reaction

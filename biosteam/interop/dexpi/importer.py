@@ -429,7 +429,7 @@ class _Import:
                     DexpiWarning, stacklevel=4,
                 )
             else:
-                codec.finalize(unit)
+                codec.finalize(unit, step)
                 if isinstance(unit, GenericProcessStep):
                     unit.dexpi_class = step.class_name
                     unit.dexpi_step = step

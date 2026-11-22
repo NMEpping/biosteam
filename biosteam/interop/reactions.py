@@ -48,6 +48,8 @@ _REACTION_SETS = {
 _rate_loaders: dict[str, Any] = {
     'SteadyStateCSTRRate':
         'biosteam.interop.enzymeml.kinetics:SteadyStateCSTRRate.from_dict',
+    'PlugFlowRate':
+        'biosteam.interop.enzymeml.kinetics:PlugFlowRate.from_dict',
 }
 
 

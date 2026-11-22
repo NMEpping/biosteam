@@ -164,8 +164,11 @@ class UnitCodec:
         """
         return {}
 
-    def finalize(self, unit: Unit) -> None:
-        """Complete a unit after it has been created by the importer."""
+    def finalize(self, unit: Unit, step: Optional[DexpiObject] = None) -> None:
+        """
+        Complete a unit after it has been created by the importer from
+        the process step `step`.
+        """
 
 
 @dataclass(frozen=True)

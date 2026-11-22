@@ -56,12 +56,22 @@ class ReactorCodec(UnitCodec):
     #: Residence time assumed when a document does not define one [hr].
     default_residence_time = 1.
 
+    #: Flow pattern assumed for each DEXPI reaction process type.
+    flow_patterns = {
+        'Tank': 'mixed',
+        'Tubular': 'plug',
+        'PackedBed': 'plug',
+    }
+
     def step_data(self, unit):
-        return {'Method': process_enumeration('ReactionProcessType', 'Tank')}
+        plug_flow = getattr(unit, 'flow_pattern', None) == 'plug'
+        method = 'Tubular' if plug_flow else 'Tank'
+        return {'Method': process_enumeration('ReactionProcessType', method)}
 
     def step_quantities(self, unit):
         step_quantities = super().step_quantities(unit)
-        volume = unit.design_results.get('Reactor volume')
+        volume = (unit.design_results.get('Reactor volume')
+                  or getattr(unit, 'dexpi_volume', None))
         if volume:
             step_quantities['Volume'] = (float(volume), 'volume')
         return step_quantities
@@ -78,13 +88,21 @@ class ReactorCodec(UnitCodec):
             'tau': self.default_residence_time,
         }
 
-    def finalize(self, unit):
+    def finalize(self, unit, step=None):
         # Kinetic rates depend on the reactor volume; let them read the
         # residence time of the reactor they belong to.
         for rate in iter_rates(getattr(unit, 'reactions', None)):
             bind = getattr(rate, 'bind', None)
             if callable(bind):
                 bind(unit)
+        if step is None:
+            return
+        # Keep what the document says about the reactor but BioSTEAM has
+        # no parameter for: the flow pattern, which selects the kinetic
+        # model, and the reactor volume.
+        method = getattr(step.get('Method'), 'literal', None)
+        unit.flow_pattern = self.flow_patterns.get(method, 'mixed')
+        unit.dexpi_volume = quantities.first(step, 'Volume', 'volume')
 
 
 class SplitterCodec(UnitCodec):

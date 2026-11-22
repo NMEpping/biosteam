@@ -14,13 +14,19 @@ from __future__ import annotations
 from typing import Any, Mapping, Optional
 
 import thermosteam as tmo
+from scipy.integrate import solve_ivp
 from scipy.optimize import brentq
 
 from ..chemicals import ChemicalIdentity, default_resolver
 from .document import EnzymeMLDocument, EnzymeMLError
 from .ratelaw import RateLaw
 
-__all__ = ('SteadyStateCSTRRate', 'create_chemicals', 'create_reaction')
+__all__ = (
+    'PlugFlowRate',
+    'SteadyStateCSTRRate',
+    'create_chemicals',
+    'create_reaction',
+)
 
 _WATER = ChemicalIdentity('Water', CAS='7732-18-5', name='water')
 
@@ -175,7 +181,6 @@ class SteadyStateCSTRRate:
         flow = stream.F_vol  # m3/hr
         if flow <= 0. or tau <= 0.:
             return 0.
-        volume = tau * flow
         IDs = set(self.species.values()) | set(self.stoichiometry)
         imol = stream.imol
         feed = {ID: float(imol[ID]) for ID in IDs}
@@ -184,34 +189,40 @@ class SteadyStateCSTRRate:
             ID: nu / reactant_number for ID, nu in self.stoichiometry.items()
         }
 
-        def concentrations(extent):
-            return {
+        def rate(extent):
+            """Rate [kmol/m3/hr] after converting `extent` [kmol/hr]."""
+            return self.volumetric_rate({
                 ID: max(feed[ID] + changes.get(ID, 0.) * extent, 0.) / flow
                 for ID in IDs
-            }
-
-        def residual(extent):
-            return (
-                self.volumetric_rate(concentrations(extent)) * volume - extent
-            )
+            })
 
         forward_limit = min(
             feed[ID] / -change for ID, change in changes.items() if change < 0.
         )
         reverse_limit = -min(
-            (feed[ID] / change
-             for ID, change in changes.items() if change > 0.),
+            (feed[ID] / change for ID, change in changes.items()
+             if change > 0.),
             default=0.,
         )
+        return self._solve(rate, tau, flow, reverse_limit, forward_limit)
+
+    def _solve(self, rate, tau, flow, lower_limit, upper_limit) -> float:
+        """Return the conversion [kmol/hr] for a rate as a function of
+        conversion, within the limits set by the feed."""
+        volume = tau * flow
+
+        def residual(extent):
+            return rate(extent) * volume - extent
+
         at_feed = residual(0.)
         if at_feed > 0.:
-            lower, upper = 0., forward_limit
+            lower, upper = 0., upper_limit
             if upper <= 0.:
                 return 0.
             if residual(upper) >= 0.:
                 return upper  # Reaction is limited by the reactants
         elif at_feed < 0.:
-            lower, upper = reverse_limit, 0.
+            lower, upper = lower_limit, 0.
             if lower >= 0.:
                 return 0.
             if residual(lower) <= 0.:
@@ -260,6 +271,71 @@ class SteadyStateCSTRRate:
         return f"{type(self).__name__}({self.rate_law.equation!r})"
 
 
+class PlugFlowRate(SteadyStateCSTRRate):
+    """
+    The rate of a kinetically controlled reaction in an ideal plug-flow
+    (tubular) reactor at steady state.
+
+    The conversion :math:`\\xi` [kmol/hr] follows from integrating the
+    rate along the reactor,
+
+    .. math:: \\frac{d\\xi}{dt} = r(C(\\xi)) \\cdot Q, \\qquad \\xi(0) = 0,
+
+    up to the residence time :math:`\\tau`, with concentrations
+    :math:`C_i = (F_i + \\nu_i \\xi) / Q`. The volumetric flow :math:`Q`
+    is assumed not to change by reaction. Parameters are those of
+    :class:`SteadyStateCSTRRate`.
+
+    Examples
+    --------
+    A first-order reaction A -> B with k = 2 1/hr converts
+    1 - exp(-k*tau) = 63.2% of A at a residence time of 0.5 hr:
+
+    >>> import biosteam as bst
+    >>> from biosteam.interop.enzymeml import PlugFlowRate
+    >>> bst.main_flowsheet.set_flowsheet('plug_flow_rate_example')
+    >>> bst.settings.set_thermo(['Water', 'Ethanol', 'Propanol'], cache=True)
+    >>> rate = PlugFlowRate(
+    ...     'k * A', {'k': 2.}, species={'A': 'Ethanol'},
+    ...     stoichiometry={'Ethanol': -1, 'Propanol': 1},
+    ...     reactant='Ethanol', residence_time=0.5)
+    >>> feed = bst.Stream('feed', Water=100, Ethanol=1)
+    >>> round(rate(feed), 6)
+    0.632121
+
+    """
+
+    type_name = 'PlugFlowRate'
+
+    def _solve(self, rate, tau, flow, lower_limit, upper_limit) -> float:
+        at_feed = rate(0.)
+        limit = upper_limit if at_feed > 0. else lower_limit
+        if at_feed == 0. or limit == 0.:
+            return 0.
+
+        # Integrate the fraction of the limiting conversion, which is of
+        # order one whatever the scale of the flows.
+        def derivative(time, fraction):
+            return [rate(fraction[0] * limit) * flow / limit]
+
+        solution = solve_ivp(
+            derivative, (0., tau), [0.], method='LSODA',
+            rtol=1e-10, atol=1e-13,
+        )
+        if not solution.success:
+            raise RuntimeError(
+                f"integration of the rate law failed: {solution.message}"
+            )
+        return min(max(solution.y[0, -1], 0.), 1.) * limit
+
+
+#: Rate classes by flow pattern of the reactor.
+RATE_CLASSES = {
+    'mixed': SteadyStateCSTRRate,
+    'plug': PlugFlowRate,
+}
+
+
 def create_chemicals(document: EnzymeMLDocument, resolver=None, *,
                      chemicals=None, properties=None, online=False,
                      extra=()) -> tmo.Chemicals:
@@ -272,8 +348,13 @@ def create_chemicals(document: EnzymeMLDocument, resolver=None, *,
         resolver = default_resolver(
             chemicals=chemicals, properties=properties, online=online,
         )
-    identities = document.chemical_identities()
-    IDs = {i.ID for i in identities}
+    identities, IDs = [], set()
+    for identity in document.chemical_identities():
+        # Species that share a chemical ID (e.g. the same compound in
+        # several vessels) are one chemical.
+        if identity.ID not in IDs:
+            identities.append(identity)
+            IDs.add(identity.ID)
     if 'Water' not in IDs and not any(i.CAS == _WATER.CAS for i in identities):
         identities.insert(0, _WATER)
         IDs.add('Water')
@@ -288,12 +369,20 @@ def create_reaction(document: EnzymeMLDocument,
                     reaction_id: Optional[str] = None, *,
                     residence_time: Optional[float] = None,
                     reactant: Optional[str] = None,
-                    chemicals: Optional[tmo.Chemicals] = None) -> tmo.Reaction:
+                    chemicals: Optional[tmo.Chemicals] = None,
+                    flow_pattern: str = 'mixed') -> tmo.Reaction:
     """
     Return a reaction of a document as a kinetic reaction for CSTRs.
 
     See :meth:`EnzymeMLDocument.to_reaction`.
     """
+    try:
+        rate_class = RATE_CLASSES[flow_pattern]
+    except KeyError:
+        raise ValueError(
+            f"flow_pattern must be one of {sorted(RATE_CLASSES)}, "
+            f"not {flow_pattern!r}"
+        ) from None
     reaction = document.get_reaction(reaction_id)
     if not reaction.reactants:
         raise EnzymeMLError(f"reaction '{reaction.id}' has no reactants")
@@ -349,7 +438,7 @@ def create_reaction(document: EnzymeMLDocument,
         source['temperature'] = document.temperature
     if document.pH is not None:
         source['pH'] = document.pH
-    rate = SteadyStateCSTRRate(
+    rate = rate_class(
         rate_law, parameters, species, stoichiometry,
         reactant=chemical_ID(reactant),
         residence_time=residence_time, source=source,

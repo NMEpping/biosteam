@@ -21,6 +21,8 @@ archives are read with the optional `pyenzyme` package.
    :members:
 .. autoclass:: biosteam.interop.enzymeml.SteadyStateCSTRRate
    :members:
+.. autoclass:: biosteam.interop.enzymeml.PlugFlowRate
+   :members:
 .. autoclass:: biosteam.interop.enzymeml.RateLaw
    :members:
 
@@ -35,7 +37,12 @@ from .document import (
     Species,
     read,
 )
-from .kinetics import SteadyStateCSTRRate, create_chemicals, create_reaction
+from .kinetics import (
+    PlugFlowRate,
+    SteadyStateCSTRRate,
+    create_chemicals,
+    create_reaction,
+)
 from .ratelaw import RateLaw, RateLawError
 from .units import UnitError, conversion_factor
 
@@ -43,6 +50,7 @@ __all__ = (
     'EnzymeMLDocument',
     'EnzymeMLError',
     'Parameter',
+    'PlugFlowRate',
     'RateLaw',
     'RateLawError',
     'Reaction',

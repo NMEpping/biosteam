@@ -7,9 +7,8 @@ Each figure is a standalone TikZ document that compiles to a vector PDF:
 | File | Content |
 |---|---|
 | `fig_workflow.pdf` | Data flow and FAIR aspects (also suitable as graphical abstract) |
-| `fig_layers.pdf` | Ontology vs. data model vs. exchange format |
-| `fig_ladder.pdf` | Machine-readable, -interpretable, -actionable |
-| `fig_routes.pdf` | Cross-discipline knowledge graph vs. executable workflow; comparison with Behr et al. (2024) |
+| `fig_routes_levels.pdf` | (a) Ontology-based and format-based route across the levels ontology, data model and exchange format; (b) machine-readable, -interpretable, -actionable |
+| `fig_laccase.pdf` | Use case 2; written by `supplementary/use_case_2_laccase/run.py` (matplotlib, same fonts and colours) |
 
 Design (`tuhhstyle.tex`): TUHH colour palette; Latin Modern as in the
 manuscript; highlights bold at caption size (10 pt), longer text regular

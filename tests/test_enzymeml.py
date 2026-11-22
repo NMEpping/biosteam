@@ -382,3 +382,67 @@ def test_rate_serialization_round_trip(michaelis_menten):
     stream.imol['Ethanol'] = 0.01
     stream.imol['Enzyme'] = 1e-7
     assert copy.rate(stream) == reaction.rate(stream) > 0.
+
+
+def test_plug_flow_rate_matches_analytical_solution(michaelis_menten):
+    document = michaelis_menten
+    tau = 0.5  # hr
+    feed = bst.Stream('feed', Water=1000., units='kg/hr')
+    feed.imol['Ethanol'] = 0.01
+    feed.imol['Enzyme'] = 1e-7
+    reactor = bst.SinglePhaseReactor('R1', ins=feed, tau=tau, T=298.15,
+                                     P=101325)
+    reaction = document.parameterize(reactor, flow_pattern='plug')
+    assert isinstance(reaction.rate, enzymeml.PlugFlowRate)
+    reactor.run()
+
+    # Integrated Michaelis-Menten equation for plug flow:
+    # K_M ln(S0 / S) + S0 - S = vmax tau
+    flow = feed.F_vol
+    S0 = 0.01 / flow
+    vmax = 10. * 3600. * (1e-7 / flow)
+    K_M = 2e-3
+    S = reactor.outs[0].imol['Ethanol'] / flow
+    assert_allclose(K_M * math.log(S0 / S) + S0 - S, vmax * tau, rtol=1e-8)
+
+    # Plug flow converts more than a stirred tank of the same size
+    plug_flow = reactor.outs[0].imol['Ethanol']
+    document.parameterize(reactor, flow_pattern='mixed')
+    reactor.run()
+    assert reactor.outs[0].imol['Ethanol'] > plug_flow
+
+    # The flow pattern of the reactor is the default
+    reactor.flow_pattern = 'plug'
+    assert isinstance(document.parameterize(reactor).rate,
+                      enzymeml.PlugFlowRate)
+    with pytest.raises(ValueError, match='flow_pattern must be one of'):
+        document.to_reaction(flow_pattern='laminar')
+
+
+def test_plug_flow_rate_limits_and_serialization(michaelis_menten):
+    reaction = michaelis_menten.to_reaction(residence_time=1.,
+                                            flow_pattern='plug')
+    stream = bst.Stream(None, Water=1000., units='kg/hr')
+    assert reaction.rate(stream) == 0.  # No substrate
+    stream.imol['Ethanol'] = 0.01
+    stream.imol['Enzyme'] = 1.  # Vast excess of enzyme
+    assert reaction.rate(stream) == pytest.approx(0.01, rel=1e-6)
+    stream.imol['Enzyme'] = 1e-7
+    data = bst.interop.reactions.reaction_to_dict(reaction)
+    assert data['rate']['type'] == 'PlugFlowRate'
+    copy = bst.interop.reactions.reaction_from_dict(
+        data, bst.settings.chemicals)
+    assert isinstance(copy.rate, enzymeml.PlugFlowRate)
+    assert copy.rate(stream) == reaction.rate(stream) > 0.
+
+
+def test_species_sharing_a_chemical_are_one_chemical():
+    data = michaelis_menten_document()
+    data['small_molecules'].append({'id': 's2', 'name': 'ethanol'})
+    document = enzymeml.read(data).with_chemical_IDs(
+        {'s0': 'Ethanol', 's2': 'Ethanol', 's1': 'Acetaldehyde',
+         'p0': 'Enzyme'})
+    with warnings.catch_warnings():
+        warnings.simplefilter('ignore')
+        chemicals = document.create_chemicals()
+    assert chemicals.IDs == ('Water', 'Ethanol', 'Acetaldehyde', 'Enzyme')

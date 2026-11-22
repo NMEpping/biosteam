@@ -1,0 +1,690 @@
+<?xml version='1.0' encoding='utf-8'?>
+<Model name="laccase_abts_flow_reactor" uri="https://doi.org/10.5281/zenodo.10613473">
+  <Import prefix="Core" source="https://data.dexpi.org/models/2.0.1/Core.xml" />
+  <Import prefix="Process" source="https://data.dexpi.org/models/2.0.1/Process.xml" />
+  <Object id="model" type="Core/EngineeringModel">
+    <Components property="ConceptualModel">
+      <Object id="process" type="Process/ProcessModel">
+        <Components property="MaterialComponents">
+          <Object id="component-Laccase" type="Process/Process.CustomMaterialComponent">
+            <Components property="PersistentIdentifiers">
+              <Object id="cas-Laccase" type="Core/PersistentIdentifier">
+                <Data property="Context">
+                  <String>CAS</String>
+                </Data>
+                <Data property="Value">
+                  <String>80498-15-3</String>
+                </Data>
+              </Object>
+            </Components>
+            <Data property="Identifier">
+              <String>Laccase</String>
+            </Data>
+            <Data property="Label">
+              <String>Laccase</String>
+            </Data>
+          </Object>
+          <Object id="component-ABTS_red" type="Process/Process.PureMaterialComponent">
+            <Components property="PersistentIdentifiers">
+              <Object id="cas-ABTS_red" type="Core/PersistentIdentifier">
+                <Data property="Context">
+                  <String>CAS</String>
+                </Data>
+                <Data property="Value">
+                  <String>28752-68-3</String>
+                </Data>
+              </Object>
+            </Components>
+            <Data property="Identifier">
+              <String>ABTS_red</String>
+            </Data>
+            <Data property="Label">
+              <String>ABTS_red</String>
+            </Data>
+          </Object>
+          <Object id="component-ABTS_ox" type="Process/Process.PureMaterialComponent">
+            <Components property="PersistentIdentifiers">
+              <Object id="cas-ABTS_ox" type="Core/PersistentIdentifier">
+                <Data property="Context">
+                  <String>CAS</String>
+                </Data>
+                <Data property="Value">
+                  <String>28752-68-3</String>
+                </Data>
+              </Object>
+            </Components>
+            <Data property="Identifier">
+              <String>ABTS_ox</String>
+            </Data>
+            <Data property="Label">
+              <String>ABTS_ox</String>
+            </Data>
+          </Object>
+          <Object id="component-Oxygen" type="Process/Process.PureMaterialComponent">
+            <Components property="PersistentIdentifiers">
+              <Object id="cas-Oxygen" type="Core/PersistentIdentifier">
+                <Data property="Context">
+                  <String>CAS</String>
+                </Data>
+                <Data property="Value">
+                  <String>7782-44-7</String>
+                </Data>
+              </Object>
+            </Components>
+            <Data property="Identifier">
+              <String>Oxygen</String>
+            </Data>
+            <Data property="Label">
+              <String>Oxygen</String>
+            </Data>
+          </Object>
+          <Object id="component-Water" type="Process/Process.PureMaterialComponent">
+            <Components property="PersistentIdentifiers">
+              <Object id="cas-Water" type="Core/PersistentIdentifier">
+                <Data property="Context">
+                  <String>CAS</String>
+                </Data>
+                <Data property="Value">
+                  <String>7732-18-5</String>
+                </Data>
+              </Object>
+            </Components>
+            <Data property="Identifier">
+              <String>Water</String>
+            </Data>
+            <Data property="Label">
+              <String>Water</String>
+            </Data>
+          </Object>
+        </Components>
+        <Components property="ListsOfMaterialComponents">
+          <Object id="components" type="Process/Process.ListOfMaterialComponents">
+            <References objects="#component-Laccase #component-ABTS_red #component-ABTS_ox #component-Oxygen #component-Water" property="Component" />
+          </Object>
+        </Components>
+        <Components property="MaterialTemplates">
+          <Object id="material" type="Process/Process.MaterialTemplate">
+            <References objects="#components" property="ListOfComponents" />
+            <Data property="Description">
+              <AggregatedDataValue type="Core/DataTypes.MultiLanguageString">
+                <Data property="SingleLanguageStrings">
+                  <AggregatedDataValue type="Core/DataTypes.SingleLanguageString">
+                    <Data property="Value">
+                      <String>Gas-liquid reaction mixture</String>
+                    </Data>
+                  </AggregatedDataValue>
+                </Data>
+              </AggregatedDataValue>
+            </Data>
+            <Data property="Identifier">
+              <String>mixture</String>
+            </Data>
+            <Data property="Label">
+              <String>mixture</String>
+            </Data>
+            <Data property="NumberOfMaterialComponents">
+              <Integer>5</Integer>
+            </Data>
+            <Data property="NumberOfPhases">
+              <Integer>2</Integer>
+            </Data>
+            <Data property="PhaseLabel">
+              <String>l</String>
+              <String>g</String>
+            </Data>
+          </Object>
+        </Components>
+        <Components property="ProcessConnections">
+          <Object id="stream-Reactant_1" type="Process/Process.Stream">
+            <Components property="Temperature">
+              <Object id="Reactant_1-temperature" type="Core/QualifiedValue">
+                <Data property="Value">
+                  <AggregatedDataValue type="Core/PhysicalQuantities.PhysicalQuantity">
+                    <Data property="Unit">
+                      <DataReference data="Core/PhysicalQuantities.TemperatureUnit.DegreeCelsius" />
+                    </Data>
+                    <Data property="Value">
+                      <Double>38.0</Double>
+                    </Data>
+                  </AggregatedDataValue>
+                </Data>
+              </Object>
+            </Components>
+            <Components property="Pressure">
+              <Object id="Reactant_1-pressure" type="Core/QualifiedValue">
+                <Data property="Value">
+                  <AggregatedDataValue type="Core/PhysicalQuantities.PhysicalQuantity">
+                    <Data property="Unit">
+                      <DataReference data="Core/PhysicalQuantities.PressureAbsoluteUnit.Pascal" />
+                    </Data>
+                    <Data property="Value">
+                      <Double>101325.0</Double>
+                    </Data>
+                  </AggregatedDataValue>
+                </Data>
+              </Object>
+            </Components>
+            <Components property="VolumeFlow">
+              <Object id="Reactant_1-volumeflow" type="Core/QualifiedValue">
+                <Data property="Value">
+                  <AggregatedDataValue type="Core/PhysicalQuantities.PhysicalQuantity">
+                    <Data property="Unit">
+                      <DataReference data="Core/PhysicalQuantities.VolumeFlowRateUnit.MetreCubedPerSecond" />
+                    </Data>
+                    <Data property="Value">
+                      <Double>8.33333333333333e-08</Double>
+                    </Data>
+                  </AggregatedDataValue>
+                </Data>
+              </Object>
+            </Components>
+            <References objects="#material" property="MaterialTemplateReference" />
+            <References objects="#Reactant_1-state" property="MaterialStateReference" />
+            <References objects="#source_Reactant_1-out0" property="Source" />
+            <References objects="#Mixer-in0" property="Target" />
+            <Data property="Identifier">
+              <String>Reactant_1</String>
+            </Data>
+            <Data property="Label">
+              <String>Reactant_1</String>
+            </Data>
+          </Object>
+          <Object id="stream-Reactant_2" type="Process/Process.Stream">
+            <Components property="Temperature">
+              <Object id="Reactant_2-temperature" type="Core/QualifiedValue">
+                <Data property="Value">
+                  <AggregatedDataValue type="Core/PhysicalQuantities.PhysicalQuantity">
+                    <Data property="Unit">
+                      <DataReference data="Core/PhysicalQuantities.TemperatureUnit.DegreeCelsius" />
+                    </Data>
+                    <Data property="Value">
+                      <Double>38.0</Double>
+                    </Data>
+                  </AggregatedDataValue>
+                </Data>
+              </Object>
+            </Components>
+            <Components property="Pressure">
+              <Object id="Reactant_2-pressure" type="Core/QualifiedValue">
+                <Data property="Value">
+                  <AggregatedDataValue type="Core/PhysicalQuantities.PhysicalQuantity">
+                    <Data property="Unit">
+                      <DataReference data="Core/PhysicalQuantities.PressureAbsoluteUnit.Pascal" />
+                    </Data>
+                    <Data property="Value">
+                      <Double>101325.0</Double>
+                    </Data>
+                  </AggregatedDataValue>
+                </Data>
+              </Object>
+            </Components>
+            <Components property="VolumeFlow">
+              <Object id="Reactant_2-volumeflow" type="Core/QualifiedValue">
+                <Data property="Value">
+                  <AggregatedDataValue type="Core/PhysicalQuantities.PhysicalQuantity">
+                    <Data property="Unit">
+                      <DataReference data="Core/PhysicalQuantities.VolumeFlowRateUnit.MetreCubedPerSecond" />
+                    </Data>
+                    <Data property="Value">
+                      <Double>5e-08</Double>
+                    </Data>
+                  </AggregatedDataValue>
+                </Data>
+              </Object>
+            </Components>
+            <References objects="#material" property="MaterialTemplateReference" />
+            <References objects="#Reactant_2-state" property="MaterialStateReference" />
+            <References objects="#source_Reactant_2-out0" property="Source" />
+            <References objects="#Mixer-in1" property="Target" />
+            <Data property="Identifier">
+              <String>Reactant_2</String>
+            </Data>
+            <Data property="Label">
+              <String>Reactant_2</String>
+            </Data>
+          </Object>
+          <Object id="stream-Mixture" type="Process/Process.Stream">
+            <References objects="#material" property="MaterialTemplateReference" />
+            <References objects="#Mixer-out0" property="Source" />
+            <References objects="#Reactor-in0" property="Target" />
+            <Data property="Identifier">
+              <String>Mixture</String>
+            </Data>
+            <Data property="Label">
+              <String>Mixture</String>
+            </Data>
+          </Object>
+          <Object id="stream-Product_1" type="Process/Process.Stream">
+            <References objects="#material" property="MaterialTemplateReference" />
+            <References objects="#sink_Product_1-in0" property="Target" />
+            <References objects="#Reactor-out0" property="Source" />
+            <Data property="Identifier">
+              <String>Product_1</String>
+            </Data>
+            <Data property="Label">
+              <String>Product_1</String>
+            </Data>
+          </Object>
+        </Components>
+        <Components property="MaterialStates">
+          <Object id="Reactant_1-state" type="Process/Process.MaterialState">
+            <Components property="State">
+              <Object id="Reactant_1-total" type="Process/Process.MaterialStateType">
+                <Components property="Composition">
+                  <Object id="Reactant_1-composition" type="Process/Process.Composition">
+                    <Components property="MoleFlow">
+                      <Object id="Reactant_1-moleflow-0" type="Core/QualifiedValue">
+                        <Data property="Value">
+                          <AggregatedDataValue type="Core/PhysicalQuantities.PhysicalQuantity">
+                            <Data property="Unit">
+                              <DataReference data="Core/PhysicalQuantities.MoleFlowRateUnit.KilomolePerSecond" />
+                            </Data>
+                            <Data property="Value">
+                              <Double>9.666666666666671e-13</Double>
+                            </Data>
+                          </AggregatedDataValue>
+                        </Data>
+                      </Object>
+                      <Object id="Reactant_1-moleflow-1" type="Core/QualifiedValue">
+                        <Data property="Value">
+                          <AggregatedDataValue type="Core/PhysicalQuantities.PhysicalQuantity">
+                            <Data property="Unit">
+                              <DataReference data="Core/PhysicalQuantities.MoleFlowRateUnit.KilomolePerSecond" />
+                            </Data>
+                            <Data property="Value">
+                              <Double>8.08333333333333e-11</Double>
+                            </Data>
+                          </AggregatedDataValue>
+                        </Data>
+                      </Object>
+                      <Object id="Reactant_1-moleflow-2" type="Core/QualifiedValue">
+                        <Data property="Value">
+                          <AggregatedDataValue type="Core/PhysicalQuantities.PhysicalQuantity">
+                            <Data property="Unit">
+                              <DataReference data="Core/PhysicalQuantities.MoleFlowRateUnit.KilomolePerSecond" />
+                            </Data>
+                            <Data property="Value">
+                              <Double>0.0</Double>
+                            </Data>
+                          </AggregatedDataValue>
+                        </Data>
+                      </Object>
+                      <Object id="Reactant_1-moleflow-3" type="Core/QualifiedValue">
+                        <Data property="Value">
+                          <AggregatedDataValue type="Core/PhysicalQuantities.PhysicalQuantity">
+                            <Data property="Unit">
+                              <DataReference data="Core/PhysicalQuantities.MoleFlowRateUnit.KilomolePerSecond" />
+                            </Data>
+                            <Data property="Value">
+                              <Double>0.0</Double>
+                            </Data>
+                          </AggregatedDataValue>
+                        </Data>
+                      </Object>
+                      <Object id="Reactant_1-moleflow-4" type="Core/QualifiedValue">
+                        <Data property="Value">
+                          <AggregatedDataValue type="Core/PhysicalQuantities.PhysicalQuantity">
+                            <Data property="Unit">
+                              <DataReference data="Core/PhysicalQuantities.MoleFlowRateUnit.KilomolePerSecond" />
+                            </Data>
+                            <Data property="Value">
+                              <Double>4.624313262962963e-06</Double>
+                            </Data>
+                          </AggregatedDataValue>
+                        </Data>
+                      </Object>
+                    </Components>
+                    <Data property="Display">
+                      <DataReference data="Process/Enumerations.CompositionDisplay.AbsoluteValue" />
+                    </Data>
+                  </Object>
+                </Components>
+                <Data property="Description">
+                  <AggregatedDataValue type="Core/DataTypes.MultiLanguageString">
+                    <Data property="SingleLanguageStrings">
+                      <AggregatedDataValue type="Core/DataTypes.SingleLanguageString">
+                        <Data property="Value">
+                          <String>Total</String>
+                        </Data>
+                      </AggregatedDataValue>
+                    </Data>
+                  </AggregatedDataValue>
+                </Data>
+                <Data property="Identifier">
+                  <String>Reactant_1.total</String>
+                </Data>
+                <Data property="Label">
+                  <String>total</String>
+                </Data>
+              </Object>
+            </Components>
+            <Components property="Phases">
+              <Object id="Reactant_1-phase" type="Process/Process.MaterialStateType">
+                <Data property="Description">
+                  <AggregatedDataValue type="Core/DataTypes.MultiLanguageString">
+                    <Data property="SingleLanguageStrings">
+                      <AggregatedDataValue type="Core/DataTypes.SingleLanguageString">
+                        <Data property="Value">
+                          <String>Phase</String>
+                        </Data>
+                      </AggregatedDataValue>
+                    </Data>
+                  </AggregatedDataValue>
+                </Data>
+                <Data property="Identifier">
+                  <String>Reactant_1.l</String>
+                </Data>
+                <Data property="Label">
+                  <String>l</String>
+                </Data>
+              </Object>
+            </Components>
+            <Data property="Description">
+              <String>Composition of Reactant_1</String>
+            </Data>
+            <Data property="Identifier">
+              <String>Reactant_1.state</String>
+            </Data>
+            <Data property="Label">
+              <String>Reactant_1</String>
+            </Data>
+          </Object>
+          <Object id="Reactant_2-state" type="Process/Process.MaterialState">
+            <Components property="State">
+              <Object id="Reactant_2-total" type="Process/Process.MaterialStateType">
+                <Components property="Composition">
+                  <Object id="Reactant_2-composition" type="Process/Process.Composition">
+                    <Components property="MoleFlow">
+                      <Object id="Reactant_2-moleflow-0" type="Core/QualifiedValue">
+                        <Data property="Value">
+                          <AggregatedDataValue type="Core/PhysicalQuantities.PhysicalQuantity">
+                            <Data property="Unit">
+                              <DataReference data="Core/PhysicalQuantities.MoleFlowRateUnit.KilomolePerSecond" />
+                            </Data>
+                            <Data property="Value">
+                              <Double>0.0</Double>
+                            </Data>
+                          </AggregatedDataValue>
+                        </Data>
+                      </Object>
+                      <Object id="Reactant_2-moleflow-1" type="Core/QualifiedValue">
+                        <Data property="Value">
+                          <AggregatedDataValue type="Core/PhysicalQuantities.PhysicalQuantity">
+                            <Data property="Unit">
+                              <DataReference data="Core/PhysicalQuantities.MoleFlowRateUnit.KilomolePerSecond" />
+                            </Data>
+                            <Data property="Value">
+                              <Double>0.0</Double>
+                            </Data>
+                          </AggregatedDataValue>
+                        </Data>
+                      </Object>
+                      <Object id="Reactant_2-moleflow-2" type="Core/QualifiedValue">
+                        <Data property="Value">
+                          <AggregatedDataValue type="Core/PhysicalQuantities.PhysicalQuantity">
+                            <Data property="Unit">
+                              <DataReference data="Core/PhysicalQuantities.MoleFlowRateUnit.KilomolePerSecond" />
+                            </Data>
+                            <Data property="Value">
+                              <Double>0.0</Double>
+                            </Data>
+                          </AggregatedDataValue>
+                        </Data>
+                      </Object>
+                      <Object id="Reactant_2-moleflow-3" type="Core/QualifiedValue">
+                        <Data property="Value">
+                          <AggregatedDataValue type="Core/PhysicalQuantities.PhysicalQuantity">
+                            <Data property="Unit">
+                              <DataReference data="Core/PhysicalQuantities.MoleFlowRateUnit.KilomolePerSecond" />
+                            </Data>
+                            <Data property="Value">
+                              <Double>1.655e-10</Double>
+                            </Data>
+                          </AggregatedDataValue>
+                        </Data>
+                      </Object>
+                      <Object id="Reactant_2-moleflow-4" type="Core/QualifiedValue">
+                        <Data property="Value">
+                          <AggregatedDataValue type="Core/PhysicalQuantities.PhysicalQuantity">
+                            <Data property="Unit">
+                              <DataReference data="Core/PhysicalQuantities.MoleFlowRateUnit.KilomolePerSecond" />
+                            </Data>
+                            <Data property="Value">
+                              <Double>0.0</Double>
+                            </Data>
+                          </AggregatedDataValue>
+                        </Data>
+                      </Object>
+                    </Components>
+                    <Data property="Display">
+                      <DataReference data="Process/Enumerations.CompositionDisplay.AbsoluteValue" />
+                    </Data>
+                  </Object>
+                </Components>
+                <Data property="Description">
+                  <AggregatedDataValue type="Core/DataTypes.MultiLanguageString">
+                    <Data property="SingleLanguageStrings">
+                      <AggregatedDataValue type="Core/DataTypes.SingleLanguageString">
+                        <Data property="Value">
+                          <String>Total</String>
+                        </Data>
+                      </AggregatedDataValue>
+                    </Data>
+                  </AggregatedDataValue>
+                </Data>
+                <Data property="Identifier">
+                  <String>Reactant_2.total</String>
+                </Data>
+                <Data property="Label">
+                  <String>total</String>
+                </Data>
+              </Object>
+            </Components>
+            <Components property="Phases">
+              <Object id="Reactant_2-phase" type="Process/Process.MaterialStateType">
+                <Data property="Description">
+                  <AggregatedDataValue type="Core/DataTypes.MultiLanguageString">
+                    <Data property="SingleLanguageStrings">
+                      <AggregatedDataValue type="Core/DataTypes.SingleLanguageString">
+                        <Data property="Value">
+                          <String>Phase</String>
+                        </Data>
+                      </AggregatedDataValue>
+                    </Data>
+                  </AggregatedDataValue>
+                </Data>
+                <Data property="Identifier">
+                  <String>Reactant_2.g</String>
+                </Data>
+                <Data property="Label">
+                  <String>g</String>
+                </Data>
+              </Object>
+            </Components>
+            <Data property="Description">
+              <String>Composition of Reactant_2</String>
+            </Data>
+            <Data property="Identifier">
+              <String>Reactant_2.state</String>
+            </Data>
+            <Data property="Label">
+              <String>Reactant_2</String>
+            </Data>
+          </Object>
+        </Components>
+        <Components property="ProcessSteps">
+          <Object id="step-source_Reactant_1" type="Process/Process.Source">
+            <Components property="Ports">
+              <Object id="source_Reactant_1-out0" type="Process/Process.MaterialPort">
+                <References objects="#stream-Reactant_1" property="ConnectorReference" />
+                <Data property="Identifier">
+                  <String>out0</String>
+                </Data>
+                <Data property="NominalDirection">
+                  <DataReference data="Process/Enumerations.PortDirection.Outlet" />
+                </Data>
+              </Object>
+            </Components>
+            <Data property="Identifier">
+              <String>source_Reactant_1</String>
+            </Data>
+            <Data property="Label">
+              <String>Reactant_1</String>
+            </Data>
+          </Object>
+          <Object id="step-source_Reactant_2" type="Process/Process.Source">
+            <Components property="Ports">
+              <Object id="source_Reactant_2-out0" type="Process/Process.MaterialPort">
+                <References objects="#stream-Reactant_2" property="ConnectorReference" />
+                <Data property="Identifier">
+                  <String>out0</String>
+                </Data>
+                <Data property="NominalDirection">
+                  <DataReference data="Process/Enumerations.PortDirection.Outlet" />
+                </Data>
+              </Object>
+            </Components>
+            <Data property="Identifier">
+              <String>source_Reactant_2</String>
+            </Data>
+            <Data property="Label">
+              <String>Reactant_2</String>
+            </Data>
+          </Object>
+          <Object id="step-sink_Product_1" type="Process/Process.Sink">
+            <Components property="Ports">
+              <Object id="sink_Product_1-in0" type="Process/Process.MaterialPort">
+                <References objects="#stream-Product_1" property="ConnectorReference" />
+                <Data property="Identifier">
+                  <String>in0</String>
+                </Data>
+                <Data property="NominalDirection">
+                  <DataReference data="Process/Enumerations.PortDirection.Inlet" />
+                </Data>
+              </Object>
+            </Components>
+            <Data property="Identifier">
+              <String>sink_Product_1</String>
+            </Data>
+            <Data property="Label">
+              <String>Product_1</String>
+            </Data>
+          </Object>
+          <Object id="step-Mixer" type="Process/Process.MixingSimple">
+            <Components property="Ports">
+              <Object id="Mixer-in0" type="Process/Process.MaterialPort">
+                <References objects="#stream-Reactant_1" property="ConnectorReference" />
+                <Data property="Identifier">
+                  <String>in0</String>
+                </Data>
+                <Data property="NominalDirection">
+                  <DataReference data="Process/Enumerations.PortDirection.Inlet" />
+                </Data>
+              </Object>
+              <Object id="Mixer-in1" type="Process/Process.MaterialPort">
+                <References objects="#stream-Reactant_2" property="ConnectorReference" />
+                <Data property="Identifier">
+                  <String>in1</String>
+                </Data>
+                <Data property="NominalDirection">
+                  <DataReference data="Process/Enumerations.PortDirection.Inlet" />
+                </Data>
+              </Object>
+              <Object id="Mixer-out0" type="Process/Process.MaterialPort">
+                <References objects="#stream-Mixture" property="ConnectorReference" />
+                <Data property="Identifier">
+                  <String>out0</String>
+                </Data>
+                <Data property="NominalDirection">
+                  <DataReference data="Process/Enumerations.PortDirection.Outlet" />
+                </Data>
+              </Object>
+            </Components>
+            <Data property="Identifier">
+              <String>Mixer</String>
+            </Data>
+            <Data property="Label">
+              <String>Gas-liquid mixing</String>
+            </Data>
+          </Object>
+          <Object id="step-Reactor" type="Process/Process.ReactingChemicals">
+            <Components property="Ports">
+              <Object id="Reactor-in0" type="Process/Process.MaterialPort">
+                <References objects="#stream-Mixture" property="ConnectorReference" />
+                <Data property="Identifier">
+                  <String>in0</String>
+                </Data>
+                <Data property="NominalDirection">
+                  <DataReference data="Process/Enumerations.PortDirection.Inlet" />
+                </Data>
+              </Object>
+              <Object id="Reactor-out0" type="Process/Process.MaterialPort">
+                <References objects="#stream-Product_1" property="ConnectorReference" />
+                <Data property="Identifier">
+                  <String>out0</String>
+                </Data>
+                <Data property="NominalDirection">
+                  <DataReference data="Process/Enumerations.PortDirection.Outlet" />
+                </Data>
+              </Object>
+            </Components>
+            <Components property="Temperature">
+              <Object id="Reactor-temperature" type="Core/QualifiedValue">
+                <Data property="Value">
+                  <AggregatedDataValue type="Core/PhysicalQuantities.PhysicalQuantity">
+                    <Data property="Unit">
+                      <DataReference data="Core/PhysicalQuantities.TemperatureUnit.DegreeCelsius" />
+                    </Data>
+                    <Data property="Value">
+                      <Double>38.0</Double>
+                    </Data>
+                  </AggregatedDataValue>
+                </Data>
+              </Object>
+            </Components>
+            <Components property="Pressure">
+              <Object id="Reactor-pressure" type="Core/QualifiedValue">
+                <Data property="Value">
+                  <AggregatedDataValue type="Core/PhysicalQuantities.PhysicalQuantity">
+                    <Data property="Unit">
+                      <DataReference data="Core/PhysicalQuantities.PressureAbsoluteUnit.Pascal" />
+                    </Data>
+                    <Data property="Value">
+                      <Double>101325.0</Double>
+                    </Data>
+                  </AggregatedDataValue>
+                </Data>
+              </Object>
+            </Components>
+            <Components property="Volume">
+              <Object id="Reactor-volume" type="Core/QualifiedValue">
+                <Data property="Value">
+                  <AggregatedDataValue type="Core/PhysicalQuantities.PhysicalQuantity">
+                    <Data property="Unit">
+                      <DataReference data="Core/PhysicalQuantities.VolumeUnit.MetreCubed" />
+                    </Data>
+                    <Data property="Value">
+                      <Double>8e-06</Double>
+                    </Data>
+                  </AggregatedDataValue>
+                </Data>
+              </Object>
+            </Components>
+            <Data property="Identifier">
+              <String>Reactor</String>
+            </Data>
+            <Data property="Label">
+              <String>Capillary flow reactor</String>
+            </Data>
+            <Data property="Method">
+              <DataReference data="Process/Enumerations.ReactionProcessType.Tubular" />
+            </Data>
+          </Object>
+        </Components>
+      </Object>
+    </Components>
+    <Data property="OriginatingSystemName">
+      <String>Converted from the process spreadsheet of Behr et al. (2024)</String>
+    </Data>
+  </Object>
+</Model>
