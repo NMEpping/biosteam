@@ -1,0 +1,71 @@
+\documentclass[tikz,border=0pt]{standalone}
+\input{tuhhstyle}
+\begin{document}
+\begin{tikzpicture}
+\useasboundingbox (0,0) rectangle (390,292);
+
+% column headers (x: labels 0-92, columns 100-192, 199-291, 298-390)
+\node[anchor=south] at (146,268) {\logo{enzymeml}{11pt}{EnzymeML}};
+\node[anchor=south] at (245,268) {\logo{biosteam}{12pt}{BioSTEAM}};
+\node[anchor=south] at (344,268) {\logo{dexpi}{11pt}{DEXPI}};
+\node[anchor=north] at (146,267) {\tx{laboratory}};
+\node[anchor=north] at (245,267) {\tx{simulation}};
+\node[anchor=north] at (344,267) {\tx{process engineering}};
+
+% --- ontology row (spans all disciplines) ---------------------------------
+\fill[band, tuhhpurple] (0,176) rectangle (390,250);
+\node[lbl, text=white] at (6,244) {\hl{Ontology}};
+\node[lbl, text=white, text width=84pt] at (6,229)
+  {\tx{what a term means, independent of any tool or file}};
+\foreach \x/\t in {100/{ChEBI, SBO, EC, unit ontologies},
+                   199/{none of its own; reads identifiers},
+                   298/{ChEBI, IUPAC, step taxonomy, unit literals}}{
+  \fill[white, rounded corners=2pt] (\x,200) rectangle (\x+92,242);
+  \node[lbl, text width=82pt] at (\x+5,237) {\tx{\t}};
+}
+\node[anchor=center, text=white] at (245,188)
+  {\txi{one layer shared across disciplines}};
+
+% --- data model row --------------------------------------------------------
+\fill[band, tuhhmint!55] (0,88) rectangle (390,162);
+\node[lbl] at (6,156) {\hl{Data model}};
+\node[lbl, text width=84pt] at (6,141)
+  {\tx{which things exist and how they relate, for one purpose}};
+\foreach \x/\t in {100/{document, species, reaction, rate law, parameter},
+                   199/{System, Unit, Stream, Reaction},
+                   298/{process step, port, stream, material component}}{
+  \fill[white, rounded corners=2pt] (\x,96) rectangle (\x+92,154);
+  \node[lbl, text width=82pt] at (\x+5,149) {\tx{\t}};
+}
+
+% --- serialisation row -----------------------------------------------------
+\fill[band, tuhhturquoise!55] (0,0) rectangle (390,74);
+\node[lbl] at (6,68) {\hl{Exchange format}};
+\node[lbl, text width=84pt] at (6,53)
+  {\tx{how a data model is written to a file (serialisation)}};
+\foreach \x/\t in {100/{JSON-LD; OMEX archive with SBML},
+                   199/{Python objects in memory},
+                   298/{DEXPI XML}}{
+  \fill[white, rounded corners=2pt] (\x,8) rectangle (\x+92,66);
+  \node[lbl, text width=82pt] at (\x+5,61) {\tx{\t}};
+}
+
+% --- vertical relations ----------------------------------------------------
+\foreach \x in {146,344}{
+  \draw[flow] (\x,96) -- (\x,67);
+  \draw[line width=1pt, draw=ink] (\x,154) -- (\x,176);
+  \draw[flow, draw=white] (\x,176) -- (\x,199);
+}
+\node[tag] at (150,81) {\tx{serialised as}};
+\node[tag, anchor=east] at (340,81) {\tx{serialised as}};
+\node[tag] at (150,169) {\tx{@context maps fields}};
+\node[tag, anchor=east] at (340,169) {\tx{identifier attributes}};
+
+% --- adapters (this work) --------------------------------------------------
+\draw[flow, {Stealth[length=5pt,width=4.5pt]}-{Stealth[length=5pt,width=4.5pt]}]
+  (190,108) -- (201,108);
+\draw[flow, {Stealth[length=5pt,width=4.5pt]}-{Stealth[length=5pt,width=4.5pt]}]
+  (289,108) -- (300,108);
+\node[tag, anchor=center] at (245,108) {\tx{\textbf{adapters} (this work)}};
+\end{tikzpicture}
+\end{document}

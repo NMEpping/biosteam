@@ -9,6 +9,9 @@ process flowsheets between EnzymeML, DEXPI and BioSTEAM.*
 - Template: Elsevier `elsarticle` class with the `elsarticle-num`
   reference style (both part of TeX Live, package `texlive-publishers`).
 
+Figures are built separately; see `figures/README.md` (two logos still
+need to be added there).
+
 Build:
 
     pdflatex manuscript && bibtex manuscript && pdflatex manuscript && pdflatex manuscript

@@ -10,8 +10,6 @@
 \usepackage{booktabs}
 \usepackage{tabularx}
 \usepackage{graphicx}
-\usepackage{tikz}
-\usetikzlibrary{arrows.meta,positioning,fit}
 \usepackage{xurl}
 \usepackage{hyperref}
 
@@ -36,8 +34,8 @@ and process flowsheets between EnzymeML, DEXPI and BioSTEAM}
 \begin{abstract}
 Reusing laboratory kinetics in process simulation still means retyping
 numbers, because the data leave the laboratory and the flowsheet leaves the
-engineering tool in forms the simulator cannot read. Earlier work bridged
-this gap with a dedicated ontology and knowledge graph. We ask whether such
+engineering tool in forms the simulator cannot read. Behr et al.\ bridged
+this gap with a tailored ontology and a knowledge graph. We ask whether such
 an ontology is required, or whether widely used exchange formats suffice
 once they refer to maintained vocabularies. We connected an EnzymeML
 document and a DEXPI~2.0 process model to the open-source simulator BioSTEAM
@@ -45,23 +43,23 @@ using only the two formats and the identifiers they already carry. For the
 regeneration of NADH by formate dehydrogenase in a stirred tank, kinetics
 and flowsheet combined into a running simulation without manual
 transcription, and an export to DEXPI followed by re-import reproduced all
-stream results. Everything that was anchored to a shared identifier or an
-enumerated vocabulary transferred automatically; everything that was only
-named locally needed a convention or a human. We conclude that formats and
-ontologies are complementary: formats are what tools implement, ontologies
-are what make their content unambiguous, and the maintained mapping between
-the two is the scarce resource.
+stream results. Content anchored to a shared identifier or vocabulary was
+machine-actionable; content that was only named locally remained
+machine-readable at best. We distinguish ontologies, data models and
+exchange formats, and conclude that they are complementary: formats are
+what tools implement, ontologies make their content unambiguous, and the
+maintained mapping between the two serves both executable workflows within
+a discipline and knowledge graphs across disciplines.
 \end{abstract}
 
 \begin{highlights}
 \item EnzymeML kinetics and a DEXPI flowsheet run in BioSTEAM without
       transcription.
+\item The flowsheet enters as a standard process model, not as a
+      spreadsheet.
 \item A DEXPI export and re-import reproduces all simulated stream results.
-\item Content with shared identifiers transfers automatically; local names
-      do not.
-\item Exchange formats and ontologies are complementary, not alternatives.
-\item Maintained format-to-ontology mappings are the missing piece for
-      reuse.
+\item Shared identifiers make content actionable; local names do not.
+\item Mapped formats serve both executable workflows and knowledge graphs.
 \end{highlights}
 
 \begin{keyword}
@@ -80,32 +78,86 @@ process is drawn in an engineering tool, and the simulation is set up in a
 third program, usually by typing the first two into it.
 
 Behr et al.~\cite{behr2024} showed that this chain can be partly automated.
-They recorded enzyme kinetics with EnzymeML~\cite{lauterbach2023},
-represented them with concepts from ontologies in a knowledge graph, and
-generated a simulation in the open-source simulator DWSIM from that graph.
-Their work places the ontology at the centre of the data flow.
+They measured the laccase-catalysed oxidation of ABTS in capillary flow
+reactors, recorded the kinetics in EnzymeML~\cite{lauterbach2023}
+spreadsheets, and collected what EnzymeML does not cover (flow rates and
+reactor dimensions) in an additional spreadsheet. Both were loaded into a
+tailored ontology built from the Systems Biology Ontology and
+Metadata4Ing. From the resulting knowledge graph a flowsheet was generated
+in the simulator DWSIM, and the simulation results were written back to the
+graph. The authors conclude that a flexibly adaptive ontology is essential
+for FAIR data handling.
 
-This raises a practical question for anyone building such a pipeline. FAIR
-principle~I1 calls for a formal, shared and broadly applicable language,
-I2 for vocabularies that are themselves FAIR, and R1.3 for adherence to
-community standards~\cite{wilkinson2016}. An ontology answers I2; a
-community exchange format answers R1.3; and it is not obvious which of the
-two a pipeline should be built around. Ontologies give terms a meaning
-that does not depend on the tool that wrote them~\cite{guizzardi2020}, but
-few engineering tools read or write them. Exchange formats are implemented
-by many tools, but a format alone fixes structure, not meaning.
+This raises a practical question for anyone building such a pipeline. An
+ontology gives terms a meaning that does not depend on the tool that wrote
+them~\cite{guizzardi2020}, but few engineering tools read or write one. A
+community exchange format is implemented by many tools, but a format alone
+fixes structure, not meaning. It is not obvious which of the two a pipeline
+should be built around.
 
-Here we test the second route. We connect EnzymeML and the process part of
-DEXPI~2.0, which covers block and process flow
-diagrams~\cite{cameron2024}, to BioSTEAM~\cite{cortespena2020} using
+Here we test the second route (Fig.~\ref{fig:workflow}). We connect
+EnzymeML and the process part of DEXPI~2.0, which covers block and process
+flow diagrams~\cite{cameron2024}, to BioSTEAM~\cite{cortespena2020} using
 nothing but the two formats and the identifiers they contain, and we record
-where that was enough and where it was not.
+where that was enough and where it was not. Compared with the earlier work,
+the flowsheet now enters as a standard process model instead of a
+purpose-built spreadsheet, and the exchange runs in both directions.
+
+\begin{figure}[t]
+\centering
+\includegraphics{figures/fig_workflow.pdf}
+\caption{Data flow and FAIR aspects. Kinetics and flowsheet enter as
+community exchange formats; identifiers and vocabularies that both files
+refer to align their content. The simulated system is exported as DEXPI and
+can be imported again.}
+\label{fig:workflow}
+\end{figure}
+
+\section{Terms}
+
+Three things are often all called ``a standard'' and are worth keeping
+apart (Fig.~\ref{fig:layers}). An \emph{ontology} states what a term means,
+independent of any tool or file. A \emph{data model} states which things
+exist and how they relate for one purpose, such as describing an enzyme
+assay or a flowsheet. An \emph{exchange format} is a serialisation: the way
+a data model is written to a file. EnzymeML and DEXPI are each a data model
+with one or more serialisations; ChEBI~\cite{hastings2016} is an ontology.
+The ontology layer is the only one that can be shared across disciplines,
+because data models are built for a purpose and formats for a data model.
+
+\begin{figure}[t]
+\centering
+\includegraphics{figures/fig_layers.pdf}
+\caption{Ontology, data model and exchange format for the three systems
+used here. Data models refer upwards to ontology terms and are written
+downwards to files. The adapters of this work translate between data
+models.}
+\label{fig:layers}
+\end{figure}
+
+The layers correspond to what a machine can do with a file
+(Fig.~\ref{fig:ladder}). Data are \emph{machine-readable} when a program
+can parse them without a human, which a format and its schema provide. They
+are \emph{machine-interpretable} when the program knows what each item
+denotes, which requires the data model together with identifiers or
+vocabularies. They are \emph{machine-actionable} when the program can act
+on them without a human, here by running a simulation; this needs a tool
+that implements the model, and content that is complete.
+
+\begin{figure}[t]
+\centering
+\includegraphics{figures/fig_ladder.pdf}
+\caption{From machine-readable to machine-actionable data, with the layer
+that provides each level, the evidence from this work, and the FAIR
+principles each level relates to.}
+\label{fig:ladder}
+\end{figure}
 
 \section{Methods}
 
 \subsection{Implementation}
 
-We extended BioSTEAM with three modules (Fig.~\ref{fig:workflow}). The
+We extended BioSTEAM with three modules. The
 first reads and writes DEXPI~2.0 XML and translates between process steps
 and unit operations through a registry that follows the class hierarchy of
 the specification. The second reads EnzymeML version~2 JSON and turns a
@@ -137,33 +189,6 @@ EnzymeML document.
 DEXPI has no attributes for simulator-specific settings such as residence
 time or kinetics. On export we store them as JSON in standard DEXPI
 \texttt{Note} objects, so that the file remains valid for other tools.
-
-\begin{figure}[t]
-\centering
-\begin{tikzpicture}[
-    font=\small,
-    box/.style={draw, rounded corners=2pt, align=center, minimum height=10mm,
-                text width=30mm, inner sep=3pt},
-    anchorbox/.style={draw, dashed, rounded corners=2pt, align=center,
-                text width=30mm, inner sep=3pt},
-    arr/.style={-{Stealth[length=2mm]}, semithick},
-    node distance=9mm and 12mm]
-  \node[box] (eml) {EnzymeML\\{\footnotesize species, rate law, parameters}};
-  \node[box, below=of eml] (dexpi) {DEXPI 2.0\\{\footnotesize steps, ports, streams}};
-  \node[anchorbox, right=of eml] (ids) {Shared anchors\\{\footnotesize InChIKey, ChEBI, CAS, unit vocabularies, step classes}};
-  \node[box, below=of ids] (bst) {BioSTEAM\\{\footnotesize simulation, design, costing}};
-  \node[box, right=of bst] (out) {DEXPI 2.0\\{\footnotesize results and notes}};
-  \draw[arr] (eml) -- (ids);
-  \draw[arr] (dexpi) -- (bst);
-  \draw[arr] (ids) -- (bst);
-  \draw[arr] (bst) -- (out);
-  \draw[arr] (out.south) -- ++(0,-6mm) -| (dexpi.south);
-\end{tikzpicture}
-\caption{Data flow. Kinetics and flowsheet enter as community exchange
-formats; shared identifiers and vocabularies (dashed) align their content.
-The simulated system is exported as DEXPI and can be imported again.}
-\label{fig:workflow}
-\end{figure}
 
 \subsection{Reference case}
 
@@ -260,34 +285,55 @@ display that note but cannot interpret it.
 \subsection{Are ontologies the key?}
 
 Our pipeline contains no ontology file, no reasoner and no knowledge
-graph, and it reproduces the kind of transfer that motivated the
+graph, and it achieves the kind of transfer that motivated the
 ontology-centred approach~\cite{behr2024}. It would be wrong to conclude
 that ontologies are unnecessary. Every row of Table~\ref{tab:anchors}
-marked automatic rests on one: ChEBI is an ontology of chemical
-entities~\cite{hastings2016}, the process step classes of DEXPI form a
-taxonomy, and the unit literals are a controlled vocabulary. The formats
-succeeded where they point to such resources and failed where they do
-not. This is the role Guizzardi assigns to ontologies in FAIR: they are
-the contract about what a term means~\cite{guizzardi2020}.
+marked automatic rests on one: ChEBI is an ontology of chemical entities,
+the process step classes of DEXPI form a taxonomy, and the unit literals
+are a controlled vocabulary. In the terms of Fig.~\ref{fig:ladder}, the
+formats alone made the files machine-readable; the references to shared
+terms made them interpretable; and only where those references were
+complete did the content become actionable.
 
 What the experiment does show is that the ontology need not be the
 exchange medium. A tool developer implements a reader for a format that
 many other tools write. Systems biology took this path with
-SBML~\cite{hucka2003}, on which the first version of EnzymeML
-builds~\cite{lauterbach2023}. Both formats used here already provide the
-hooks. EnzymeML version~2 is serialised as JSON-LD, whose context maps its
-fields to terms of schema.org, OBO ontologies and unit ontologies. DEXPI
-gives pure components ChEBI and IUPAC identifiers and lets a value carry a
-reference-data URI. The semantic layer is thus present in the files; it is
+SBML~\cite{hucka2003}, on which the first version of EnzymeML builds. Both
+formats used here already provide the hooks. EnzymeML version~2 is
+serialised as JSON-LD, whose context maps its fields to terms of
+schema.org, OBO ontologies and unit ontologies. DEXPI gives pure
+components ChEBI and IUPAC identifiers and lets a value carry a
+reference-data URI. The semantic layer is present in the files; it is
 thin, and it is uneven.
 
-\subsection{Both, joined by maintained mappings}
+\subsection{Two goals, one set of files}
 
-We therefore answer the question in the title of this section with
-``both'', and add a condition. Formats that are widely implemented make
-data \emph{reach} the next tool. References to maintained ontologies make
-the data \emph{mean} the same thing there. What is missing in practice is
-the mapping between the two, kept current as both sides evolve.
+Interoperability is asked to serve two different goals
+(Fig.~\ref{fig:routes}). One is reuse across disciplines: data from
+different fields that use the same ontology can be combined in a knowledge
+graph, queried and compared. This is the strength of the approach of Behr
+et al., whose graph can be queried for experiments and simulations alike.
+The other is machine actionability within a discipline: a specific
+workflow, here from laboratory kinetics to a flowsheet simulation, runs
+without a human in the loop. This is what the present work adds, together
+with a route back into engineering tools.
+
+\begin{figure}[t]
+\centering
+\includegraphics{figures/fig_routes.pdf}
+\caption{Exchange formats whose fields are mapped to ontologies serve two
+goals: knowledge graphs for reuse across disciplines, and executable
+workflows within a discipline. Below, the approach of Behr et
+al.~\cite{behr2024} and this work side by side.}
+\label{fig:routes}
+\end{figure}
+
+The two goals do not need two kinds of data. A format-based file whose
+fields are mapped to ontology terms can be loaded into a simulator and
+lifted into a knowledge graph by a generic converter. We therefore answer
+the question of the previous section with ``both'', and add a condition:
+the mapping between format elements and ontology terms has to exist and
+be maintained as both sides evolve.
 
 The rows of Table~\ref{tab:anchors} that needed a convention or a human
 are a list of such missing mappings: no shared term links an EnzymeML
@@ -299,9 +345,6 @@ in~\cite{stroemert2022} contain suitable concepts. Publishing mappings
 from format elements to those concepts in a machine-readable form such as
 SSSOM~\cite{matentzoglu2022} would let each tool keep its simple reader
 while gaining the cross-domain meaning that a knowledge graph provides.
-In this view the knowledge graph of Behr et al.\ and the format-based
-route are two renderings of the same information, and a mapping makes
-them interchangeable.
 
 Reuse also has a non-semantic side. The FAIR principles for research
 software ask for clear licences and for software that can be built upon
@@ -309,26 +352,35 @@ software ask for clear licences and for software that can be built upon
 library carries a copyleft licence is a reminder that interoperability
 can fail on terms of use before it fails on terms of meaning.
 
-\subsection{Limitations}
+\subsection{Contribution and limitations}
 
-This is one reaction in one reactor with illustrative parameters. We did
-not score the result against formal FAIR metrics, and we did not test
-reasoning over an ontology, which is where the ontology-centred approach
-may show advantages our comparison cannot. The kinetics are isothermal,
-enzyme and cofactor properties are estimates that affect energy but not
-mass balances, and energy streams of DEXPI are not yet translated.
+Relative to the earlier work, three things are new: the flowsheet is
+exchanged as a DEXPI process model rather than a spreadsheet; the exchange
+is bidirectional and verified by a round trip; and the account in
+Table~\ref{tab:anchors} states which content was actionable because of a
+shared term and which was not.
+
+The limitations are equally clear. Behr et al.\ report experiments and a
+queryable knowledge graph; we report neither. Our case is one reaction in
+one reactor with illustrative parameters. We did not score the result
+against formal FAIR metrics, and we did not build the converter from
+mapped files to a knowledge graph that the argument above assumes. The
+kinetics are isothermal, enzyme and cofactor properties are estimates that
+affect energy but not mass balances, and energy streams of DEXPI are not
+yet translated.
 
 \section{Conclusions}
 
 Laboratory kinetics in EnzymeML and a flowsheet in DEXPI can be combined
 into a process simulation, and exchanged again, using the formats alone.
-Where the files refer to shared identifiers and vocabularies the transfer
-is automatic; where they use local names it depends on convention. Formats
-and ontologies are therefore not competing answers to FAIR
-interoperability. Community formats should remain the carrier, ontologies
-the reference, and the community's effort is best spent on maintained
-mappings between them, starting with the link between a kinetic model and
-the reactor it describes.
+Where the files refer to shared identifiers and vocabularies the content
+is machine-actionable; where they use local names it is not. Ontologies,
+data models and exchange formats are therefore not competing answers to
+FAIR interoperability. Community formats should remain the carrier,
+ontologies the reference, and effort is best spent on maintained mappings
+between them, starting with the link between a kinetic model and the
+reactor it describes. Such mappings would serve the executable workflow
+shown here and the cross-discipline knowledge graph alike.
 
 \section*{CRediT authorship contribution statement}
 %% TODO (authors): complete according to actual contributions.
