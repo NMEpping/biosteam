@@ -145,7 +145,10 @@ def main():
               f"40 s, {abs(model - data)[~early].mean():.3f} mM above")
 
     # Round trip through DEXPI
-    xml = system.to_dexpi()
+    path = os.path.join(HERE, 'laccase_abts_simulated.dexpi.xml')
+    system.to_dexpi(path)
+    with open(path, encoding='utf-8') as file:
+        xml = file.read()
     copy = bst.System.from_dexpi(xml, flowsheet='laccase_copy')
     copy.run()
     same = np.allclose(copy.flowsheet.stream.Product_1.mol,

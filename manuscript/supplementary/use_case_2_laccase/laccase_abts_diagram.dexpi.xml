@@ -1,0 +1,2125 @@
+<!-- Generated with pyDEXPI 2.1.0 - https://github.com/process-intelligence-research/pyDEXPI -->
+<Model name="example" uri="http://www.example.org">
+  <Import prefix="Core" source="https://data.dexpi.org/models/2.0.1/Core.xml"/>
+  <Import prefix="Plant" source="https://data.dexpi.org/models/2.0.1/Plant.xml"/>
+  <Import prefix="Process" source="https://data.dexpi.org/models/2.0.1/Process.xml"/>
+  <Object id="model" type="Core/EngineeringModel">
+    <Components property="ConceptualModel">
+      <Object id="process" type="Process/ProcessModel">
+        <Components property="ListsOfMaterialComponents">
+          <Object id="components" type="Process/Process.ListOfMaterialComponents">
+            <References objects="#component_Laccase #component_ABTS_red #component_ABTS_ox #component_Oxygen #component_Water" property="Component"/>
+          </Object>
+        </Components>
+        <Components property="MaterialComponents">
+          <Object id="component_Laccase" type="Process/Process.CustomMaterialComponent">
+            <Components property="PersistentIdentifiers">
+              <Object id="cas_Laccase" type="Core/PersistentIdentifier">
+                <Data property="Context">
+                  <String>CAS</String>
+                </Data>
+                <Data property="Value">
+                  <String>80498-15-3</String>
+                </Data>
+              </Object>
+            </Components>
+            <Data property="Identifier">
+              <String>Laccase</String>
+            </Data>
+            <Data property="Label">
+              <String>Laccase</String>
+            </Data>
+          </Object>
+          <Object id="component_ABTS_red" type="Process/Process.PureMaterialComponent">
+            <Components property="PersistentIdentifiers">
+              <Object id="cas_ABTS_red" type="Core/PersistentIdentifier">
+                <Data property="Context">
+                  <String>CAS</String>
+                </Data>
+                <Data property="Value">
+                  <String>28752-68-3</String>
+                </Data>
+              </Object>
+            </Components>
+            <Data property="Identifier">
+              <String>ABTS_red</String>
+            </Data>
+            <Data property="Label">
+              <String>ABTS_red</String>
+            </Data>
+          </Object>
+          <Object id="component_ABTS_ox" type="Process/Process.PureMaterialComponent">
+            <Components property="PersistentIdentifiers">
+              <Object id="cas_ABTS_ox" type="Core/PersistentIdentifier">
+                <Data property="Context">
+                  <String>CAS</String>
+                </Data>
+                <Data property="Value">
+                  <String>28752-68-3</String>
+                </Data>
+              </Object>
+            </Components>
+            <Data property="Identifier">
+              <String>ABTS_ox</String>
+            </Data>
+            <Data property="Label">
+              <String>ABTS_ox</String>
+            </Data>
+          </Object>
+          <Object id="component_Oxygen" type="Process/Process.PureMaterialComponent">
+            <Components property="PersistentIdentifiers">
+              <Object id="cas_Oxygen" type="Core/PersistentIdentifier">
+                <Data property="Context">
+                  <String>CAS</String>
+                </Data>
+                <Data property="Value">
+                  <String>7782-44-7</String>
+                </Data>
+              </Object>
+            </Components>
+            <Data property="Identifier">
+              <String>Oxygen</String>
+            </Data>
+            <Data property="Label">
+              <String>Oxygen</String>
+            </Data>
+          </Object>
+          <Object id="component_Water" type="Process/Process.PureMaterialComponent">
+            <Components property="PersistentIdentifiers">
+              <Object id="cas_Water" type="Core/PersistentIdentifier">
+                <Data property="Context">
+                  <String>CAS</String>
+                </Data>
+                <Data property="Value">
+                  <String>7732-18-5</String>
+                </Data>
+              </Object>
+            </Components>
+            <Data property="Identifier">
+              <String>Water</String>
+            </Data>
+            <Data property="Label">
+              <String>Water</String>
+            </Data>
+          </Object>
+        </Components>
+        <Components property="MaterialStates">
+          <Object id="Reactant_1_state" type="Process/Process.MaterialState">
+            <Components property="Phases">
+              <Object id="Reactant_1_phase" type="Process/Process.MaterialStateType">
+                <Data property="Description">
+                  <AggregatedDataValue type="Core/DataTypes.MultiLanguageString">
+                    <Data property="SingleLanguageStrings">
+                      <AggregatedDataValue type="Core/DataTypes.SingleLanguageString">
+                        <Data property="Value">
+                          <String>Phase</String>
+                        </Data>
+                      </AggregatedDataValue>
+                    </Data>
+                  </AggregatedDataValue>
+                </Data>
+                <Data property="Identifier">
+                  <String>Reactant_1.l</String>
+                </Data>
+                <Data property="Label">
+                  <String>l</String>
+                </Data>
+              </Object>
+            </Components>
+            <Components property="State">
+              <Object id="Reactant_1_total" type="Process/Process.MaterialStateType">
+                <Components property="Composition">
+                  <Object id="Reactant_1_composition" type="Process/Process.Composition">
+                    <Components property="MoleFlow">
+                      <Object id="Reactant_1_moleflow_0" type="Core/QualifiedValue">
+                        <Data property="Value">
+                          <AggregatedDataValue type="Core/PhysicalQuantities.PhysicalQuantity">
+                            <Data property="Unit">
+                              <DataReference data="Core/PhysicalQuantities.MoleFlowRateUnit.KilomolePerSecond"/>
+                            </Data>
+                            <Data property="Value">
+                              <Double>9.666666666666671e-13</Double>
+                            </Data>
+                          </AggregatedDataValue>
+                        </Data>
+                      </Object>
+                      <Object id="Reactant_1_moleflow_1" type="Core/QualifiedValue">
+                        <Data property="Value">
+                          <AggregatedDataValue type="Core/PhysicalQuantities.PhysicalQuantity">
+                            <Data property="Unit">
+                              <DataReference data="Core/PhysicalQuantities.MoleFlowRateUnit.KilomolePerSecond"/>
+                            </Data>
+                            <Data property="Value">
+                              <Double>8.08333333333333e-11</Double>
+                            </Data>
+                          </AggregatedDataValue>
+                        </Data>
+                      </Object>
+                      <Object id="Reactant_1_moleflow_2" type="Core/QualifiedValue">
+                        <Data property="Value">
+                          <AggregatedDataValue type="Core/PhysicalQuantities.PhysicalQuantity">
+                            <Data property="Unit">
+                              <DataReference data="Core/PhysicalQuantities.MoleFlowRateUnit.KilomolePerSecond"/>
+                            </Data>
+                            <Data property="Value">
+                              <Double>0.0</Double>
+                            </Data>
+                          </AggregatedDataValue>
+                        </Data>
+                      </Object>
+                      <Object id="Reactant_1_moleflow_3" type="Core/QualifiedValue">
+                        <Data property="Value">
+                          <AggregatedDataValue type="Core/PhysicalQuantities.PhysicalQuantity">
+                            <Data property="Unit">
+                              <DataReference data="Core/PhysicalQuantities.MoleFlowRateUnit.KilomolePerSecond"/>
+                            </Data>
+                            <Data property="Value">
+                              <Double>0.0</Double>
+                            </Data>
+                          </AggregatedDataValue>
+                        </Data>
+                      </Object>
+                      <Object id="Reactant_1_moleflow_4" type="Core/QualifiedValue">
+                        <Data property="Value">
+                          <AggregatedDataValue type="Core/PhysicalQuantities.PhysicalQuantity">
+                            <Data property="Unit">
+                              <DataReference data="Core/PhysicalQuantities.MoleFlowRateUnit.KilomolePerSecond"/>
+                            </Data>
+                            <Data property="Value">
+                              <Double>4.624313262962963e-06</Double>
+                            </Data>
+                          </AggregatedDataValue>
+                        </Data>
+                      </Object>
+                    </Components>
+                    <Data property="Display">
+                      <DataReference data="Process/Enumerations.CompositionDisplay.AbsoluteValue"/>
+                    </Data>
+                  </Object>
+                </Components>
+                <Data property="Description">
+                  <AggregatedDataValue type="Core/DataTypes.MultiLanguageString">
+                    <Data property="SingleLanguageStrings">
+                      <AggregatedDataValue type="Core/DataTypes.SingleLanguageString">
+                        <Data property="Value">
+                          <String>Total</String>
+                        </Data>
+                      </AggregatedDataValue>
+                    </Data>
+                  </AggregatedDataValue>
+                </Data>
+                <Data property="Identifier">
+                  <String>Reactant_1.total</String>
+                </Data>
+                <Data property="Label">
+                  <String>total</String>
+                </Data>
+              </Object>
+            </Components>
+            <Data property="Description">
+              <String>Composition of Reactant_1</String>
+            </Data>
+            <Data property="Identifier">
+              <String>Reactant_1.state</String>
+            </Data>
+            <Data property="Label">
+              <String>Reactant_1</String>
+            </Data>
+          </Object>
+          <Object id="Reactant_2_state" type="Process/Process.MaterialState">
+            <Components property="Phases">
+              <Object id="Reactant_2_phase" type="Process/Process.MaterialStateType">
+                <Data property="Description">
+                  <AggregatedDataValue type="Core/DataTypes.MultiLanguageString">
+                    <Data property="SingleLanguageStrings">
+                      <AggregatedDataValue type="Core/DataTypes.SingleLanguageString">
+                        <Data property="Value">
+                          <String>Phase</String>
+                        </Data>
+                      </AggregatedDataValue>
+                    </Data>
+                  </AggregatedDataValue>
+                </Data>
+                <Data property="Identifier">
+                  <String>Reactant_2.g</String>
+                </Data>
+                <Data property="Label">
+                  <String>g</String>
+                </Data>
+              </Object>
+            </Components>
+            <Components property="State">
+              <Object id="Reactant_2_total" type="Process/Process.MaterialStateType">
+                <Components property="Composition">
+                  <Object id="Reactant_2_composition" type="Process/Process.Composition">
+                    <Components property="MoleFlow">
+                      <Object id="Reactant_2_moleflow_0" type="Core/QualifiedValue">
+                        <Data property="Value">
+                          <AggregatedDataValue type="Core/PhysicalQuantities.PhysicalQuantity">
+                            <Data property="Unit">
+                              <DataReference data="Core/PhysicalQuantities.MoleFlowRateUnit.KilomolePerSecond"/>
+                            </Data>
+                            <Data property="Value">
+                              <Double>0.0</Double>
+                            </Data>
+                          </AggregatedDataValue>
+                        </Data>
+                      </Object>
+                      <Object id="Reactant_2_moleflow_1" type="Core/QualifiedValue">
+                        <Data property="Value">
+                          <AggregatedDataValue type="Core/PhysicalQuantities.PhysicalQuantity">
+                            <Data property="Unit">
+                              <DataReference data="Core/PhysicalQuantities.MoleFlowRateUnit.KilomolePerSecond"/>
+                            </Data>
+                            <Data property="Value">
+                              <Double>0.0</Double>
+                            </Data>
+                          </AggregatedDataValue>
+                        </Data>
+                      </Object>
+                      <Object id="Reactant_2_moleflow_2" type="Core/QualifiedValue">
+                        <Data property="Value">
+                          <AggregatedDataValue type="Core/PhysicalQuantities.PhysicalQuantity">
+                            <Data property="Unit">
+                              <DataReference data="Core/PhysicalQuantities.MoleFlowRateUnit.KilomolePerSecond"/>
+                            </Data>
+                            <Data property="Value">
+                              <Double>0.0</Double>
+                            </Data>
+                          </AggregatedDataValue>
+                        </Data>
+                      </Object>
+                      <Object id="Reactant_2_moleflow_3" type="Core/QualifiedValue">
+                        <Data property="Value">
+                          <AggregatedDataValue type="Core/PhysicalQuantities.PhysicalQuantity">
+                            <Data property="Unit">
+                              <DataReference data="Core/PhysicalQuantities.MoleFlowRateUnit.KilomolePerSecond"/>
+                            </Data>
+                            <Data property="Value">
+                              <Double>1.655e-10</Double>
+                            </Data>
+                          </AggregatedDataValue>
+                        </Data>
+                      </Object>
+                      <Object id="Reactant_2_moleflow_4" type="Core/QualifiedValue">
+                        <Data property="Value">
+                          <AggregatedDataValue type="Core/PhysicalQuantities.PhysicalQuantity">
+                            <Data property="Unit">
+                              <DataReference data="Core/PhysicalQuantities.MoleFlowRateUnit.KilomolePerSecond"/>
+                            </Data>
+                            <Data property="Value">
+                              <Double>0.0</Double>
+                            </Data>
+                          </AggregatedDataValue>
+                        </Data>
+                      </Object>
+                    </Components>
+                    <Data property="Display">
+                      <DataReference data="Process/Enumerations.CompositionDisplay.AbsoluteValue"/>
+                    </Data>
+                  </Object>
+                </Components>
+                <Data property="Description">
+                  <AggregatedDataValue type="Core/DataTypes.MultiLanguageString">
+                    <Data property="SingleLanguageStrings">
+                      <AggregatedDataValue type="Core/DataTypes.SingleLanguageString">
+                        <Data property="Value">
+                          <String>Total</String>
+                        </Data>
+                      </AggregatedDataValue>
+                    </Data>
+                  </AggregatedDataValue>
+                </Data>
+                <Data property="Identifier">
+                  <String>Reactant_2.total</String>
+                </Data>
+                <Data property="Label">
+                  <String>total</String>
+                </Data>
+              </Object>
+            </Components>
+            <Data property="Description">
+              <String>Composition of Reactant_2</String>
+            </Data>
+            <Data property="Identifier">
+              <String>Reactant_2.state</String>
+            </Data>
+            <Data property="Label">
+              <String>Reactant_2</String>
+            </Data>
+          </Object>
+        </Components>
+        <Components property="MaterialTemplates">
+          <Object id="material" type="Process/Process.MaterialTemplate">
+            <References objects="#components" property="ListOfComponents"/>
+            <Data property="Description">
+              <AggregatedDataValue type="Core/DataTypes.MultiLanguageString">
+                <Data property="SingleLanguageStrings">
+                  <AggregatedDataValue type="Core/DataTypes.SingleLanguageString">
+                    <Data property="Value">
+                      <String>Gas-liquid reaction mixture</String>
+                    </Data>
+                  </AggregatedDataValue>
+                </Data>
+              </AggregatedDataValue>
+            </Data>
+            <Data property="Identifier">
+              <String>mixture</String>
+            </Data>
+            <Data property="Label">
+              <String>mixture</String>
+            </Data>
+            <Data property="NumberOfMaterialComponents">
+              <Integer>5</Integer>
+            </Data>
+            <Data property="NumberOfPhases">
+              <Integer>2</Integer>
+            </Data>
+            <Data property="PhaseLabel">
+              <String>l</String>
+              <String>g</String>
+            </Data>
+          </Object>
+        </Components>
+        <Components property="ProcessConnections">
+          <Object id="stream_Reactant_1" type="Process/Process.Stream">
+            <Components property="Pressure">
+              <Object id="Reactant_1_pressure" type="Core/QualifiedValue">
+                <Data property="Value">
+                  <AggregatedDataValue type="Core/PhysicalQuantities.PhysicalQuantity">
+                    <Data property="Unit">
+                      <DataReference data="Core/PhysicalQuantities.PressureAbsoluteUnit.Pascal"/>
+                    </Data>
+                    <Data property="Value">
+                      <Double>101325.0</Double>
+                    </Data>
+                  </AggregatedDataValue>
+                </Data>
+              </Object>
+            </Components>
+            <Components property="Temperature">
+              <Object id="Reactant_1_temperature" type="Core/QualifiedValue">
+                <Data property="Value">
+                  <AggregatedDataValue type="Core/PhysicalQuantities.PhysicalQuantity">
+                    <Data property="Unit">
+                      <DataReference data="Core/PhysicalQuantities.TemperatureUnit.DegreeCelsius"/>
+                    </Data>
+                    <Data property="Value">
+                      <Double>38.0</Double>
+                    </Data>
+                  </AggregatedDataValue>
+                </Data>
+              </Object>
+            </Components>
+            <Components property="VolumeFlow">
+              <Object id="Reactant_1_volumeflow" type="Core/QualifiedValue">
+                <Data property="Value">
+                  <AggregatedDataValue type="Core/PhysicalQuantities.PhysicalQuantity">
+                    <Data property="Unit">
+                      <DataReference data="Core/PhysicalQuantities.VolumeFlowRateUnit.MetreCubedPerSecond"/>
+                    </Data>
+                    <Data property="Value">
+                      <Double>8.33333333333333e-08</Double>
+                    </Data>
+                  </AggregatedDataValue>
+                </Data>
+              </Object>
+            </Components>
+            <References objects="#source_Reactant_1_out0" property="Source"/>
+            <References objects="#Mixer_in0" property="Target"/>
+            <References objects="#Reactant_1_state" property="MaterialStateReference"/>
+            <References objects="#material" property="MaterialTemplateReference"/>
+            <Data property="Identifier">
+              <String>Reactant_1</String>
+            </Data>
+            <Data property="Label">
+              <String>Reactant_1</String>
+            </Data>
+          </Object>
+          <Object id="stream_Reactant_2" type="Process/Process.Stream">
+            <Components property="Pressure">
+              <Object id="Reactant_2_pressure" type="Core/QualifiedValue">
+                <Data property="Value">
+                  <AggregatedDataValue type="Core/PhysicalQuantities.PhysicalQuantity">
+                    <Data property="Unit">
+                      <DataReference data="Core/PhysicalQuantities.PressureAbsoluteUnit.Pascal"/>
+                    </Data>
+                    <Data property="Value">
+                      <Double>101325.0</Double>
+                    </Data>
+                  </AggregatedDataValue>
+                </Data>
+              </Object>
+            </Components>
+            <Components property="Temperature">
+              <Object id="Reactant_2_temperature" type="Core/QualifiedValue">
+                <Data property="Value">
+                  <AggregatedDataValue type="Core/PhysicalQuantities.PhysicalQuantity">
+                    <Data property="Unit">
+                      <DataReference data="Core/PhysicalQuantities.TemperatureUnit.DegreeCelsius"/>
+                    </Data>
+                    <Data property="Value">
+                      <Double>38.0</Double>
+                    </Data>
+                  </AggregatedDataValue>
+                </Data>
+              </Object>
+            </Components>
+            <Components property="VolumeFlow">
+              <Object id="Reactant_2_volumeflow" type="Core/QualifiedValue">
+                <Data property="Value">
+                  <AggregatedDataValue type="Core/PhysicalQuantities.PhysicalQuantity">
+                    <Data property="Unit">
+                      <DataReference data="Core/PhysicalQuantities.VolumeFlowRateUnit.MetreCubedPerSecond"/>
+                    </Data>
+                    <Data property="Value">
+                      <Double>5e-08</Double>
+                    </Data>
+                  </AggregatedDataValue>
+                </Data>
+              </Object>
+            </Components>
+            <References objects="#source_Reactant_2_out0" property="Source"/>
+            <References objects="#Mixer_in1" property="Target"/>
+            <References objects="#Reactant_2_state" property="MaterialStateReference"/>
+            <References objects="#material" property="MaterialTemplateReference"/>
+            <Data property="Identifier">
+              <String>Reactant_2</String>
+            </Data>
+            <Data property="Label">
+              <String>Reactant_2</String>
+            </Data>
+          </Object>
+          <Object id="stream_Mixture" type="Process/Process.Stream">
+            <References objects="#Mixer_out0" property="Source"/>
+            <References objects="#Reactor_in0" property="Target"/>
+            <References objects="#material" property="MaterialTemplateReference"/>
+            <Data property="Identifier">
+              <String>Mixture</String>
+            </Data>
+            <Data property="Label">
+              <String>Mixture</String>
+            </Data>
+          </Object>
+          <Object id="stream_Product_1" type="Process/Process.Stream">
+            <References objects="#Reactor_out0" property="Source"/>
+            <References objects="#sink_Product_1_in0" property="Target"/>
+            <References objects="#material" property="MaterialTemplateReference"/>
+            <Data property="Identifier">
+              <String>Product_1</String>
+            </Data>
+            <Data property="Label">
+              <String>Product_1</String>
+            </Data>
+          </Object>
+        </Components>
+        <Components property="ProcessSteps">
+          <Object id="step_source_Reactant_1" type="Process/Process.Source">
+            <Components property="Ports">
+              <Object id="source_Reactant_1_out0" type="Process/Process.MaterialPort">
+                <References objects="#stream_Reactant_1" property="ConnectorReference"/>
+                <Data property="Identifier">
+                  <String>out0</String>
+                </Data>
+                <Data property="NominalDirection">
+                  <DataReference data="Process/Enumerations.PortDirection.Outlet"/>
+                </Data>
+              </Object>
+            </Components>
+            <Data property="Identifier">
+              <String>source_Reactant_1</String>
+            </Data>
+            <Data property="Label">
+              <String>Reactant_1</String>
+            </Data>
+          </Object>
+          <Object id="step_source_Reactant_2" type="Process/Process.Source">
+            <Components property="Ports">
+              <Object id="source_Reactant_2_out0" type="Process/Process.MaterialPort">
+                <References objects="#stream_Reactant_2" property="ConnectorReference"/>
+                <Data property="Identifier">
+                  <String>out0</String>
+                </Data>
+                <Data property="NominalDirection">
+                  <DataReference data="Process/Enumerations.PortDirection.Outlet"/>
+                </Data>
+              </Object>
+            </Components>
+            <Data property="Identifier">
+              <String>source_Reactant_2</String>
+            </Data>
+            <Data property="Label">
+              <String>Reactant_2</String>
+            </Data>
+          </Object>
+          <Object id="step_sink_Product_1" type="Process/Process.Sink">
+            <Components property="Ports">
+              <Object id="sink_Product_1_in0" type="Process/Process.MaterialPort">
+                <References objects="#stream_Product_1" property="ConnectorReference"/>
+                <Data property="Identifier">
+                  <String>in0</String>
+                </Data>
+                <Data property="NominalDirection">
+                  <DataReference data="Process/Enumerations.PortDirection.Inlet"/>
+                </Data>
+              </Object>
+            </Components>
+            <Data property="Identifier">
+              <String>sink_Product_1</String>
+            </Data>
+            <Data property="Label">
+              <String>Product_1</String>
+            </Data>
+          </Object>
+          <Object id="step_Mixer" type="Process/Process.MixingSimple">
+            <Components property="Ports">
+              <Object id="Mixer_in0" type="Process/Process.MaterialPort">
+                <References objects="#stream_Reactant_1" property="ConnectorReference"/>
+                <Data property="Identifier">
+                  <String>in0</String>
+                </Data>
+                <Data property="NominalDirection">
+                  <DataReference data="Process/Enumerations.PortDirection.Inlet"/>
+                </Data>
+              </Object>
+              <Object id="Mixer_in1" type="Process/Process.MaterialPort">
+                <References objects="#stream_Reactant_2" property="ConnectorReference"/>
+                <Data property="Identifier">
+                  <String>in1</String>
+                </Data>
+                <Data property="NominalDirection">
+                  <DataReference data="Process/Enumerations.PortDirection.Inlet"/>
+                </Data>
+              </Object>
+              <Object id="Mixer_out0" type="Process/Process.MaterialPort">
+                <References objects="#stream_Mixture" property="ConnectorReference"/>
+                <Data property="Identifier">
+                  <String>out0</String>
+                </Data>
+                <Data property="NominalDirection">
+                  <DataReference data="Process/Enumerations.PortDirection.Outlet"/>
+                </Data>
+              </Object>
+            </Components>
+            <Data property="Identifier">
+              <String>Mixer</String>
+            </Data>
+            <Data property="Label">
+              <String>Gas-liquid mixing</String>
+            </Data>
+          </Object>
+          <Object id="step_Reactor" type="Process/Process.ReactingChemicals">
+            <Components property="Ports">
+              <Object id="Reactor_in0" type="Process/Process.MaterialPort">
+                <References objects="#stream_Mixture" property="ConnectorReference"/>
+                <Data property="Identifier">
+                  <String>in0</String>
+                </Data>
+                <Data property="NominalDirection">
+                  <DataReference data="Process/Enumerations.PortDirection.Inlet"/>
+                </Data>
+              </Object>
+              <Object id="Reactor_out0" type="Process/Process.MaterialPort">
+                <References objects="#stream_Product_1" property="ConnectorReference"/>
+                <Data property="Identifier">
+                  <String>out0</String>
+                </Data>
+                <Data property="NominalDirection">
+                  <DataReference data="Process/Enumerations.PortDirection.Outlet"/>
+                </Data>
+              </Object>
+            </Components>
+            <Components property="Pressure">
+              <Object id="Reactor_pressure" type="Core/QualifiedValue">
+                <Data property="Value">
+                  <AggregatedDataValue type="Core/PhysicalQuantities.PhysicalQuantity">
+                    <Data property="Unit">
+                      <DataReference data="Core/PhysicalQuantities.PressureAbsoluteUnit.Pascal"/>
+                    </Data>
+                    <Data property="Value">
+                      <Double>101325.0</Double>
+                    </Data>
+                  </AggregatedDataValue>
+                </Data>
+              </Object>
+            </Components>
+            <Components property="Temperature">
+              <Object id="Reactor_temperature" type="Core/QualifiedValue">
+                <Data property="Value">
+                  <AggregatedDataValue type="Core/PhysicalQuantities.PhysicalQuantity">
+                    <Data property="Unit">
+                      <DataReference data="Core/PhysicalQuantities.TemperatureUnit.DegreeCelsius"/>
+                    </Data>
+                    <Data property="Value">
+                      <Double>38.0</Double>
+                    </Data>
+                  </AggregatedDataValue>
+                </Data>
+              </Object>
+            </Components>
+            <Components property="Volume">
+              <Object id="Reactor_volume" type="Core/QualifiedValue">
+                <Data property="Value">
+                  <AggregatedDataValue type="Core/PhysicalQuantities.PhysicalQuantity">
+                    <Data property="Unit">
+                      <DataReference data="Core/PhysicalQuantities.VolumeUnit.MetreCubed"/>
+                    </Data>
+                    <Data property="Value">
+                      <Double>8e-06</Double>
+                    </Data>
+                  </AggregatedDataValue>
+                </Data>
+              </Object>
+            </Components>
+            <Data property="Identifier">
+              <String>Reactor</String>
+            </Data>
+            <Data property="Label">
+              <String>Capillary flow reactor</String>
+            </Data>
+            <Data property="Method">
+              <DataReference data="Process/Enumerations.ReactionProcessType.Tubular"/>
+            </Data>
+          </Object>
+        </Components>
+      </Object>
+    </Components>
+    <Components property="Diagram">
+      <Object id="id_97ee62884bd9443d8ae708a862fe694f" type="Core/Diagram.Diagram">
+        <Components property="Groups">
+          <Object id="id_59d020822211496c8bf7a1025b39a604" type="Core/Diagram.RepresentationGroup">
+            <Components property="Groups">
+              <Object id="id_f946854135e0411498a901878bc4b1a0" type="Core/Diagram.Static">
+                <Components property="Elements">
+                  <Object id="id_883397c907254cc4b18c25ac32d75933" type="Core/Diagram.ShapeUsage">
+                    <References objects="#pyDEXPI_ProcessBlock_46x18_168_150_140" property="Shape"/>
+                    <Data property="IsMirrored">
+                      <Boolean>false</Boolean>
+                    </Data>
+                    <Data property="Position">
+                      <AggregatedDataValue type="Core/Diagram.Point">
+                        <Data property="X">
+                          <Double>35.0</Double>
+                        </Data>
+                        <Data property="Y">
+                          <Double>21.0</Double>
+                        </Data>
+                      </AggregatedDataValue>
+                    </Data>
+                    <Data property="Rotation">
+                      <Double>0.0</Double>
+                    </Data>
+                    <Data property="ScaleX">
+                      <Double>1.0</Double>
+                    </Data>
+                    <Data property="ScaleY">
+                      <Double>1.0</Double>
+                    </Data>
+                  </Object>
+                </Components>
+              </Object>
+              <Object id="id_209a843cd3614509b0dae9f9877bafb8" type="Core/Diagram.Label">
+                <Components property="Elements">
+                  <Object id="id_ca352356fc5842ae95dc3c763fd574ce" type="Core/Diagram.Text">
+                    <Data property="Alignment">
+                      <DataReference data="Core/Diagram.TextAlignment.CenterCenter"/>
+                    </Data>
+                    <Data property="Color">
+                      <AggregatedDataValue type="Core/Diagram.Color">
+                        <Data property="B">
+                          <Integer>30</Integer>
+                        </Data>
+                        <Data property="G">
+                          <Integer>30</Integer>
+                        </Data>
+                        <Data property="R">
+                          <Integer>30</Integer>
+                        </Data>
+                      </AggregatedDataValue>
+                    </Data>
+                    <Data property="Font">
+                      <String>Latin Modern Roman</String>
+                    </Data>
+                    <Data property="Position">
+                      <AggregatedDataValue type="Core/Diagram.Point">
+                        <Data property="X">
+                          <Double>35.0</Double>
+                        </Data>
+                        <Data property="Y">
+                          <Double>17.6</Double>
+                        </Data>
+                      </AggregatedDataValue>
+                    </Data>
+                    <Data property="Rotation">
+                      <Double>0.0</Double>
+                    </Data>
+                    <Data property="Size">
+                      <Double>4.2</Double>
+                    </Data>
+                    <Data property="Text">
+                      <String>source Reactant 1</String>
+                    </Data>
+                  </Object>
+                  <Object id="id_bc7ca529b82741e4acc0d524e017b5a0" type="Core/Diagram.Text">
+                    <Data property="Alignment">
+                      <DataReference data="Core/Diagram.TextAlignment.CenterCenter"/>
+                    </Data>
+                    <Data property="Color">
+                      <AggregatedDataValue type="Core/Diagram.Color">
+                        <Data property="B">
+                          <Integer>140</Integer>
+                        </Data>
+                        <Data property="G">
+                          <Integer>150</Integer>
+                        </Data>
+                        <Data property="R">
+                          <Integer>168</Integer>
+                        </Data>
+                      </AggregatedDataValue>
+                    </Data>
+                    <Data property="Font">
+                      <String>Latin Modern Roman</String>
+                    </Data>
+                    <Data property="Position">
+                      <AggregatedDataValue type="Core/Diagram.Point">
+                        <Data property="X">
+                          <Double>35.0</Double>
+                        </Data>
+                        <Data property="Y">
+                          <Double>24.2</Double>
+                        </Data>
+                      </AggregatedDataValue>
+                    </Data>
+                    <Data property="Rotation">
+                      <Double>0.0</Double>
+                    </Data>
+                    <Data property="Size">
+                      <Double>3.2</Double>
+                    </Data>
+                    <Data property="Text">
+                      <String>Source</String>
+                    </Data>
+                  </Object>
+                </Components>
+              </Object>
+            </Components>
+            <Components property="NodePositions">
+              <Object id="id_6ecd0260eb5a4b728866df91349f982c" type="Process/Diagram.PortNodePosition">
+                <References objects="#source_Reactant_1_out0" property="Port"/>
+                <Data property="Position">
+                  <AggregatedDataValue type="Core/Diagram.Point">
+                    <Data property="X">
+                      <Double>58.0</Double>
+                    </Data>
+                    <Data property="Y">
+                      <Double>21.0</Double>
+                    </Data>
+                  </AggregatedDataValue>
+                </Data>
+              </Object>
+            </Components>
+            <References objects="#step_source_Reactant_1" property="Represents"/>
+          </Object>
+          <Object id="id_c6426acbba4a4c02ba621d355af2e75c" type="Core/Diagram.RepresentationGroup">
+            <Components property="Groups">
+              <Object id="id_00806c14a9c642a48de0dbaed5552ec9" type="Core/Diagram.Static">
+                <Components property="Elements">
+                  <Object id="id_f8156131804343ffaab8fe287f146866" type="Core/Diagram.ShapeUsage">
+                    <References objects="#pyDEXPI_ProcessBlock_46x18_168_150_140" property="Shape"/>
+                    <Data property="IsMirrored">
+                      <Boolean>false</Boolean>
+                    </Data>
+                    <Data property="Position">
+                      <AggregatedDataValue type="Core/Diagram.Point">
+                        <Data property="X">
+                          <Double>35.0</Double>
+                        </Data>
+                        <Data property="Y">
+                          <Double>51.0</Double>
+                        </Data>
+                      </AggregatedDataValue>
+                    </Data>
+                    <Data property="Rotation">
+                      <Double>0.0</Double>
+                    </Data>
+                    <Data property="ScaleX">
+                      <Double>1.0</Double>
+                    </Data>
+                    <Data property="ScaleY">
+                      <Double>1.0</Double>
+                    </Data>
+                  </Object>
+                </Components>
+              </Object>
+              <Object id="id_209f44214c1f465bb460ac5dc60834cf" type="Core/Diagram.Label">
+                <Components property="Elements">
+                  <Object id="id_d601b495be1e4d239e70cca706b31c21" type="Core/Diagram.Text">
+                    <Data property="Alignment">
+                      <DataReference data="Core/Diagram.TextAlignment.CenterCenter"/>
+                    </Data>
+                    <Data property="Color">
+                      <AggregatedDataValue type="Core/Diagram.Color">
+                        <Data property="B">
+                          <Integer>30</Integer>
+                        </Data>
+                        <Data property="G">
+                          <Integer>30</Integer>
+                        </Data>
+                        <Data property="R">
+                          <Integer>30</Integer>
+                        </Data>
+                      </AggregatedDataValue>
+                    </Data>
+                    <Data property="Font">
+                      <String>Latin Modern Roman</String>
+                    </Data>
+                    <Data property="Position">
+                      <AggregatedDataValue type="Core/Diagram.Point">
+                        <Data property="X">
+                          <Double>35.0</Double>
+                        </Data>
+                        <Data property="Y">
+                          <Double>47.6</Double>
+                        </Data>
+                      </AggregatedDataValue>
+                    </Data>
+                    <Data property="Rotation">
+                      <Double>0.0</Double>
+                    </Data>
+                    <Data property="Size">
+                      <Double>4.2</Double>
+                    </Data>
+                    <Data property="Text">
+                      <String>source Reactant 2</String>
+                    </Data>
+                  </Object>
+                  <Object id="id_eb0582eb2d1541a797752023fe96df73" type="Core/Diagram.Text">
+                    <Data property="Alignment">
+                      <DataReference data="Core/Diagram.TextAlignment.CenterCenter"/>
+                    </Data>
+                    <Data property="Color">
+                      <AggregatedDataValue type="Core/Diagram.Color">
+                        <Data property="B">
+                          <Integer>140</Integer>
+                        </Data>
+                        <Data property="G">
+                          <Integer>150</Integer>
+                        </Data>
+                        <Data property="R">
+                          <Integer>168</Integer>
+                        </Data>
+                      </AggregatedDataValue>
+                    </Data>
+                    <Data property="Font">
+                      <String>Latin Modern Roman</String>
+                    </Data>
+                    <Data property="Position">
+                      <AggregatedDataValue type="Core/Diagram.Point">
+                        <Data property="X">
+                          <Double>35.0</Double>
+                        </Data>
+                        <Data property="Y">
+                          <Double>54.2</Double>
+                        </Data>
+                      </AggregatedDataValue>
+                    </Data>
+                    <Data property="Rotation">
+                      <Double>0.0</Double>
+                    </Data>
+                    <Data property="Size">
+                      <Double>3.2</Double>
+                    </Data>
+                    <Data property="Text">
+                      <String>Source</String>
+                    </Data>
+                  </Object>
+                </Components>
+              </Object>
+            </Components>
+            <Components property="NodePositions">
+              <Object id="id_35935974689b4f33a65e64c150caa549" type="Process/Diagram.PortNodePosition">
+                <References objects="#source_Reactant_2_out0" property="Port"/>
+                <Data property="Position">
+                  <AggregatedDataValue type="Core/Diagram.Point">
+                    <Data property="X">
+                      <Double>58.0</Double>
+                    </Data>
+                    <Data property="Y">
+                      <Double>51.0</Double>
+                    </Data>
+                  </AggregatedDataValue>
+                </Data>
+              </Object>
+            </Components>
+            <References objects="#step_source_Reactant_2" property="Represents"/>
+          </Object>
+          <Object id="id_f01dc24163ec44a9a1be5fc4143199fc" type="Core/Diagram.RepresentationGroup">
+            <Components property="Groups">
+              <Object id="id_1268da9d493e4d5aae24268895034428" type="Core/Diagram.Static">
+                <Components property="Elements">
+                  <Object id="id_56c1ba9e5cff49069e83d11a5996876e" type="Core/Diagram.ShapeUsage">
+                    <References objects="#pyDEXPI_ProcessBlock_46x18_114_0_254" property="Shape"/>
+                    <Data property="IsMirrored">
+                      <Boolean>false</Boolean>
+                    </Data>
+                    <Data property="Position">
+                      <AggregatedDataValue type="Core/Diagram.Point">
+                        <Data property="X">
+                          <Double>113.0</Double>
+                        </Data>
+                        <Data property="Y">
+                          <Double>36.0</Double>
+                        </Data>
+                      </AggregatedDataValue>
+                    </Data>
+                    <Data property="Rotation">
+                      <Double>0.0</Double>
+                    </Data>
+                    <Data property="ScaleX">
+                      <Double>1.0</Double>
+                    </Data>
+                    <Data property="ScaleY">
+                      <Double>1.0</Double>
+                    </Data>
+                  </Object>
+                </Components>
+              </Object>
+              <Object id="id_2c9180ee0d9f45398c1c92d488ae2983" type="Core/Diagram.Label">
+                <Components property="Elements">
+                  <Object id="id_0cc406a93f114b4e98596a47460f5e3c" type="Core/Diagram.Text">
+                    <Data property="Alignment">
+                      <DataReference data="Core/Diagram.TextAlignment.CenterCenter"/>
+                    </Data>
+                    <Data property="Color">
+                      <AggregatedDataValue type="Core/Diagram.Color">
+                        <Data property="B">
+                          <Integer>30</Integer>
+                        </Data>
+                        <Data property="G">
+                          <Integer>30</Integer>
+                        </Data>
+                        <Data property="R">
+                          <Integer>30</Integer>
+                        </Data>
+                      </AggregatedDataValue>
+                    </Data>
+                    <Data property="Font">
+                      <String>Latin Modern Roman</String>
+                    </Data>
+                    <Data property="Position">
+                      <AggregatedDataValue type="Core/Diagram.Point">
+                        <Data property="X">
+                          <Double>113.0</Double>
+                        </Data>
+                        <Data property="Y">
+                          <Double>32.6</Double>
+                        </Data>
+                      </AggregatedDataValue>
+                    </Data>
+                    <Data property="Rotation">
+                      <Double>0.0</Double>
+                    </Data>
+                    <Data property="Size">
+                      <Double>4.2</Double>
+                    </Data>
+                    <Data property="Text">
+                      <String>Mixer</String>
+                    </Data>
+                  </Object>
+                  <Object id="id_6fa45b95f9714996bf34793f53804604" type="Core/Diagram.Text">
+                    <Data property="Alignment">
+                      <DataReference data="Core/Diagram.TextAlignment.CenterCenter"/>
+                    </Data>
+                    <Data property="Color">
+                      <AggregatedDataValue type="Core/Diagram.Color">
+                        <Data property="B">
+                          <Integer>140</Integer>
+                        </Data>
+                        <Data property="G">
+                          <Integer>150</Integer>
+                        </Data>
+                        <Data property="R">
+                          <Integer>168</Integer>
+                        </Data>
+                      </AggregatedDataValue>
+                    </Data>
+                    <Data property="Font">
+                      <String>Latin Modern Roman</String>
+                    </Data>
+                    <Data property="Position">
+                      <AggregatedDataValue type="Core/Diagram.Point">
+                        <Data property="X">
+                          <Double>113.0</Double>
+                        </Data>
+                        <Data property="Y">
+                          <Double>39.2</Double>
+                        </Data>
+                      </AggregatedDataValue>
+                    </Data>
+                    <Data property="Rotation">
+                      <Double>0.0</Double>
+                    </Data>
+                    <Data property="Size">
+                      <Double>3.2</Double>
+                    </Data>
+                    <Data property="Text">
+                      <String>MixingSimple</String>
+                    </Data>
+                  </Object>
+                </Components>
+              </Object>
+            </Components>
+            <Components property="NodePositions">
+              <Object id="id_d34a2594ccbc44e09b6159b75a9f6942" type="Process/Diagram.PortNodePosition">
+                <References objects="#Mixer_in0" property="Port"/>
+                <Data property="Position">
+                  <AggregatedDataValue type="Core/Diagram.Point">
+                    <Data property="X">
+                      <Double>90.0</Double>
+                    </Data>
+                    <Data property="Y">
+                      <Double>33.0</Double>
+                    </Data>
+                  </AggregatedDataValue>
+                </Data>
+              </Object>
+              <Object id="id_c40a025427334af58418398cd6e0cb62" type="Process/Diagram.PortNodePosition">
+                <References objects="#Mixer_in1" property="Port"/>
+                <Data property="Position">
+                  <AggregatedDataValue type="Core/Diagram.Point">
+                    <Data property="X">
+                      <Double>90.0</Double>
+                    </Data>
+                    <Data property="Y">
+                      <Double>39.0</Double>
+                    </Data>
+                  </AggregatedDataValue>
+                </Data>
+              </Object>
+              <Object id="id_95bc46e8c5394c608239fae9dda58efe" type="Process/Diagram.PortNodePosition">
+                <References objects="#Mixer_out0" property="Port"/>
+                <Data property="Position">
+                  <AggregatedDataValue type="Core/Diagram.Point">
+                    <Data property="X">
+                      <Double>136.0</Double>
+                    </Data>
+                    <Data property="Y">
+                      <Double>36.0</Double>
+                    </Data>
+                  </AggregatedDataValue>
+                </Data>
+              </Object>
+            </Components>
+            <References objects="#step_Mixer" property="Represents"/>
+          </Object>
+          <Object id="id_2fa68ffc2d094f35a69ea431f47ab0d4" type="Core/Diagram.RepresentationGroup">
+            <Components property="Groups">
+              <Object id="id_9e096110299048d098c056eef781da74" type="Core/Diagram.Static">
+                <Components property="Elements">
+                  <Object id="id_e9149d7b35004fb2b11c2b4e8e06f1b8" type="Core/Diagram.ShapeUsage">
+                    <References objects="#pyDEXPI_ProcessBlock_46x18_114_0_254" property="Shape"/>
+                    <Data property="IsMirrored">
+                      <Boolean>false</Boolean>
+                    </Data>
+                    <Data property="Position">
+                      <AggregatedDataValue type="Core/Diagram.Point">
+                        <Data property="X">
+                          <Double>191.0</Double>
+                        </Data>
+                        <Data property="Y">
+                          <Double>36.0</Double>
+                        </Data>
+                      </AggregatedDataValue>
+                    </Data>
+                    <Data property="Rotation">
+                      <Double>0.0</Double>
+                    </Data>
+                    <Data property="ScaleX">
+                      <Double>1.0</Double>
+                    </Data>
+                    <Data property="ScaleY">
+                      <Double>1.0</Double>
+                    </Data>
+                  </Object>
+                </Components>
+              </Object>
+              <Object id="id_bc1d13ad1478477690c6a21fb50b39f5" type="Core/Diagram.Label">
+                <Components property="Elements">
+                  <Object id="id_4b1922c4a3e744a894c0e58222bb4133" type="Core/Diagram.Text">
+                    <Data property="Alignment">
+                      <DataReference data="Core/Diagram.TextAlignment.CenterCenter"/>
+                    </Data>
+                    <Data property="Color">
+                      <AggregatedDataValue type="Core/Diagram.Color">
+                        <Data property="B">
+                          <Integer>30</Integer>
+                        </Data>
+                        <Data property="G">
+                          <Integer>30</Integer>
+                        </Data>
+                        <Data property="R">
+                          <Integer>30</Integer>
+                        </Data>
+                      </AggregatedDataValue>
+                    </Data>
+                    <Data property="Font">
+                      <String>Latin Modern Roman</String>
+                    </Data>
+                    <Data property="Position">
+                      <AggregatedDataValue type="Core/Diagram.Point">
+                        <Data property="X">
+                          <Double>191.0</Double>
+                        </Data>
+                        <Data property="Y">
+                          <Double>32.6</Double>
+                        </Data>
+                      </AggregatedDataValue>
+                    </Data>
+                    <Data property="Rotation">
+                      <Double>0.0</Double>
+                    </Data>
+                    <Data property="Size">
+                      <Double>4.2</Double>
+                    </Data>
+                    <Data property="Text">
+                      <String>Reactor</String>
+                    </Data>
+                  </Object>
+                  <Object id="id_42836417834843479d8d87f12459a000" type="Core/Diagram.Text">
+                    <Data property="Alignment">
+                      <DataReference data="Core/Diagram.TextAlignment.CenterCenter"/>
+                    </Data>
+                    <Data property="Color">
+                      <AggregatedDataValue type="Core/Diagram.Color">
+                        <Data property="B">
+                          <Integer>140</Integer>
+                        </Data>
+                        <Data property="G">
+                          <Integer>150</Integer>
+                        </Data>
+                        <Data property="R">
+                          <Integer>168</Integer>
+                        </Data>
+                      </AggregatedDataValue>
+                    </Data>
+                    <Data property="Font">
+                      <String>Latin Modern Roman</String>
+                    </Data>
+                    <Data property="Position">
+                      <AggregatedDataValue type="Core/Diagram.Point">
+                        <Data property="X">
+                          <Double>191.0</Double>
+                        </Data>
+                        <Data property="Y">
+                          <Double>39.2</Double>
+                        </Data>
+                      </AggregatedDataValue>
+                    </Data>
+                    <Data property="Rotation">
+                      <Double>0.0</Double>
+                    </Data>
+                    <Data property="Size">
+                      <Double>3.2</Double>
+                    </Data>
+                    <Data property="Text">
+                      <String>ReactingChemicals</String>
+                    </Data>
+                  </Object>
+                </Components>
+              </Object>
+            </Components>
+            <Components property="NodePositions">
+              <Object id="id_d93ee0d4b66849e4aed92c7b669dc873" type="Process/Diagram.PortNodePosition">
+                <References objects="#Reactor_in0" property="Port"/>
+                <Data property="Position">
+                  <AggregatedDataValue type="Core/Diagram.Point">
+                    <Data property="X">
+                      <Double>168.0</Double>
+                    </Data>
+                    <Data property="Y">
+                      <Double>36.0</Double>
+                    </Data>
+                  </AggregatedDataValue>
+                </Data>
+              </Object>
+              <Object id="id_6c6190cb7d1d49aca82bb135a4cb309d" type="Process/Diagram.PortNodePosition">
+                <References objects="#Reactor_out0" property="Port"/>
+                <Data property="Position">
+                  <AggregatedDataValue type="Core/Diagram.Point">
+                    <Data property="X">
+                      <Double>214.0</Double>
+                    </Data>
+                    <Data property="Y">
+                      <Double>36.0</Double>
+                    </Data>
+                  </AggregatedDataValue>
+                </Data>
+              </Object>
+            </Components>
+            <References objects="#step_Reactor" property="Represents"/>
+          </Object>
+          <Object id="id_8485139350fb44dc8aa95220f770199a" type="Core/Diagram.RepresentationGroup">
+            <Components property="Groups">
+              <Object id="id_8754bdd1ac064f2b833177a125280d3b" type="Core/Diagram.Static">
+                <Components property="Elements">
+                  <Object id="id_f6de7e29e1274a58898f4cb5b5ddc198" type="Core/Diagram.ShapeUsage">
+                    <References objects="#pyDEXPI_ProcessBlock_46x18_168_150_140" property="Shape"/>
+                    <Data property="IsMirrored">
+                      <Boolean>false</Boolean>
+                    </Data>
+                    <Data property="Position">
+                      <AggregatedDataValue type="Core/Diagram.Point">
+                        <Data property="X">
+                          <Double>269.0</Double>
+                        </Data>
+                        <Data property="Y">
+                          <Double>36.0</Double>
+                        </Data>
+                      </AggregatedDataValue>
+                    </Data>
+                    <Data property="Rotation">
+                      <Double>0.0</Double>
+                    </Data>
+                    <Data property="ScaleX">
+                      <Double>1.0</Double>
+                    </Data>
+                    <Data property="ScaleY">
+                      <Double>1.0</Double>
+                    </Data>
+                  </Object>
+                </Components>
+              </Object>
+              <Object id="id_4043dca4ae464cafbc0c3139694b0da8" type="Core/Diagram.Label">
+                <Components property="Elements">
+                  <Object id="id_2c656625f1664acf8ddce052feddef90" type="Core/Diagram.Text">
+                    <Data property="Alignment">
+                      <DataReference data="Core/Diagram.TextAlignment.CenterCenter"/>
+                    </Data>
+                    <Data property="Color">
+                      <AggregatedDataValue type="Core/Diagram.Color">
+                        <Data property="B">
+                          <Integer>30</Integer>
+                        </Data>
+                        <Data property="G">
+                          <Integer>30</Integer>
+                        </Data>
+                        <Data property="R">
+                          <Integer>30</Integer>
+                        </Data>
+                      </AggregatedDataValue>
+                    </Data>
+                    <Data property="Font">
+                      <String>Latin Modern Roman</String>
+                    </Data>
+                    <Data property="Position">
+                      <AggregatedDataValue type="Core/Diagram.Point">
+                        <Data property="X">
+                          <Double>269.0</Double>
+                        </Data>
+                        <Data property="Y">
+                          <Double>32.6</Double>
+                        </Data>
+                      </AggregatedDataValue>
+                    </Data>
+                    <Data property="Rotation">
+                      <Double>0.0</Double>
+                    </Data>
+                    <Data property="Size">
+                      <Double>4.2</Double>
+                    </Data>
+                    <Data property="Text">
+                      <String>sink Product 1</String>
+                    </Data>
+                  </Object>
+                  <Object id="id_4e8568ec938646918ad32e63d545f958" type="Core/Diagram.Text">
+                    <Data property="Alignment">
+                      <DataReference data="Core/Diagram.TextAlignment.CenterCenter"/>
+                    </Data>
+                    <Data property="Color">
+                      <AggregatedDataValue type="Core/Diagram.Color">
+                        <Data property="B">
+                          <Integer>140</Integer>
+                        </Data>
+                        <Data property="G">
+                          <Integer>150</Integer>
+                        </Data>
+                        <Data property="R">
+                          <Integer>168</Integer>
+                        </Data>
+                      </AggregatedDataValue>
+                    </Data>
+                    <Data property="Font">
+                      <String>Latin Modern Roman</String>
+                    </Data>
+                    <Data property="Position">
+                      <AggregatedDataValue type="Core/Diagram.Point">
+                        <Data property="X">
+                          <Double>269.0</Double>
+                        </Data>
+                        <Data property="Y">
+                          <Double>39.2</Double>
+                        </Data>
+                      </AggregatedDataValue>
+                    </Data>
+                    <Data property="Rotation">
+                      <Double>0.0</Double>
+                    </Data>
+                    <Data property="Size">
+                      <Double>3.2</Double>
+                    </Data>
+                    <Data property="Text">
+                      <String>Sink</String>
+                    </Data>
+                  </Object>
+                </Components>
+              </Object>
+            </Components>
+            <Components property="NodePositions">
+              <Object id="id_1864c943333344d2a0803ea966d33bfd" type="Process/Diagram.PortNodePosition">
+                <References objects="#sink_Product_1_in0" property="Port"/>
+                <Data property="Position">
+                  <AggregatedDataValue type="Core/Diagram.Point">
+                    <Data property="X">
+                      <Double>246.0</Double>
+                    </Data>
+                    <Data property="Y">
+                      <Double>36.0</Double>
+                    </Data>
+                  </AggregatedDataValue>
+                </Data>
+              </Object>
+            </Components>
+            <References objects="#step_sink_Product_1" property="Represents"/>
+          </Object>
+          <Object id="id_6751225e2e554160a09f51a5bd283492" type="Core/Diagram.RepresentationGroup">
+            <Components property="Groups">
+              <Object id="id_73464bea8888474197b974e8e5016fdf" type="Core/Diagram.Static">
+                <Components property="Elements">
+                  <Object id="id_6187cbabf94e4367b1daf5a19efd49b7" type="Core/Diagram.ConnectorLine">
+                    <References objects="#id_6ecd0260eb5a4b728866df91349f982c" property="Source"/>
+                    <References objects="#id_d34a2594ccbc44e09b6159b75a9f6942" property="Target"/>
+                    <Data property="InnerPoints">
+                      <AggregatedDataValue type="Core/Diagram.Point">
+                        <Data property="X">
+                          <Double>74.0</Double>
+                        </Data>
+                        <Data property="Y">
+                          <Double>21.0</Double>
+                        </Data>
+                      </AggregatedDataValue>
+                      <AggregatedDataValue type="Core/Diagram.Point">
+                        <Data property="X">
+                          <Double>74.0</Double>
+                        </Data>
+                        <Data property="Y">
+                          <Double>33.0</Double>
+                        </Data>
+                      </AggregatedDataValue>
+                    </Data>
+                    <Data property="Stroke">
+                      <AggregatedDataValue type="Core/Diagram.Stroke">
+                        <Data property="Color">
+                          <AggregatedDataValue type="Core/Diagram.Color">
+                            <Data property="B">
+                              <Integer>212</Integer>
+                            </Data>
+                            <Data property="G">
+                              <Integer>193</Integer>
+                            </Data>
+                            <Data property="R">
+                              <Integer>0</Integer>
+                            </Data>
+                          </AggregatedDataValue>
+                        </Data>
+                        <Data property="DashStyle">
+                          <DataReference data="Core/Diagram.DashStyle.Solid"/>
+                        </Data>
+                        <Data property="Width">
+                          <Double>0.9</Double>
+                        </Data>
+                      </AggregatedDataValue>
+                    </Data>
+                  </Object>
+                </Components>
+              </Object>
+              <Object id="id_7075b34fdea948f6a4e223e11ab39e16" type="Core/Diagram.PipeFlowArrow">
+                <Components property="Elements">
+                  <Object id="id_07adfd1c2cc24ca6baef7378ebce6d6b" type="Core/Diagram.ShapeUsage">
+                    <References objects="#flow_arrow" property="Shape"/>
+                    <Data property="IsMirrored">
+                      <Boolean>false</Boolean>
+                    </Data>
+                    <Data property="Position">
+                      <AggregatedDataValue type="Core/Diagram.Point">
+                        <Data property="X">
+                          <Double>90.0</Double>
+                        </Data>
+                        <Data property="Y">
+                          <Double>33.0</Double>
+                        </Data>
+                      </AggregatedDataValue>
+                    </Data>
+                    <Data property="Rotation">
+                      <Double>0.0</Double>
+                    </Data>
+                    <Data property="ScaleX">
+                      <Double>1.0</Double>
+                    </Data>
+                    <Data property="ScaleY">
+                      <Double>1.0</Double>
+                    </Data>
+                  </Object>
+                </Components>
+              </Object>
+              <Object id="id_d1ca219df41d458498258483516d00e1" type="Core/Diagram.Label">
+                <Components property="Elements">
+                  <Object id="id_4df2033a2a8a4c7b9a2f69f6288e3033" type="Core/Diagram.Text">
+                    <Data property="Alignment">
+                      <DataReference data="Core/Diagram.TextAlignment.CenterBottom"/>
+                    </Data>
+                    <Data property="Color">
+                      <AggregatedDataValue type="Core/Diagram.Color">
+                        <Data property="B">
+                          <Integer>30</Integer>
+                        </Data>
+                        <Data property="G">
+                          <Integer>30</Integer>
+                        </Data>
+                        <Data property="R">
+                          <Integer>30</Integer>
+                        </Data>
+                      </AggregatedDataValue>
+                    </Data>
+                    <Data property="Font">
+                      <String>Latin Modern Roman</String>
+                    </Data>
+                    <Data property="Position">
+                      <AggregatedDataValue type="Core/Diagram.Point">
+                        <Data property="X">
+                          <Double>66.0</Double>
+                        </Data>
+                        <Data property="Y">
+                          <Double>19.4</Double>
+                        </Data>
+                      </AggregatedDataValue>
+                    </Data>
+                    <Data property="Rotation">
+                      <Double>0.0</Double>
+                    </Data>
+                    <Data property="Size">
+                      <Double>3.2</Double>
+                    </Data>
+                    <Data property="Text">
+                      <String>Reactant 1</String>
+                    </Data>
+                  </Object>
+                </Components>
+              </Object>
+            </Components>
+            <References objects="#stream_Reactant_1" property="Represents"/>
+          </Object>
+          <Object id="id_500f45cb641a4b9aa4bc6f73d6564901" type="Core/Diagram.RepresentationGroup">
+            <Components property="Groups">
+              <Object id="id_f57fb38c90cf4c6e922b2206f8d9f74f" type="Core/Diagram.Static">
+                <Components property="Elements">
+                  <Object id="id_c12937dddfdf4fabb89f7bb845a72497" type="Core/Diagram.ConnectorLine">
+                    <References objects="#id_35935974689b4f33a65e64c150caa549" property="Source"/>
+                    <References objects="#id_c40a025427334af58418398cd6e0cb62" property="Target"/>
+                    <Data property="InnerPoints">
+                      <AggregatedDataValue type="Core/Diagram.Point">
+                        <Data property="X">
+                          <Double>74.0</Double>
+                        </Data>
+                        <Data property="Y">
+                          <Double>51.0</Double>
+                        </Data>
+                      </AggregatedDataValue>
+                      <AggregatedDataValue type="Core/Diagram.Point">
+                        <Data property="X">
+                          <Double>74.0</Double>
+                        </Data>
+                        <Data property="Y">
+                          <Double>39.0</Double>
+                        </Data>
+                      </AggregatedDataValue>
+                    </Data>
+                    <Data property="Stroke">
+                      <AggregatedDataValue type="Core/Diagram.Stroke">
+                        <Data property="Color">
+                          <AggregatedDataValue type="Core/Diagram.Color">
+                            <Data property="B">
+                              <Integer>212</Integer>
+                            </Data>
+                            <Data property="G">
+                              <Integer>193</Integer>
+                            </Data>
+                            <Data property="R">
+                              <Integer>0</Integer>
+                            </Data>
+                          </AggregatedDataValue>
+                        </Data>
+                        <Data property="DashStyle">
+                          <DataReference data="Core/Diagram.DashStyle.Solid"/>
+                        </Data>
+                        <Data property="Width">
+                          <Double>0.9</Double>
+                        </Data>
+                      </AggregatedDataValue>
+                    </Data>
+                  </Object>
+                </Components>
+              </Object>
+              <Object id="id_f2949c84c26f4113a6f2b7a62e3438bd" type="Core/Diagram.PipeFlowArrow">
+                <Components property="Elements">
+                  <Object id="id_d43faacede4042a286c364597f1be866" type="Core/Diagram.ShapeUsage">
+                    <References objects="#flow_arrow" property="Shape"/>
+                    <Data property="IsMirrored">
+                      <Boolean>false</Boolean>
+                    </Data>
+                    <Data property="Position">
+                      <AggregatedDataValue type="Core/Diagram.Point">
+                        <Data property="X">
+                          <Double>90.0</Double>
+                        </Data>
+                        <Data property="Y">
+                          <Double>39.0</Double>
+                        </Data>
+                      </AggregatedDataValue>
+                    </Data>
+                    <Data property="Rotation">
+                      <Double>0.0</Double>
+                    </Data>
+                    <Data property="ScaleX">
+                      <Double>1.0</Double>
+                    </Data>
+                    <Data property="ScaleY">
+                      <Double>1.0</Double>
+                    </Data>
+                  </Object>
+                </Components>
+              </Object>
+              <Object id="id_a91989cf0874489f86a25878bb0a15f3" type="Core/Diagram.Label">
+                <Components property="Elements">
+                  <Object id="id_3774a924a9e446cda640fcad09b4bfc3" type="Core/Diagram.Text">
+                    <Data property="Alignment">
+                      <DataReference data="Core/Diagram.TextAlignment.CenterBottom"/>
+                    </Data>
+                    <Data property="Color">
+                      <AggregatedDataValue type="Core/Diagram.Color">
+                        <Data property="B">
+                          <Integer>30</Integer>
+                        </Data>
+                        <Data property="G">
+                          <Integer>30</Integer>
+                        </Data>
+                        <Data property="R">
+                          <Integer>30</Integer>
+                        </Data>
+                      </AggregatedDataValue>
+                    </Data>
+                    <Data property="Font">
+                      <String>Latin Modern Roman</String>
+                    </Data>
+                    <Data property="Position">
+                      <AggregatedDataValue type="Core/Diagram.Point">
+                        <Data property="X">
+                          <Double>66.0</Double>
+                        </Data>
+                        <Data property="Y">
+                          <Double>49.4</Double>
+                        </Data>
+                      </AggregatedDataValue>
+                    </Data>
+                    <Data property="Rotation">
+                      <Double>0.0</Double>
+                    </Data>
+                    <Data property="Size">
+                      <Double>3.2</Double>
+                    </Data>
+                    <Data property="Text">
+                      <String>Reactant 2</String>
+                    </Data>
+                  </Object>
+                </Components>
+              </Object>
+            </Components>
+            <References objects="#stream_Reactant_2" property="Represents"/>
+          </Object>
+          <Object id="id_61df73da903f4947825b709cc41a799b" type="Core/Diagram.RepresentationGroup">
+            <Components property="Groups">
+              <Object id="id_07f2b7e10bf049048d06f5002f64deb0" type="Core/Diagram.Static">
+                <Components property="Elements">
+                  <Object id="id_7e997308697a4a859962aebba549a6cf" type="Core/Diagram.ConnectorLine">
+                    <References objects="#id_95bc46e8c5394c608239fae9dda58efe" property="Source"/>
+                    <References objects="#id_d93ee0d4b66849e4aed92c7b669dc873" property="Target"/>
+                    <Data property="Stroke">
+                      <AggregatedDataValue type="Core/Diagram.Stroke">
+                        <Data property="Color">
+                          <AggregatedDataValue type="Core/Diagram.Color">
+                            <Data property="B">
+                              <Integer>212</Integer>
+                            </Data>
+                            <Data property="G">
+                              <Integer>193</Integer>
+                            </Data>
+                            <Data property="R">
+                              <Integer>0</Integer>
+                            </Data>
+                          </AggregatedDataValue>
+                        </Data>
+                        <Data property="DashStyle">
+                          <DataReference data="Core/Diagram.DashStyle.Solid"/>
+                        </Data>
+                        <Data property="Width">
+                          <Double>0.9</Double>
+                        </Data>
+                      </AggregatedDataValue>
+                    </Data>
+                  </Object>
+                </Components>
+              </Object>
+              <Object id="id_d2c07aea1f1d4426a582788177bf3862" type="Core/Diagram.PipeFlowArrow">
+                <Components property="Elements">
+                  <Object id="id_748fb2bd557746548d170ae0daf16dae" type="Core/Diagram.ShapeUsage">
+                    <References objects="#flow_arrow" property="Shape"/>
+                    <Data property="IsMirrored">
+                      <Boolean>false</Boolean>
+                    </Data>
+                    <Data property="Position">
+                      <AggregatedDataValue type="Core/Diagram.Point">
+                        <Data property="X">
+                          <Double>168.0</Double>
+                        </Data>
+                        <Data property="Y">
+                          <Double>36.0</Double>
+                        </Data>
+                      </AggregatedDataValue>
+                    </Data>
+                    <Data property="Rotation">
+                      <Double>0.0</Double>
+                    </Data>
+                    <Data property="ScaleX">
+                      <Double>1.0</Double>
+                    </Data>
+                    <Data property="ScaleY">
+                      <Double>1.0</Double>
+                    </Data>
+                  </Object>
+                </Components>
+              </Object>
+              <Object id="id_992f0318f1e34841ae4b8462feef61fe" type="Core/Diagram.Label">
+                <Components property="Elements">
+                  <Object id="id_dd32fba0a65b4a849db60f55d472c865" type="Core/Diagram.Text">
+                    <Data property="Alignment">
+                      <DataReference data="Core/Diagram.TextAlignment.CenterBottom"/>
+                    </Data>
+                    <Data property="Color">
+                      <AggregatedDataValue type="Core/Diagram.Color">
+                        <Data property="B">
+                          <Integer>30</Integer>
+                        </Data>
+                        <Data property="G">
+                          <Integer>30</Integer>
+                        </Data>
+                        <Data property="R">
+                          <Integer>30</Integer>
+                        </Data>
+                      </AggregatedDataValue>
+                    </Data>
+                    <Data property="Font">
+                      <String>Latin Modern Roman</String>
+                    </Data>
+                    <Data property="Position">
+                      <AggregatedDataValue type="Core/Diagram.Point">
+                        <Data property="X">
+                          <Double>152.0</Double>
+                        </Data>
+                        <Data property="Y">
+                          <Double>34.4</Double>
+                        </Data>
+                      </AggregatedDataValue>
+                    </Data>
+                    <Data property="Rotation">
+                      <Double>0.0</Double>
+                    </Data>
+                    <Data property="Size">
+                      <Double>3.2</Double>
+                    </Data>
+                    <Data property="Text">
+                      <String>Mixture</String>
+                    </Data>
+                  </Object>
+                </Components>
+              </Object>
+            </Components>
+            <References objects="#stream_Mixture" property="Represents"/>
+          </Object>
+          <Object id="id_7bfa6ebd6e6249d49b03396cc0e7c4c9" type="Core/Diagram.RepresentationGroup">
+            <Components property="Groups">
+              <Object id="id_7dc01f5eeb3e4069ae94ea607ad301d8" type="Core/Diagram.Static">
+                <Components property="Elements">
+                  <Object id="id_55897b6d42594c16842d18c2703333e5" type="Core/Diagram.ConnectorLine">
+                    <References objects="#id_6c6190cb7d1d49aca82bb135a4cb309d" property="Source"/>
+                    <References objects="#id_1864c943333344d2a0803ea966d33bfd" property="Target"/>
+                    <Data property="Stroke">
+                      <AggregatedDataValue type="Core/Diagram.Stroke">
+                        <Data property="Color">
+                          <AggregatedDataValue type="Core/Diagram.Color">
+                            <Data property="B">
+                              <Integer>212</Integer>
+                            </Data>
+                            <Data property="G">
+                              <Integer>193</Integer>
+                            </Data>
+                            <Data property="R">
+                              <Integer>0</Integer>
+                            </Data>
+                          </AggregatedDataValue>
+                        </Data>
+                        <Data property="DashStyle">
+                          <DataReference data="Core/Diagram.DashStyle.Solid"/>
+                        </Data>
+                        <Data property="Width">
+                          <Double>0.9</Double>
+                        </Data>
+                      </AggregatedDataValue>
+                    </Data>
+                  </Object>
+                </Components>
+              </Object>
+              <Object id="id_49a95f76eec9410489c25ba55224a08a" type="Core/Diagram.PipeFlowArrow">
+                <Components property="Elements">
+                  <Object id="id_de732520159848ca8001a661b26343ee" type="Core/Diagram.ShapeUsage">
+                    <References objects="#flow_arrow" property="Shape"/>
+                    <Data property="IsMirrored">
+                      <Boolean>false</Boolean>
+                    </Data>
+                    <Data property="Position">
+                      <AggregatedDataValue type="Core/Diagram.Point">
+                        <Data property="X">
+                          <Double>246.0</Double>
+                        </Data>
+                        <Data property="Y">
+                          <Double>36.0</Double>
+                        </Data>
+                      </AggregatedDataValue>
+                    </Data>
+                    <Data property="Rotation">
+                      <Double>0.0</Double>
+                    </Data>
+                    <Data property="ScaleX">
+                      <Double>1.0</Double>
+                    </Data>
+                    <Data property="ScaleY">
+                      <Double>1.0</Double>
+                    </Data>
+                  </Object>
+                </Components>
+              </Object>
+              <Object id="id_994f1d4684ac4c0ebe82f42e989f7c0c" type="Core/Diagram.Label">
+                <Components property="Elements">
+                  <Object id="id_7db7ff8e13df452d8900341b9e2bb1e5" type="Core/Diagram.Text">
+                    <Data property="Alignment">
+                      <DataReference data="Core/Diagram.TextAlignment.CenterBottom"/>
+                    </Data>
+                    <Data property="Color">
+                      <AggregatedDataValue type="Core/Diagram.Color">
+                        <Data property="B">
+                          <Integer>30</Integer>
+                        </Data>
+                        <Data property="G">
+                          <Integer>30</Integer>
+                        </Data>
+                        <Data property="R">
+                          <Integer>30</Integer>
+                        </Data>
+                      </AggregatedDataValue>
+                    </Data>
+                    <Data property="Font">
+                      <String>Latin Modern Roman</String>
+                    </Data>
+                    <Data property="Position">
+                      <AggregatedDataValue type="Core/Diagram.Point">
+                        <Data property="X">
+                          <Double>230.0</Double>
+                        </Data>
+                        <Data property="Y">
+                          <Double>34.4</Double>
+                        </Data>
+                      </AggregatedDataValue>
+                    </Data>
+                    <Data property="Rotation">
+                      <Double>0.0</Double>
+                    </Data>
+                    <Data property="Size">
+                      <Double>3.2</Double>
+                    </Data>
+                    <Data property="Text">
+                      <String>Product 1</String>
+                    </Data>
+                  </Object>
+                </Components>
+              </Object>
+            </Components>
+            <References objects="#stream_Product_1" property="Represents"/>
+          </Object>
+        </Components>
+        <References objects="#process" property="Represents"/>
+        <Data property="BackgroundColor">
+          <AggregatedDataValue type="Core/Diagram.Color">
+            <Data property="B">
+              <Integer>255</Integer>
+            </Data>
+            <Data property="G">
+              <Integer>255</Integer>
+            </Data>
+            <Data property="R">
+              <Integer>255</Integer>
+            </Data>
+          </AggregatedDataValue>
+        </Data>
+        <Data property="MaxX">
+          <Double>304.0</Double>
+        </Data>
+        <Data property="MaxY">
+          <Double>72.0</Double>
+        </Data>
+        <Data property="MinX">
+          <Double>0.0</Double>
+        </Data>
+        <Data property="MinY">
+          <Double>0.0</Double>
+        </Data>
+        <Data property="Name">
+          <String>Block flow diagram</String>
+        </Data>
+      </Object>
+    </Components>
+    <Components property="ShapeCatalogues">
+      <Object id="id_02c9b84a2fa64316b1f953c8f7279925" type="Core/Diagram.ShapeCatalogue">
+        <Components property="Shapes">
+          <Object id="pyDEXPI_ProcessBlock_46x18_168_150_140" type="Core/Diagram.Shape">
+            <Components property="Primitives">
+              <Object id="id_347409f670f54d6183781bb015b0c50d" type="Core/Diagram.Polygon">
+                <Data property="FillStyle">
+                  <DataReference data="Core/Diagram.FillStyle.Transparent"/>
+                </Data>
+                <Data property="Points">
+                  <AggregatedDataValue type="Core/Diagram.Point">
+                    <Data property="X">
+                      <Double>-23.0</Double>
+                    </Data>
+                    <Data property="Y">
+                      <Double>-9.0</Double>
+                    </Data>
+                  </AggregatedDataValue>
+                  <AggregatedDataValue type="Core/Diagram.Point">
+                    <Data property="X">
+                      <Double>23.0</Double>
+                    </Data>
+                    <Data property="Y">
+                      <Double>-9.0</Double>
+                    </Data>
+                  </AggregatedDataValue>
+                  <AggregatedDataValue type="Core/Diagram.Point">
+                    <Data property="X">
+                      <Double>23.0</Double>
+                    </Data>
+                    <Data property="Y">
+                      <Double>9.0</Double>
+                    </Data>
+                  </AggregatedDataValue>
+                  <AggregatedDataValue type="Core/Diagram.Point">
+                    <Data property="X">
+                      <Double>-23.0</Double>
+                    </Data>
+                    <Data property="Y">
+                      <Double>9.0</Double>
+                    </Data>
+                  </AggregatedDataValue>
+                </Data>
+                <Data property="Stroke">
+                  <AggregatedDataValue type="Core/Diagram.Stroke">
+                    <Data property="Color">
+                      <AggregatedDataValue type="Core/Diagram.Color">
+                        <Data property="B">
+                          <Integer>140</Integer>
+                        </Data>
+                        <Data property="G">
+                          <Integer>150</Integer>
+                        </Data>
+                        <Data property="R">
+                          <Integer>168</Integer>
+                        </Data>
+                      </AggregatedDataValue>
+                    </Data>
+                    <Data property="DashStyle">
+                      <DataReference data="Core/Diagram.DashStyle.Solid"/>
+                    </Data>
+                    <Data property="Width">
+                      <Double>0.7</Double>
+                    </Data>
+                  </AggregatedDataValue>
+                </Data>
+              </Object>
+            </Components>
+            <Data property="Name">
+              <String>Process block 46 x 18</String>
+            </Data>
+            <Data property="SymbolRegistrationNumber">
+              <String>pyDEXPI process block</String>
+            </Data>
+          </Object>
+          <Object id="pyDEXPI_ProcessBlock_46x18_114_0_254" type="Core/Diagram.Shape">
+            <Components property="Primitives">
+              <Object id="id_c2422d4424094d2fa4420329367adddc" type="Core/Diagram.Polygon">
+                <Data property="FillStyle">
+                  <DataReference data="Core/Diagram.FillStyle.Transparent"/>
+                </Data>
+                <Data property="Points">
+                  <AggregatedDataValue type="Core/Diagram.Point">
+                    <Data property="X">
+                      <Double>-23.0</Double>
+                    </Data>
+                    <Data property="Y">
+                      <Double>-9.0</Double>
+                    </Data>
+                  </AggregatedDataValue>
+                  <AggregatedDataValue type="Core/Diagram.Point">
+                    <Data property="X">
+                      <Double>23.0</Double>
+                    </Data>
+                    <Data property="Y">
+                      <Double>-9.0</Double>
+                    </Data>
+                  </AggregatedDataValue>
+                  <AggregatedDataValue type="Core/Diagram.Point">
+                    <Data property="X">
+                      <Double>23.0</Double>
+                    </Data>
+                    <Data property="Y">
+                      <Double>9.0</Double>
+                    </Data>
+                  </AggregatedDataValue>
+                  <AggregatedDataValue type="Core/Diagram.Point">
+                    <Data property="X">
+                      <Double>-23.0</Double>
+                    </Data>
+                    <Data property="Y">
+                      <Double>9.0</Double>
+                    </Data>
+                  </AggregatedDataValue>
+                </Data>
+                <Data property="Stroke">
+                  <AggregatedDataValue type="Core/Diagram.Stroke">
+                    <Data property="Color">
+                      <AggregatedDataValue type="Core/Diagram.Color">
+                        <Data property="B">
+                          <Integer>254</Integer>
+                        </Data>
+                        <Data property="G">
+                          <Integer>0</Integer>
+                        </Data>
+                        <Data property="R">
+                          <Integer>114</Integer>
+                        </Data>
+                      </AggregatedDataValue>
+                    </Data>
+                    <Data property="DashStyle">
+                      <DataReference data="Core/Diagram.DashStyle.Solid"/>
+                    </Data>
+                    <Data property="Width">
+                      <Double>0.7</Double>
+                    </Data>
+                  </AggregatedDataValue>
+                </Data>
+              </Object>
+            </Components>
+            <Data property="Name">
+              <String>Process block 46 x 18</String>
+            </Data>
+            <Data property="SymbolRegistrationNumber">
+              <String>pyDEXPI process block</String>
+            </Data>
+          </Object>
+          <Object id="flow_arrow" type="Core/Diagram.Shape">
+            <Components property="Primitives">
+              <Object id="id_ebe3e3c041ca4665ac1861c0f044e931" type="Core/Diagram.Polygon">
+                <Data property="FillStyle">
+                  <DataReference data="Core/Diagram.FillStyle.Solid"/>
+                </Data>
+                <Data property="Points">
+                  <AggregatedDataValue type="Core/Diagram.Point">
+                    <Data property="X">
+                      <Double>0.0</Double>
+                    </Data>
+                    <Data property="Y">
+                      <Double>0.0</Double>
+                    </Data>
+                  </AggregatedDataValue>
+                  <AggregatedDataValue type="Core/Diagram.Point">
+                    <Data property="X">
+                      <Double>-3.0</Double>
+                    </Data>
+                    <Data property="Y">
+                      <Double>-1.2</Double>
+                    </Data>
+                  </AggregatedDataValue>
+                  <AggregatedDataValue type="Core/Diagram.Point">
+                    <Data property="X">
+                      <Double>-3.0</Double>
+                    </Data>
+                    <Data property="Y">
+                      <Double>1.2</Double>
+                    </Data>
+                  </AggregatedDataValue>
+                </Data>
+                <Data property="Stroke">
+                  <AggregatedDataValue type="Core/Diagram.Stroke">
+                    <Data property="Color">
+                      <AggregatedDataValue type="Core/Diagram.Color">
+                        <Data property="B">
+                          <Integer>30</Integer>
+                        </Data>
+                        <Data property="G">
+                          <Integer>30</Integer>
+                        </Data>
+                        <Data property="R">
+                          <Integer>30</Integer>
+                        </Data>
+                      </AggregatedDataValue>
+                    </Data>
+                    <Data property="DashStyle">
+                      <DataReference data="Core/Diagram.DashStyle.Solid"/>
+                    </Data>
+                    <Data property="Width">
+                      <Double>0.2</Double>
+                    </Data>
+                  </AggregatedDataValue>
+                </Data>
+              </Object>
+            </Components>
+            <Data property="Name">
+              <String>Flow arrow</String>
+            </Data>
+            <Data property="SymbolRegistrationNumber">
+              <String>flow arrow</String>
+            </Data>
+          </Object>
+        </Components>
+        <Data property="Name">
+          <String>Block flow diagram shapes</String>
+        </Data>
+      </Object>
+    </Components>
+    <Data property="OriginatingSystemName">
+      <String>Converted from the process spreadsheet of Behr et al. (2024)</String>
+    </Data>
+    <Data property="OriginatingSystemVendorName">
+      <String>Process Intelligence Research, TU Delft</String>
+    </Data>
+    <Data property="OriginatingSystemVersion">
+      <String>2.1.0</String>
+    </Data>
+  </Object>
+</Model>

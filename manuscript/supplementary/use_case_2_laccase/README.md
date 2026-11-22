@@ -19,7 +19,8 @@ and are shared under the same licence.
 | `laccase_abts.enzymeml.json` | The EnzymeML spreadsheet as EnzymeML v2 JSON (2 vessels, 3 reactions, 12 measurements) |
 | `laccase_abts.dexpi.xml` | The process flow diagram of the process spreadsheet as a DEXPI 2.0 process model |
 | `run.py` | Simulation in BioSTEAM, comparison with the measurements, DEXPI round trip |
-| `results.csv`, `fig_laccase.pdf` | Output of `run.py` |
+| `results.csv`, `fig_laccase.pdf`, `laccase_abts_simulated.dexpi.xml` | Output of `run.py` |
+| `laccase_abts_diagram.*` | Flowsheet with a DEXPI diagram and its drawing (`../render_dexpi.py`) |
 
 Reproduce:
 

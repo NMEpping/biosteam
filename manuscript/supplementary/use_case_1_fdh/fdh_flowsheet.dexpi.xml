@@ -1,0 +1,496 @@
+<?xml version='1.0' encoding='utf-8'?>
+<Model name="nadh_regeneration" uri="https://biosteam.readthedocs.io/examples/nadh_regeneration">
+  <Import prefix="Core" source="https://data.dexpi.org/models/2.0.1/Core.xml" />
+  <Import prefix="Process" source="https://data.dexpi.org/models/2.0.1/Process.xml" />
+  <Object id="model" type="Core/EngineeringModel">
+    <Components property="ConceptualModel">
+      <Object id="process" type="Process/ProcessModel">
+        <Components property="MaterialComponents">
+          <Object id="component-Water" type="Process/Process.PureMaterialComponent">
+            <Components property="PersistentIdentifiers">
+              <Object id="cas-Water" type="Core/PersistentIdentifier">
+                <Data property="Context">
+                  <String>CAS</String>
+                </Data>
+                <Data property="Value">
+                  <String>7732-18-5</String>
+                </Data>
+              </Object>
+            </Components>
+            <Data property="Identifier">
+              <String>Water</String>
+            </Data>
+            <Data property="Label">
+              <String>Water</String>
+            </Data>
+            <Data property="ChEBI_Identifier">
+              <String>CHEBI:15377</String>
+            </Data>
+          </Object>
+          <Object id="component-formate" type="Process/Process.PureMaterialComponent">
+            <Components property="PersistentIdentifiers">
+              <Object id="cas-formate" type="Core/PersistentIdentifier">
+                <Data property="Context">
+                  <String>CAS</String>
+                </Data>
+                <Data property="Value">
+                  <String>64-18-6</String>
+                </Data>
+              </Object>
+            </Components>
+            <Data property="Identifier">
+              <String>formate</String>
+            </Data>
+            <Data property="Label">
+              <String>Formic acid</String>
+            </Data>
+            <Data property="ChEBI_Identifier">
+              <String>CHEBI:30751</String>
+            </Data>
+          </Object>
+          <Object id="component-nad" type="Process/Process.PureMaterialComponent">
+            <Components property="PersistentIdentifiers">
+              <Object id="cas-nad" type="Core/PersistentIdentifier">
+                <Data property="Context">
+                  <String>CAS</String>
+                </Data>
+                <Data property="Value">
+                  <String>53-84-9</String>
+                </Data>
+              </Object>
+            </Components>
+            <Data property="Identifier">
+              <String>nad</String>
+            </Data>
+            <Data property="Label">
+              <String>NAD+</String>
+            </Data>
+            <Data property="ChEBI_Identifier">
+              <String>CHEBI:15846</String>
+            </Data>
+          </Object>
+          <Object id="component-co2" type="Process/Process.PureMaterialComponent">
+            <Components property="PersistentIdentifiers">
+              <Object id="cas-co2" type="Core/PersistentIdentifier">
+                <Data property="Context">
+                  <String>CAS</String>
+                </Data>
+                <Data property="Value">
+                  <String>124-38-9</String>
+                </Data>
+              </Object>
+            </Components>
+            <Data property="Identifier">
+              <String>co2</String>
+            </Data>
+            <Data property="Label">
+              <String>Carbon dioxide</String>
+            </Data>
+            <Data property="ChEBI_Identifier">
+              <String>CHEBI:16526</String>
+            </Data>
+          </Object>
+          <Object id="component-nadh" type="Process/Process.PureMaterialComponent">
+            <Data property="Identifier">
+              <String>nadh</String>
+            </Data>
+            <Data property="Label">
+              <String>NADH</String>
+            </Data>
+            <Data property="ChEBI_Identifier">
+              <String>CHEBI:16908</String>
+            </Data>
+          </Object>
+          <Object id="component-fdh" type="Process/Process.CustomMaterialComponent">
+            <Data property="Identifier">
+              <String>fdh</String>
+            </Data>
+            <Data property="Label">
+              <String>Formate dehydrogenase</String>
+            </Data>
+          </Object>
+        </Components>
+        <Components property="ListsOfMaterialComponents">
+          <Object id="components" type="Process/Process.ListOfMaterialComponents">
+            <References objects="#component-Water #component-formate #component-nad #component-co2 #component-nadh #component-fdh" property="Component" />
+          </Object>
+        </Components>
+        <Components property="MaterialTemplates">
+          <Object id="material" type="Process/Process.MaterialTemplate">
+            <References objects="#components" property="ListOfComponents" />
+            <Data property="Description">
+              <AggregatedDataValue type="Core/DataTypes.MultiLanguageString">
+                <Data property="SingleLanguageStrings">
+                  <AggregatedDataValue type="Core/DataTypes.SingleLanguageString">
+                    <Data property="Value">
+                      <String>Aqueous reaction mixture</String>
+                    </Data>
+                  </AggregatedDataValue>
+                </Data>
+              </AggregatedDataValue>
+            </Data>
+            <Data property="Identifier">
+              <String>aqueous</String>
+            </Data>
+            <Data property="Label">
+              <String>aqueous</String>
+            </Data>
+            <Data property="NumberOfMaterialComponents">
+              <Integer>6</Integer>
+            </Data>
+            <Data property="NumberOfPhases">
+              <Integer>1</Integer>
+            </Data>
+            <Data property="PhaseLabel">
+              <String>l</String>
+            </Data>
+          </Object>
+        </Components>
+        <Components property="MaterialStates">
+          <Object id="feed-state" type="Process/Process.MaterialState">
+            <Components property="State">
+              <Object id="feed-total" type="Process/Process.MaterialStateType">
+                <Components property="Composition">
+                  <Object id="feed-composition" type="Process/Process.Composition">
+                    <Components property="MoleFlow">
+                      <Object id="feed-moleflow-0" type="Core/QualifiedValue">
+                        <Data property="Value">
+                          <AggregatedDataValue type="Core/PhysicalQuantities.PhysicalQuantity">
+                            <Data property="Unit">
+                              <DataReference data="Core/PhysicalQuantities.MoleFlowRateUnit.KilomolePerSecond" />
+                            </Data>
+                            <Data property="Value">
+                              <Double>0.0154</Double>
+                            </Data>
+                          </AggregatedDataValue>
+                        </Data>
+                      </Object>
+                      <Object id="feed-moleflow-1" type="Core/QualifiedValue">
+                        <Data property="Value">
+                          <AggregatedDataValue type="Core/PhysicalQuantities.PhysicalQuantity">
+                            <Data property="Unit">
+                              <DataReference data="Core/PhysicalQuantities.MoleFlowRateUnit.KilomolePerSecond" />
+                            </Data>
+                            <Data property="Value">
+                              <Double>2.8e-05</Double>
+                            </Data>
+                          </AggregatedDataValue>
+                        </Data>
+                      </Object>
+                      <Object id="feed-moleflow-2" type="Core/QualifiedValue">
+                        <Data property="Value">
+                          <AggregatedDataValue type="Core/PhysicalQuantities.PhysicalQuantity">
+                            <Data property="Unit">
+                              <DataReference data="Core/PhysicalQuantities.MoleFlowRateUnit.KilomolePerSecond" />
+                            </Data>
+                            <Data property="Value">
+                              <Double>1.4e-06</Double>
+                            </Data>
+                          </AggregatedDataValue>
+                        </Data>
+                      </Object>
+                      <Object id="feed-moleflow-3" type="Core/QualifiedValue">
+                        <Data property="Value">
+                          <AggregatedDataValue type="Core/PhysicalQuantities.PhysicalQuantity">
+                            <Data property="Unit">
+                              <DataReference data="Core/PhysicalQuantities.MoleFlowRateUnit.KilomolePerSecond" />
+                            </Data>
+                            <Data property="Value">
+                              <Double>0.0</Double>
+                            </Data>
+                          </AggregatedDataValue>
+                        </Data>
+                      </Object>
+                      <Object id="feed-moleflow-4" type="Core/QualifiedValue">
+                        <Data property="Value">
+                          <AggregatedDataValue type="Core/PhysicalQuantities.PhysicalQuantity">
+                            <Data property="Unit">
+                              <DataReference data="Core/PhysicalQuantities.MoleFlowRateUnit.KilomolePerSecond" />
+                            </Data>
+                            <Data property="Value">
+                              <Double>0.0</Double>
+                            </Data>
+                          </AggregatedDataValue>
+                        </Data>
+                      </Object>
+                      <Object id="feed-moleflow-5" type="Core/QualifiedValue">
+                        <Data property="Value">
+                          <AggregatedDataValue type="Core/PhysicalQuantities.PhysicalQuantity">
+                            <Data property="Unit">
+                              <DataReference data="Core/PhysicalQuantities.MoleFlowRateUnit.KilomolePerSecond" />
+                            </Data>
+                            <Data property="Value">
+                              <Double>5.5e-11</Double>
+                            </Data>
+                          </AggregatedDataValue>
+                        </Data>
+                      </Object>
+                    </Components>
+                    <Data property="Display">
+                      <DataReference data="Process/Enumerations.CompositionDisplay.AbsoluteValue" />
+                    </Data>
+                  </Object>
+                </Components>
+                <Data property="Description">
+                  <AggregatedDataValue type="Core/DataTypes.MultiLanguageString">
+                    <Data property="SingleLanguageStrings">
+                      <AggregatedDataValue type="Core/DataTypes.SingleLanguageString">
+                        <Data property="Value">
+                          <String>Total feed</String>
+                        </Data>
+                      </AggregatedDataValue>
+                    </Data>
+                  </AggregatedDataValue>
+                </Data>
+                <Data property="Identifier">
+                  <String>feed.total</String>
+                </Data>
+                <Data property="Label">
+                  <String>total</String>
+                </Data>
+              </Object>
+            </Components>
+            <Components property="Phases">
+              <Object id="feed-liquid" type="Process/Process.MaterialStateType">
+                <Data property="Description">
+                  <AggregatedDataValue type="Core/DataTypes.MultiLanguageString">
+                    <Data property="SingleLanguageStrings">
+                      <AggregatedDataValue type="Core/DataTypes.SingleLanguageString">
+                        <Data property="Value">
+                          <String>Liquid phase</String>
+                        </Data>
+                      </AggregatedDataValue>
+                    </Data>
+                  </AggregatedDataValue>
+                </Data>
+                <Data property="Identifier">
+                  <String>feed.l</String>
+                </Data>
+                <Data property="Label">
+                  <String>l</String>
+                </Data>
+              </Object>
+            </Components>
+            <Data property="Description">
+              <String>Feed composition</String>
+            </Data>
+            <Data property="Identifier">
+              <String>feed.state</String>
+            </Data>
+            <Data property="Label">
+              <String>feed</String>
+            </Data>
+          </Object>
+        </Components>
+        <Components property="ProcessConnections">
+          <Object id="stream-feed" type="Process/Process.Stream">
+            <Components property="Temperature">
+              <Object id="feed-temperature" type="Core/QualifiedValue">
+                <Data property="Value">
+                  <AggregatedDataValue type="Core/PhysicalQuantities.PhysicalQuantity">
+                    <Data property="Unit">
+                      <DataReference data="Core/PhysicalQuantities.TemperatureUnit.DegreeCelsius" />
+                    </Data>
+                    <Data property="Value">
+                      <Double>25.0</Double>
+                    </Data>
+                  </AggregatedDataValue>
+                </Data>
+              </Object>
+            </Components>
+            <Components property="Pressure">
+              <Object id="feed-pressure" type="Core/QualifiedValue">
+                <Data property="Value">
+                  <AggregatedDataValue type="Core/PhysicalQuantities.PhysicalQuantity">
+                    <Data property="Unit">
+                      <DataReference data="Core/PhysicalQuantities.PressureAbsoluteUnit.Bar" />
+                    </Data>
+                    <Data property="Value">
+                      <Double>1.01325</Double>
+                    </Data>
+                  </AggregatedDataValue>
+                </Data>
+              </Object>
+            </Components>
+            <References objects="#material" property="MaterialTemplateReference" />
+            <References objects="#feed-state" property="MaterialStateReference" />
+            <References objects="#feed_tank-out0" property="Source" />
+            <References objects="#P1-in0" property="Target" />
+            <Data property="Identifier">
+              <String>feed</String>
+            </Data>
+            <Data property="Label">
+              <String>feed</String>
+            </Data>
+          </Object>
+          <Object id="stream-pumped_feed" type="Process/Process.Stream">
+            <References objects="#material" property="MaterialTemplateReference" />
+            <References objects="#P1-out0" property="Source" />
+            <References objects="#R1-in0" property="Target" />
+            <Data property="Identifier">
+              <String>pumped_feed</String>
+            </Data>
+            <Data property="Label">
+              <String>pumped_feed</String>
+            </Data>
+          </Object>
+          <Object id="stream-product" type="Process/Process.Stream">
+            <References objects="#material" property="MaterialTemplateReference" />
+            <References objects="#R1-out0" property="Source" />
+            <References objects="#product_tank-in0" property="Target" />
+            <Data property="Identifier">
+              <String>product</String>
+            </Data>
+            <Data property="Label">
+              <String>product</String>
+            </Data>
+          </Object>
+        </Components>
+        <Components property="ProcessSteps">
+          <Object id="step-feed_tank" type="Process/Process.Source">
+            <Components property="Ports">
+              <Object id="feed_tank-out0" type="Process/Process.MaterialPort">
+                <References objects="#stream-feed" property="ConnectorReference" />
+                <Data property="Identifier">
+                  <String>out0</String>
+                </Data>
+                <Data property="NominalDirection">
+                  <DataReference data="Process/Enumerations.PortDirection.Outlet" />
+                </Data>
+              </Object>
+            </Components>
+            <Data property="Identifier">
+              <String>feed_tank</String>
+            </Data>
+            <Data property="Label">
+              <String>Substrate and cofactor feed</String>
+            </Data>
+          </Object>
+          <Object id="step-P1" type="Process/Process.Pumping">
+            <Components property="Ports">
+              <Object id="P1-in0" type="Process/Process.MaterialPort">
+                <References objects="#stream-feed" property="ConnectorReference" />
+                <Data property="Identifier">
+                  <String>in0</String>
+                </Data>
+                <Data property="NominalDirection">
+                  <DataReference data="Process/Enumerations.PortDirection.Inlet" />
+                </Data>
+              </Object>
+              <Object id="P1-out0" type="Process/Process.MaterialPort">
+                <References objects="#stream-pumped_feed" property="ConnectorReference" />
+                <Data property="Identifier">
+                  <String>out0</String>
+                </Data>
+                <Data property="NominalDirection">
+                  <DataReference data="Process/Enumerations.PortDirection.Outlet" />
+                </Data>
+              </Object>
+            </Components>
+            <Components property="Pressure">
+              <Object id="P1-pressure" type="Core/QualifiedValue">
+                <Data property="Value">
+                  <AggregatedDataValue type="Core/PhysicalQuantities.PhysicalQuantity">
+                    <Data property="Unit">
+                      <DataReference data="Core/PhysicalQuantities.PressureAbsoluteUnit.Bar" />
+                    </Data>
+                    <Data property="Value">
+                      <Double>2.0</Double>
+                    </Data>
+                  </AggregatedDataValue>
+                </Data>
+              </Object>
+            </Components>
+            <Data property="Identifier">
+              <String>P1</String>
+            </Data>
+            <Data property="Label">
+              <String>Feed pump</String>
+            </Data>
+          </Object>
+          <Object id="step-R1" type="Process/Process.ReactingChemicals">
+            <Components property="Ports">
+              <Object id="R1-in0" type="Process/Process.MaterialPort">
+                <References objects="#stream-pumped_feed" property="ConnectorReference" />
+                <Data property="Identifier">
+                  <String>in0</String>
+                </Data>
+                <Data property="NominalDirection">
+                  <DataReference data="Process/Enumerations.PortDirection.Inlet" />
+                </Data>
+              </Object>
+              <Object id="R1-out0" type="Process/Process.MaterialPort">
+                <References objects="#stream-product" property="ConnectorReference" />
+                <Data property="Identifier">
+                  <String>out0</String>
+                </Data>
+                <Data property="NominalDirection">
+                  <DataReference data="Process/Enumerations.PortDirection.Outlet" />
+                </Data>
+              </Object>
+            </Components>
+            <Components property="Temperature">
+              <Object id="R1-temperature" type="Core/QualifiedValue">
+                <Data property="Value">
+                  <AggregatedDataValue type="Core/PhysicalQuantities.PhysicalQuantity">
+                    <Data property="Unit">
+                      <DataReference data="Core/PhysicalQuantities.TemperatureUnit.DegreeCelsius" />
+                    </Data>
+                    <Data property="Value">
+                      <Double>30.0</Double>
+                    </Data>
+                  </AggregatedDataValue>
+                </Data>
+              </Object>
+            </Components>
+            <Components property="Pressure">
+              <Object id="R1-pressure" type="Core/QualifiedValue">
+                <Data property="Value">
+                  <AggregatedDataValue type="Core/PhysicalQuantities.PhysicalQuantity">
+                    <Data property="Unit">
+                      <DataReference data="Core/PhysicalQuantities.PressureAbsoluteUnit.Bar" />
+                    </Data>
+                    <Data property="Value">
+                      <Double>1.01325</Double>
+                    </Data>
+                  </AggregatedDataValue>
+                </Data>
+              </Object>
+            </Components>
+            <Data property="Identifier">
+              <String>R1</String>
+            </Data>
+            <Data property="Label">
+              <String>Enzyme reactor</String>
+            </Data>
+            <Data property="Method">
+              <DataReference data="Process/Enumerations.ReactionProcessType.Tank" />
+            </Data>
+          </Object>
+          <Object id="step-product_tank" type="Process/Process.Sink">
+            <Components property="Ports">
+              <Object id="product_tank-in0" type="Process/Process.MaterialPort">
+                <References objects="#stream-product" property="ConnectorReference" />
+                <Data property="Identifier">
+                  <String>in0</String>
+                </Data>
+                <Data property="NominalDirection">
+                  <DataReference data="Process/Enumerations.PortDirection.Inlet" />
+                </Data>
+              </Object>
+            </Components>
+            <Data property="Identifier">
+              <String>product_tank</String>
+            </Data>
+            <Data property="Label">
+              <String>Product</String>
+            </Data>
+          </Object>
+        </Components>
+      </Object>
+    </Components>
+    <Data property="OriginatingSystemName">
+      <String>Example flowsheet editor</String>
+    </Data>
+  </Object>
+</Model>
